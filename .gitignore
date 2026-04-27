@@ -1,0 +1,5 @@
+/blog/.hugo_build.lock
+/blog/hugo_stats.json
+/blog/node_modules/
+/blog/public/
+/blog/resources/

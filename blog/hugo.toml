@@ -1,0 +1,46 @@
+baseURL = 'https://weifengdel0ng.github.io/'
+languageCode = 'zh-cn'
+title = 'weifengdel0ng'
+theme = 'hugo-theme-bootstrap'
+enableRobotsTXT = true
+hasCJKLanguage = true
+
+[build]
+writeStats = true
+
+[params]
+description = '魏锋的个人博客，记录技术、项目和思考。'
+keywords = '博客, Hugo, 前端, 后端, 个人主页'
+logo = false
+mainSections = ['posts']
+breadCrumb = false
+socialShare = false
+searchBar = true
+color = 'auto'
+
+[menu]
+
+[[menu.main]]
+name = '首页'
+url = '/'
+weight = 1
+
+[[menu.main]]
+name = '文章'
+url = '/posts/'
+weight = 2
+
+[[menu.main]]
+name = '关于'
+url = '/about/'
+weight = 3
+
+[params.author]
+name = 'weifengdel0ng'
+avatar = 'images/profile.webp'
+bio = '开发者，持续记录技术、项目和实践。'
+location = 'China'
+about = 'https://github.com/weifengdel0ng'
+
+[params.author.social]
+github = 'weifengdel0ng'
