@@ -1,0 +1,54 @@
+{{ define "content" }}
+{{- if eq .Section "buu" -}}
+<div class="{{ if default true .Params.sidebar }}col-xxl-8{{ else }}col-xxl-12{{ end }}">
+  <div class="container">
+    {{- if not .IsHome }}
+      {{- partial "breadcrumb" . }}
+    {{- end }}
+
+    {{- $childSections := sort .Sections ".Title" "asc" }}
+    {{- if gt (len $childSections) 0 }}
+    <div class="posts mb-4">
+      {{- range $childSections }}
+      <article class="row card post component">
+        <div class="card-header">
+          <h2 class="card-title post-title my-2 fs-4">
+            <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+          </h2>
+        </div>
+        <div class="card-body">
+          <div class="post-meta mb-3">
+            <a href="{{ .RelPermalink }}" class="btn btn-sm btn-secondary mb-1 me-2 py-0 pe-1 post-taxonomy post-taxonomy-sm post-category">
+              <i class="fas fa-fw fa-folder me-1"></i>目录
+            </a>
+          </div>
+          <div class="post-summary">
+            <p>{{ with .Description }}{{ . }}{{ else }}进入 {{ .Title }} 目录。{{ end }}</p>
+            <div>
+              <a class="btn btn-sm btn-outline-primary btn-read-more" href="{{ .RelPermalink }}">进入目录</a>
+            </div>
+          </div>
+        </div>
+      </article>
+      {{- end }}
+    </div>
+    {{- end }}
+
+    {{- $pages := .RegularPages }}
+    {{- if gt (len $pages) 0 }}
+    <div class="posts mb-4">
+      {{- range $pages.ByTitle }}
+        {{- partial "list-item" (dict "Page" . "PinnedPosts" ($.Scratch.Get "pinnedPosts")) }}
+      {{- end }}
+    </div>
+    {{- end }}
+  </div>
+</div>
+{{- partial "sidebar" . -}}
+{{- else -}}
+<div class="{{ if default true .Params.sidebar }}col-xxl-8{{ else }}col-xxl-12{{ end }}">
+  {{ partial "list" . }}
+</div>
+{{- partial "sidebar" . -}}
+{{- end -}}
+{{ end }}
