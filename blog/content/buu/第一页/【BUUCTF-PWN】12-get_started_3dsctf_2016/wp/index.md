@@ -3,7 +3,7 @@ title = "wp"
 date = "2026-04-14"
 type = "post"
 categories = ['BUU']
-tags = ['第一页', '【BUUCTF-PWN】12-get_started_3dsctf_2016']
+tags = ['BUU']
 draft = false
 +++
 第一种方式常规exp1

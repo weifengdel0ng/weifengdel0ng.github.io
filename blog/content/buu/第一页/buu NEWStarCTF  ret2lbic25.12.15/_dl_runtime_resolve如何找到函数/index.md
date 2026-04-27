@@ -3,7 +3,7 @@ title = "_dl_runtime_resolve如何找到函数"
 date = "2026-03-04"
 type = "post"
 categories = ['BUU']
-tags = ['第一页', 'buu NEWStarCTF  ret2lbic25.12.15']
+tags = ['BUU']
 draft = false
 +++
 在想要调用的函数没有被调用过，想要调用他的时候，是按照这个过程来调用的

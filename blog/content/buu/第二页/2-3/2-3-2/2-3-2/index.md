@@ -3,7 +3,7 @@ title = "2-3-2"
 date = "2026-04-16"
 type = "post"
 categories = ['BUU']
-tags = ['第二页', '2-3', '2-3-2']
+tags = ['BUU']
 draft = false
 +++
 这题的做法应当不只一种

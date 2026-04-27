@@ -3,7 +3,7 @@ title = "return2libc"
 date = "2025-12-15"
 type = "post"
 categories = ['BUU']
-tags = ['第一页', 'buu NEWStarCTF  ret2lbic25.12.15']
+tags = ['BUU']
 draft = false
 +++
 **payload:** padding1 + address of system() + padding2 + address of “/bin/sh”

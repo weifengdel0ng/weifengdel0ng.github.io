@@ -3,7 +3,7 @@ title = "ret2syscall"
 date = "2026-04-21"
 type = "post"
 categories = ['BUU']
-tags = ['第二页', '2-4', '2-4-2']
+tags = ['BUU']
 draft = false
 +++
 ### cmcc_simplerop解题ROP链原理及作用分析

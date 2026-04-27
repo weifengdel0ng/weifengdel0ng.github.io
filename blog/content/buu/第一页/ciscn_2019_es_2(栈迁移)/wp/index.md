@@ -3,7 +3,7 @@ title = "wp"
 date = "2026-03-23"
 type = "post"
 categories = ['BUU']
-tags = ['第一页', 'ciscn_2019_es_2(栈迁移)']
+tags = ['BUU']
 draft = false
 +++
 这类题目的特征是Pasted image 20260110090436.png

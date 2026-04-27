@@ -3,7 +3,7 @@ title = "wp"
 date = "2026-04-15"
 type = "post"
 categories = ['BUU']
-tags = ['第二页', '2-2', '2-2-4']
+tags = ['BUU']
 draft = false
 +++
 main函数如下：

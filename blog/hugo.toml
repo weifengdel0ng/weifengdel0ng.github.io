@@ -1,6 +1,6 @@
 baseURL = 'https://weifengdel0ng.github.io/'
 languageCode = 'zh-cn'
-title = 'weifengdel0ng'
+title = '微风的龙'
 theme = 'hugo-theme-bootstrap'
 enableRobotsTXT = true
 hasCJKLanguage = true
@@ -9,10 +9,10 @@ hasCJKLanguage = true
 writeStats = true
 
 [params]
-description = '魏锋的个人博客，记录技术、项目和思考。'
-keywords = '博客, Hugo, 前端, 后端, 个人主页'
+description = '微风的龙的个人博客，记录技术、项目和思考。'
+keywords = '博客, Hugo, PWN, BUUOJ, 个人主页'
 logo = false
-mainSections = ['posts']
+mainSections = ['posts', 'buu']
 breadCrumb = false
 socialShare = false
 searchBar = true
@@ -35,13 +35,8 @@ name = '关于'
 url = '/about/'
 weight = 3
 
-[[menu.main]]
-name = 'BUU'
-url = '/buu/'
-weight = 4
-
 [params.author]
-name = 'weifengdel0ng'
+name = '微风的龙'
 avatar = 'images/profile.webp'
 bio = '开发者，持续记录技术、项目和实践。'
 location = 'China'

@@ -3,7 +3,7 @@ title = "exp and wp"
 date = "2026-01-10"
 type = "post"
 categories = ['BUU']
-tags = ['第一页', 'picoctf_2018_rop chain']
+tags = ['BUU']
 draft = false
 +++
 ```python

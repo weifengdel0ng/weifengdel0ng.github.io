@@ -33,18 +33,6 @@ def slugify(value: str) -> str:
     return value or "post"
 
 
-def unique_dir(base: Path) -> Path:
-    if not base.exists():
-        return base
-
-    index = 2
-    while True:
-        candidate = base.with_name(f"{base.name}-{index}")
-        if not candidate.exists():
-            return candidate
-        index += 1
-
-
 def encode_rel_path(path: str) -> str:
     return "/".join(quote(part) for part in path.split("/"))
 
@@ -86,29 +74,47 @@ def convert_wikilinks(text: str, source_dir: Path) -> str:
     return text
 
 
+def write_section_index(target_dir: Path, title: str, description: str) -> None:
+    content = "\n".join(
+        [
+            "+++",
+            f'title = "{title.replace(chr(34), "")}"',
+            f'description = "{description.replace(chr(34), "")}"',
+            "+++",
+            "",
+        ]
+    )
+    (target_dir / "_index.md").write_text(content, encoding="utf-8")
+
+
+def ensure_section_indexes() -> None:
+    write_section_index(DEST_ROOT, "BUU", "BUUOJ PWN 题解归档")
+
+    for directory in sorted(path for path in SOURCE_ROOT.rglob("*") if path.is_dir()):
+        rel = directory.relative_to(SOURCE_ROOT)
+        dest = DEST_ROOT.joinpath(*rel.parts)
+        dest.mkdir(parents=True, exist_ok=True)
+        write_section_index(dest, directory.name, f"{directory.name} 目录")
+
+
 def copy_assets(source_dir: Path, dest_dir: Path) -> None:
     for asset in source_dir.rglob("*"):
         if not asset.is_file() or asset.suffix.lower() in SKIP_EXTS:
             continue
-
-        relative = asset.relative_to(source_dir)
-        target = dest_dir / relative
+        target = dest_dir / asset.relative_to(source_dir)
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(asset, target)
 
 
-def build_front_matter(source: Path, rel_parent: Path) -> str:
+def build_front_matter(source: Path) -> str:
     date = datetime.fromtimestamp(source.stat().st_mtime).strftime("%Y-%m-%d")
-    categories = ["BUU"]
-    tags = [part for part in rel_parent.parts if part]
-
     lines = [
         "+++",
         f'title = "{source.stem.replace(chr(34), "")}"',
         f'date = "{date}"',
         'type = "post"',
-        f"categories = {categories!r}",
-        f"tags = {tags!r}",
+        "categories = ['BUU']",
+        "tags = ['BUU']",
         "draft = false",
         "+++",
         "",
@@ -119,11 +125,11 @@ def build_front_matter(source: Path, rel_parent: Path) -> str:
 def import_note(source_file: Path) -> None:
     rel_parent = source_file.parent.relative_to(SOURCE_ROOT)
     dest_parent = DEST_ROOT.joinpath(*rel_parent.parts)
-    bundle_dir = unique_dir(dest_parent / slugify(source_file.stem))
+    bundle_dir = dest_parent / slugify(source_file.stem)
     bundle_dir.mkdir(parents=True, exist_ok=True)
 
     body = convert_wikilinks(read_text(source_file), source_file.parent).replace("\r\n", "\n")
-    front_matter = build_front_matter(source_file, rel_parent)
+    front_matter = build_front_matter(source_file)
     (bundle_dir / "index.md").write_text(front_matter + body.strip() + "\n", encoding="utf-8")
     copy_assets(source_file.parent, bundle_dir)
 
@@ -133,14 +139,7 @@ def main() -> None:
         shutil.rmtree(DEST_ROOT)
     DEST_ROOT.mkdir(parents=True, exist_ok=True)
 
-    section_index = """+++
-title = "BUU"
-description = "BUUOJ PWN 题解归档"
-+++
-
-这里收录从 Obsidian 导入的 BUUOJ PWN 题解与练习记录。
-"""
-    (DEST_ROOT / "_index.md").write_text(section_index, encoding="utf-8")
+    ensure_section_indexes()
 
     for source_file in sorted(SOURCE_ROOT.rglob("*.md")):
         import_note(source_file)

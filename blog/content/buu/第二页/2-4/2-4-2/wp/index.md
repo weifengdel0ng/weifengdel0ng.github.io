@@ -3,7 +3,7 @@ title = "wp"
 date = "2026-04-23"
 type = "post"
 categories = ['BUU']
-tags = ['第二页', '2-4', '2-4-2']
+tags = ['BUU']
 draft = false
 +++
 Pasted image 20260421190124.png

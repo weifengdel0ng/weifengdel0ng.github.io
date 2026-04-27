@@ -3,7 +3,7 @@ title = "jarvisoj_fm  wp and exp"
 date = "2026-01-10"
 type = "post"
 categories = ['BUU']
-tags = ['第一页']
+tags = ['BUU']
 draft = false
 +++
 ```python

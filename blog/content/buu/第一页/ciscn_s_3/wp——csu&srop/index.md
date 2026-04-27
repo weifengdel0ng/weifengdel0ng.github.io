@@ -3,7 +3,7 @@ title = "wp——csu&srop"
 date = "2026-04-14"
 type = "post"
 categories = ['BUU']
-tags = ['第一页', 'ciscn_s_3']
+tags = ['BUU']
 draft = false
 +++
 结合笔记里写到的csu部分配合srop食用

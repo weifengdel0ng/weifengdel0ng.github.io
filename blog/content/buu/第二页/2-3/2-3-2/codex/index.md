@@ -3,7 +3,7 @@ title = "codex"
 date = "2026-04-16"
 type = "post"
 categories = ['BUU']
-tags = ['第二页', '2-3', '2-3-2']
+tags = ['BUU']
 draft = false
 +++
 # level4 详细 WP

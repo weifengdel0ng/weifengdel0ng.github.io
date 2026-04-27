@@ -3,7 +3,7 @@ title = "wp2"
 date = "2026-03-27"
 type = "post"
 categories = ['BUU']
-tags = ['第六页', 'starctf2018_babystack']
+tags = ['BUU']
 draft = false
 +++
 [wp源地址](https://zikh26.github.io/posts/6967ee12.html)

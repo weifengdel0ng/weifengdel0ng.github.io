@@ -3,7 +3,7 @@ title = "main_arena + 88是什么"
 date = "2026-04-01"
 type = "post"
 categories = ['BUU']
-tags = ['第二页', '2-2', '2-2-2']
+tags = ['BUU']
 draft = false
 +++
 这是一个非常经典的 **堆利用（Heap Exploitation）** 场景，你正在利用 **unsorted bin 泄露 libc 地址**。我们来详细解释为什么 `dump(2)` 会泄露 `main_arena + 88`（即 `main_arena88`）。

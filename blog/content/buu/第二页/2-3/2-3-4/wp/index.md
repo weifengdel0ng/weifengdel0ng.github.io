@@ -3,7 +3,7 @@ title = "wp"
 date = "2026-04-17"
 type = "post"
 categories = ['BUU']
-tags = ['第二页', '2-3', '2-3-4']
+tags = ['BUU']
 draft = false
 +++
 ```python

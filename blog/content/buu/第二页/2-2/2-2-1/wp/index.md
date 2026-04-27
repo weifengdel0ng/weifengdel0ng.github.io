@@ -3,7 +3,7 @@ title = "wp"
 date = "2026-04-15"
 type = "post"
 categories = ['BUU']
-tags = ['第二页', '2-2', '2-2-1']
+tags = ['BUU']
 draft = false
 +++
 ![Pasted image 20260306190804.png](Pasted%20image%2020260306190804.png)

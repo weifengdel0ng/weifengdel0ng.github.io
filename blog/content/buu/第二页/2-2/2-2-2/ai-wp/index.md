@@ -3,7 +3,7 @@ title = "ai wp"
 date = "2026-04-01"
 type = "post"
 categories = ['BUU']
-tags = ['第二页', '2-2', '2-2-2']
+tags = ['BUU']
 draft = false
 +++
 ### babyheap_0ctf_2017 详细解析

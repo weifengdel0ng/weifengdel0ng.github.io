@@ -3,7 +3,7 @@ title = "wp--srop"
 date = "2026-03-04"
 type = "post"
 categories = ['BUU']
-tags = ['第一页', 'ciscn_s_3']
+tags = ['BUU']
 draft = false
 +++
 ![Pasted image 20260123102243.png](Pasted%20image%2020260123102243.png)vuln函数中使用了两个syscall指令，根据rax即可知道该指令调用的是哪个系统调用

@@ -3,7 +3,7 @@ title = "wp3"
 date = "2026-04-14"
 type = "post"
 categories = ['BUU']
-tags = ['第六页', 'starctf2018_babystack']
+tags = ['BUU']
 draft = false
 +++
 ### 前置知识

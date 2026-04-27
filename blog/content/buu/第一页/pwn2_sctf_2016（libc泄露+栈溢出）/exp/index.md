@@ -3,7 +3,7 @@ title = "exp"
 date = "2026-01-14"
 type = "post"
 categories = ['BUU']
-tags = ['第一页', 'pwn2_sctf_2016（libc泄露+栈溢出）']
+tags = ['BUU']
 draft = false
 +++
 ```python

@@ -3,7 +3,7 @@ title = "exp1"
 date = "2026-03-25"
 type = "post"
 categories = ['BUU']
-tags = ['第一页', '【BUUCTF-PWN】12-get_started_3dsctf_2016']
+tags = ['BUU']
 draft = false
 +++
 ```python

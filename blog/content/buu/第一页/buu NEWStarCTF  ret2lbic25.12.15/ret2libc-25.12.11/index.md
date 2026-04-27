@@ -3,7 +3,7 @@ title = "ret2libc  25.12.11"
 date = "2026-03-25"
 type = "post"
 categories = ['BUU']
-tags = ['第一页', 'buu NEWStarCTF  ret2lbic25.12.15']
+tags = ['BUU']
 draft = false
 +++
 看到文件开启了NX保护 

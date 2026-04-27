@@ -3,7 +3,7 @@ title = "wp"
 date = "2026-04-17"
 type = "post"
 categories = ['BUU']
-tags = ['第二页', '2-3', '2-3-3']
+tags = ['BUU']
 draft = false
 +++
 一道堆溢出，看起来跟2-2-2差不多，可以借鉴一下，应该也是UAF

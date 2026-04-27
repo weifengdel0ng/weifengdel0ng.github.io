@@ -3,7 +3,7 @@ title = "bjdctf_2020_babyrop2"
 date = "2026-04-15"
 type = "post"
 categories = ['BUU']
-tags = ['第二页', '2-1', '2-1-4']
+tags = ['BUU']
 draft = false
 +++
 ![Pasted image 20260305191622.png](%E9%99%84%E4%BB%B6/Pasted%20image%2020260305191622.png)

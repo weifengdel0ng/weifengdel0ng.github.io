@@ -3,7 +3,7 @@ title = "HarekazeCTF2019baby_rop2"
 date = "2026-03-04"
 type = "post"
 categories = ['BUU']
-tags = ['第一页', 'HarekazeCTF2019baby_rop2']
+tags = ['BUU']
 draft = false
 +++
 ![Pasted image 20260111103752.png](%E9%99%84%E4%BB%B6/Pasted%20image%2020260111103752.png)main函数有一个read两个printf

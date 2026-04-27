@@ -3,7 +3,7 @@ title = "wp"
 date = "2026-04-14"
 type = "post"
 categories = ['BUU']
-tags = ['第二页', '2-2', '2-2-3']
+tags = ['BUU']
 draft = false
 +++
 这道题的设置是比较简单的，一个显而易见的gets()overflow，但是找不到pop rdi，又不能让自己受着，请出`ROPgadget`大人杀死比赛。

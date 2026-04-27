@@ -3,7 +3,7 @@ title = "exp"
 date = "2026-03-26"
 type = "post"
 categories = ['BUU']
-tags = ['第二页', '2-1', '2-1-4']
+tags = ['BUU']
 draft = false
 +++
 ```python
