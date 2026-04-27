@@ -35,6 +35,11 @@ name = '关于'
 url = '/about/'
 weight = 3
 
+[[menu.main]]
+name = 'BUU'
+url = '/buu/'
+weight = 4
+
 [params.author]
 name = 'weifengdel0ng'
 avatar = 'images/profile.webp'
