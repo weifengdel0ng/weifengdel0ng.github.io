@@ -9,3 +9,10 @@
 # site = "example.com"
 # tags = ["CTF", "Blog"]
 
+[[links]]
+name = "AlF-ovo"
+url = "https://alf-ovo.github.io/alf-ovo-blog/"
+avatar = "images/friends/alf-ovo.webp"
+description = "三角洲巅峰125星、职业演员，神秘人，最佳男主角"
+site = "alf-ovo.github.io/alf-ovo-blog"
+tags = ["Pwn", "CTF"]
