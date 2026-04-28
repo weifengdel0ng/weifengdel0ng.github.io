@@ -38,7 +38,7 @@ weight = 3
 [params.author]
 name = '微风的龙'
 avatar = 'images/profile.png'
-bio = '开发者，持续记录技术、项目和实践。'
+bio = '哈基龙的个人博客，看看得了'
 location = 'China'
 about = 'https://github.com/weifengdel0ng'
 
