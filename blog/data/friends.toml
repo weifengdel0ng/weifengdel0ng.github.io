@@ -1,0 +1,11 @@
+# 新增友链时，继续往下追加 [[links]] 即可。
+# avatar 支持本地路径（如 images/friends/demo.png）或完整外链。
+#
+# [[links]]
+# name = "示例站点"
+# url = "https://example.com/"
+# avatar = "images/friends/example.png"
+# description = "一句话介绍这个站点。"
+# site = "example.com"
+# tags = ["CTF", "Blog"]
+

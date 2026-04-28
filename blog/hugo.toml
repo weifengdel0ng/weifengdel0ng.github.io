@@ -17,7 +17,7 @@ breadCrumb = false
 socialShare = false
 searchBar = true
 color = 'auto'
-customCSS = ['css/home.css']
+customCSS = ['css/home.css', 'css/friends.css']
 
 [menu]
 
@@ -32,9 +32,19 @@ url = '/posts/'
 weight = 2
 
 [[menu.main]]
+name = '校赛'
+url = '/contest-2026/'
+weight = 3
+
+[[menu.main]]
+name = '友链'
+url = '/friends/'
+weight = 4
+
+[[menu.main]]
 name = '关于'
 url = '/about/'
-weight = 3
+weight = 5
 
 [params.author]
 name = '微风的龙'
