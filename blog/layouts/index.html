@@ -1,5 +1,5 @@
 {{ define "content" }}
-{{- $recentPosts := first 4 site.RegularPages.ByDate.Reverse -}}
+{{- $recentPosts := first 4 ((where site.RegularPages "Section" "ne" "buu").ByDate.Reverse) -}}
 {{- $featured := index $recentPosts 0 -}}
 {{- $allPages := site.RegularPages -}}
 {{- $buuPages := where site.RegularPages "Section" "buu" -}}
