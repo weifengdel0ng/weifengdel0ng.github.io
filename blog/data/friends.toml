@@ -16,3 +16,10 @@ avatar = "images/friends/alf-ovo.webp"
 description = "三角洲巅峰125星、职业演员，神秘人，最佳男主角"
 site = "www.alf-ovo.cn"
 tags = ["Pwn", "CTF"]
+
+[[links]]
+name = "bakamu"
+url = "http://bakamu.github.io/"
+avatar = "images/friends/bakamu.jpg"
+description = "vn大佬"
+site = "bakamu.github.io"
