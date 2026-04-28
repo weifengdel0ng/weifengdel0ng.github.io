@@ -1,0 +1,1 @@
+(()=>{var e={fallback:"https://weifengdel0ng.github.io/",homes:{en:"https://weifengdel0ng.github.io/"}};(()=>{let n=navigator.language||navigator.userLanguage;if(n in e.homes){window.location.href=e.homes[n];return}let a=n.split("-");for(let o in e.homes)if(o.indexOf(a[0])===0){window.location.href=e.homes[o];return}window.location.href=e.fallback})();})();

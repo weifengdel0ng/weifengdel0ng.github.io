@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://weifengdel0ng.github.io/sitemap.xml
