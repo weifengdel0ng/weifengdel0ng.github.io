@@ -17,6 +17,7 @@ breadCrumb = false
 socialShare = false
 searchBar = true
 color = 'auto'
+customCSS = ['css/home.css']
 
 [menu]
 

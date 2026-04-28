@@ -1,0 +1,212 @@
+{{ define "content" }}
+{{- $recentPosts := first 4 site.RegularPages.ByDate.Reverse -}}
+{{- $featured := index $recentPosts 0 -}}
+{{- $allPages := site.RegularPages -}}
+{{- $buuPages := where site.RegularPages "Section" "buu" -}}
+{{- $blogPages := where site.RegularPages "Section" "posts" -}}
+{{- $categories := site.Taxonomies.categories.ByCount -}}
+{{- $tags := site.Taxonomies.tags.ByCount -}}
+<div class="col-12 home-dashboard">
+  <section class="home-hero card component border-0 overflow-hidden">
+    <div class="home-hero__skyline" aria-hidden="true">
+      <span class="building building--1"></span>
+      <span class="building building--2"></span>
+      <span class="building building--3"></span>
+      <span class="building building--4"></span>
+      <span class="building building--5"></span>
+    </div>
+    <div class="home-hero__overlay"></div>
+    <div class="home-hero__orb"></div>
+    <div class="home-hero__content">
+      <div class="home-hero__eyebrow">WEIFENGDEL0NG / PERSONAL SPACE</div>
+      <h1 class="home-hero__title">哈基龙的小站</h1>
+      <p class="home-hero__subtitle">持续记录 PWN、题解、项目和碎片实践，把有复用价值的内容沉淀成长期可查的站点。</p>
+      <div class="home-hero__actions">
+        <a class="btn btn-primary" href="/posts/">进入文章区</a>
+        <a class="btn btn-outline-light" href="/buu/">查看 BUU 专题</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="home-grid">
+    <aside class="home-side home-side--left">
+      <div class="home-panel home-profile card component">
+        <div class="home-profile__cover"></div>
+        <div class="home-profile__body">
+          <img class="home-profile__avatar" src="{{ "images/profile.png" | relURL }}" alt="{{ site.Params.author.name }}">
+          <h2 class="home-panel__title">{{ site.Params.author.name }}</h2>
+          <p class="home-profile__bio">哈基龙的博客，随便看看</p>
+          <div class="home-profile__meta">
+            <span>CN / SH</span>
+            <span>{{ len $allPages }} 篇内容</span>
+          </div>
+          <div class="home-profile__stats">
+            <div><strong>{{ len $blogPages }}</strong><span>Blog</span></div>
+            <div><strong>{{ len $buuPages }}</strong><span>BUU</span></div>
+            <div><strong>{{ len $tags }}</strong><span>Tags</span></div>
+          </div>
+          <div class="home-profile__links">
+            <a href="/about/"><span>关于</span><b>01</b></a>
+            <a href="/posts/"><span>文章</span><b>02</b></a>
+            <a href="/buu/"><span>BUU</span><b>03</b></a>
+            <a href="https://github.com/weifengdel0ng" target="_blank" rel="noopener noreferrer"><span>GitHub</span><b>04</b></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="home-panel card component">
+        <h3 class="home-panel__title">导航</h3>
+        <nav class="home-nav-list">
+          <a href="/"><span>主页</span><b>⌂</b></a>
+          <a href="/posts/"><span>文章归档</span><b>↗</b></a>
+          <a href="/buu/"><span>BUU 专题</span><b>↗</b></a>
+          <a href="/tags/"><span>标签</span><b>#</b></a>
+          <a href="/categories/"><span>分类</span><b>◫</b></a>
+          <a href="/about/"><span>关于我</span><b>?</b></a>
+        </nav>
+      </div>
+
+      <div class="home-panel card component">
+        <h3 class="home-panel__title">标签速览</h3>
+        <div class="home-tag-cloud">
+          {{- range first 10 $tags }}
+          <a href="{{ .Page.RelPermalink }}">{{ .Page.Title }}</a>
+          {{- end }}
+        </div>
+      </div>
+    </aside>
+
+    <main class="home-main">
+      {{- range $index, $page := $recentPosts }}
+      <article class="home-post-card home-post-card--{{ add $index 1 }} card component">
+        <div class="home-post-card__thumb">
+          <img src="{{ "images/profile.png" | relURL }}" alt="{{ $page.Title }}">
+          <div class="home-post-card__thumb-badge">{{ upper $page.Section }}</div>
+        </div>
+        <div class="home-post-card__body">
+          <div class="home-post-card__meta">
+            <span>{{ $page.Date.Format "2006-01-02" }}</span>
+            <span>{{ if eq $page.Section "posts" }}BLOG{{ else }}BUU{{ end }}</span>
+          </div>
+          <h2 class="home-post-card__title">
+            <a href="{{ $page.RelPermalink }}">{{ $page.Title }}</a>
+          </h2>
+          <p class="home-post-card__summary">
+            {{- with $page.Description -}}
+              {{ . }}
+            {{- else -}}
+              {{ $page.Summary | plainify | truncate 116 }}
+            {{- end -}}
+          </p>
+          <div class="home-post-card__footer">
+            <div class="home-post-card__chips">
+              {{- range first 3 ($page.GetTerms "tags") }}
+              <a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
+              {{- end }}
+            </div>
+            <a class="home-post-card__more" href="{{ $page.RelPermalink }}">查看详情</a>
+          </div>
+        </div>
+      </article>
+      {{- end }}
+    </main>
+
+    <aside class="home-side home-side--right">
+      <div class="home-panel card component">
+        <h3 class="home-panel__title">站点概览</h3>
+        <p class="home-panel__text">当前主页改成偏控制台式信息看板，内容区与侧边监控面板分离，后续会继续补数据块和专题入口。</p>
+        <div class="home-stat-list">
+          <div><strong>{{ len $allPages }}</strong><span>总文章</span></div>
+          <div><strong>{{ len $categories }}</strong><span>分类</span></div>
+          <div><strong>{{ len $tags }}</strong><span>标签</span></div>
+        </div>
+      </div>
+
+      <div class="home-panel card component">
+        <h3 class="home-panel__title">趋势</h3>
+        <div class="home-chart home-chart--line" aria-hidden="true">
+          <svg viewBox="0 0 220 120" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="lineGlow" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#79c2ff" stop-opacity="0.55"/>
+                <stop offset="100%" stop-color="#79c2ff" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <path d="M0 92 C24 88 34 60 54 58 C72 56 84 82 106 80 C130 78 136 30 160 24 C181 18 198 48 220 44 L220 120 L0 120 Z" fill="url(#lineGlow)"/>
+            <path d="M0 92 C24 88 34 60 54 58 C72 56 84 82 106 80 C130 78 136 30 160 24 C181 18 198 48 220 44" fill="none" stroke="#84c6ff" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="home-panel card component">
+        <h3 class="home-panel__title">内容分布</h3>
+        <div class="home-chart home-chart--radar" aria-hidden="true">
+          <svg viewBox="0 0 200 140">
+            <polygon points="100,16 154,44 154,98 100,124 46,98 46,44" class="radar-grid"/>
+            <polygon points="100,34 140,52 136,88 100,106 68,86 62,50" class="radar-shape"/>
+            <circle cx="100" cy="34" r="3"/>
+            <circle cx="140" cy="52" r="3"/>
+            <circle cx="136" cy="88" r="3"/>
+            <circle cx="100" cy="106" r="3"/>
+            <circle cx="68" cy="86" r="3"/>
+            <circle cx="62" cy="50" r="3"/>
+          </svg>
+          <div class="home-radar-legend">
+            <span>题解</span>
+            <span>博客</span>
+            <span>页面</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="home-panel card component">
+        <h3 class="home-panel__title">节点</h3>
+        <div class="home-chart home-chart--nodes" aria-hidden="true">
+          <span class="node node--1"></span>
+          <span class="node node--2"></span>
+          <span class="node node--3"></span>
+          <span class="node node--4"></span>
+          <span class="node node--5"></span>
+          <span class="node node--6"></span>
+          <span class="node node--7"></span>
+          <span class="node node--8"></span>
+        </div>
+      </div>
+
+      <div class="home-panel card component">
+        <h3 class="home-panel__title">最近更新</h3>
+        <div class="home-mini-list">
+          {{- range first 5 $recentPosts }}
+          <a class="home-mini-list__item" href="{{ .RelPermalink }}">
+            <strong>{{ .Title }}</strong>
+            <span>{{ .Date.Format "2006-01-02" }}</span>
+          </a>
+          {{- end }}
+        </div>
+      </div>
+
+      <div class="home-panel card component">
+        <h3 class="home-panel__title">分类</h3>
+        <div class="home-category-list">
+          {{- range first 6 $categories }}
+          <a href="{{ .Page.RelPermalink }}">
+            <span>{{ .Page.Title }}</span>
+            <strong>{{ .Count }}</strong>
+          </a>
+          {{- end }}
+        </div>
+      </div>
+
+      {{- with $featured }}
+      <div class="home-panel home-featured card component">
+        <h3 class="home-panel__title">精选入口</h3>
+        <a class="home-featured__link" href="{{ .RelPermalink }}">
+          <strong>{{ .Title }}</strong>
+          <span>{{ .Description }}</span>
+        </a>
+      </div>
+      {{- end }}
+    </aside>
+  </section>
+</div>
+{{ end }}
