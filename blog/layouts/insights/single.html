@@ -1,0 +1,240 @@
+{{ define "content" }}
+{{- $dashboard := partial "functions/dashboard-data" . -}}
+{{- $summary := $dashboard.summary -}}
+{{- $activity7 := index $dashboard.activity "7d" -}}
+{{- $activity30 := index $dashboard.activity "30d" -}}
+{{- $activity12 := index $dashboard.activity "12m" -}}
+{{- $boards := $dashboard.boards -}}
+{{- $recentPublished := $dashboard.recentPublished -}}
+{{- $topCategories := $dashboard.topCategories -}}
+{{- $topTags := $dashboard.topTags -}}
+{{- $activityRanges := slice $activity7 $activity30 $activity12 -}}
+<div class="col-12 insights-page">
+  <section class="insights-hero card component border-0 overflow-hidden">
+    <div class="insights-hero__grid" aria-hidden="true"></div>
+    <div class="insights-hero__glow" aria-hidden="true"></div>
+    <div class="insights-hero__content">
+      <div>
+        <div class="insights-hero__eyebrow">INSIGHTS / LIVE SNAPSHOT</div>
+        <h1 class="insights-hero__title">{{ .Title }}</h1>
+        <p class="insights-hero__subtitle">
+          {{ with .Description }}{{ . }}{{ else }}按当前仓库内容自动统计文章、题解、分类、友链和最近发布。{{ end }}
+        </p>
+      </div>
+      <div class="insights-hero__meta">
+        <span>{{ $summary.content }} 篇内容</span>
+        <span>{{ $summary.notes }} 篇题解</span>
+        <span>{{ $summary.friends }} 个友链</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="overview" class="insights-section">
+    <div class="insights-section__head">
+      <div>
+        <div class="insights-section__eyebrow">Overview</div>
+        <h2>站点概览</h2>
+      </div>
+      <p>这部分展示当前仓库构建出来的真实内容规模，不再使用占位数字。</p>
+    </div>
+    <div class="insights-summary-grid">
+      <article class="insights-summary-card card component">
+        <span>内容总数</span>
+        <strong>{{ $summary.content }}</strong>
+        <p>文章 {{ $summary.blog }} / BUU {{ $summary.buu }} / 校赛 {{ $summary.contest }}</p>
+      </article>
+      <article class="insights-summary-card card component">
+        <span>近 30 天</span>
+        <strong>{{ $activity30.total }}</strong>
+        <p>按发布日期统计的新增内容。</p>
+      </article>
+      <article class="insights-summary-card card component">
+        <span>分类与标签</span>
+        <strong>{{ $summary.categories }} / {{ $summary.tags }}</strong>
+        <p>分别对应当前分类数和标签数。</p>
+      </article>
+      <article class="insights-summary-card card component">
+        <span>友链与板块</span>
+        <strong>{{ $summary.friends }} / {{ len $boards }}</strong>
+        <p>首页右侧卡片和专题板块都会从这里展开。</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="activity" class="insights-panel card component">
+    <div class="insights-section__head insights-section__head--compact">
+      <div>
+        <div class="insights-section__eyebrow">Activity</div>
+        <h2>发布趋势</h2>
+      </div>
+      <p>按内容发布日期统计。切换时间范围后会显示对应粒度的真实分布。</p>
+    </div>
+    <div class="insights-tabs" data-insights-tabs>
+      <div class="insights-tabs__bar" role="tablist" aria-label="时间范围">
+        {{- range $index, $range := $activityRanges }}
+        <button
+          class="insights-tabs__button{{ if eq $index 0 }} is-active{{ end }}"
+          type="button"
+          data-insights-trigger="{{ $range.key }}"
+        >
+          {{ $range.label }}
+        </button>
+        {{- end }}
+      </div>
+      {{- range $index, $range := $activityRanges }}
+      <div class="insights-tabs__panel{{ if eq $index 0 }} is-active{{ end }}" data-insights-panel="{{ $range.key }}">
+        <div class="insights-tabs__summary">
+          <div>
+            <strong>{{ $range.summary }}</strong>
+            <span>共 {{ len $range.points }} 个统计节点</span>
+          </div>
+          <span>{{ if and (eq $range.key "12m") $range.peakLabel }}峰值月份 {{ $range.peakLabel }}{{ else }}按当前仓库内容自动刷新{{ end }}</span>
+        </div>
+        <div class="insights-chart-scroll">
+          <div class="insights-bar-chart insights-bar-chart--{{ $range.key }}">
+            {{- range $range.points }}
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">{{ .count }}</span>
+              <i style="height: {{ div (mul .count 100) $range.max }}%;"></i>
+              <small>{{ if .label }}{{ .label }}{{ else }}&nbsp;{{ end }}</small>
+            </div>
+            {{- end }}
+          </div>
+        </div>
+      </div>
+      {{- end }}
+    </div>
+  </section>
+
+  <section class="insights-split">
+    <div id="distribution" class="insights-panel card component">
+      <div class="insights-section__head insights-section__head--compact">
+        <div>
+          <div class="insights-section__eyebrow">Distribution</div>
+          <h2>内容分布</h2>
+        </div>
+        <p>按真实板块内容占比展示，避免首页里那种固定占位雷达图。</p>
+      </div>
+      <div class="insights-distribution-list">
+        {{- range first 3 $boards }}
+        <div class="insights-meter">
+          <div class="insights-meter__label">
+            <span>{{ .name }}</span>
+            <strong>{{ .count }}</strong>
+          </div>
+          <div class="insights-meter__track">
+            <span style="width: {{ .share }}%;"></span>
+          </div>
+          <small>{{ .description }}</small>
+        </div>
+        {{- end }}
+      </div>
+      <div class="insights-taxonomy-grid">
+        <div>
+          <h3>热门分类</h3>
+          <div class="insights-chip-list">
+            {{- range $topCategories }}
+            <a href="{{ .Page.RelPermalink }}">{{ .Page.Title }} · {{ .Count }}</a>
+            {{- end }}
+          </div>
+        </div>
+        <div>
+          <h3>热门标签</h3>
+          <div class="insights-chip-list">
+            {{- range first 8 $topTags }}
+            <a href="{{ .Page.RelPermalink }}">{{ .Page.Title }}</a>
+            {{- end }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="boards" class="insights-panel card component">
+      <div class="insights-section__head insights-section__head--compact">
+        <div>
+          <div class="insights-section__eyebrow">Boards</div>
+          <h2>板块状态</h2>
+        </div>
+        <p>每个板块都显示真实数量、最近一条内容和跳转入口。</p>
+      </div>
+      <div class="insights-board-grid">
+        {{- range $boards }}
+        <a class="insights-board-card insights-board-card--{{ .accent }}" href="{{ .href }}">
+          <div class="insights-board-card__head">
+            <span>{{ .name }}</span>
+            <strong>{{ .count }}</strong>
+          </div>
+          <p>{{ .description }}</p>
+          <div class="insights-board-card__meta">
+            <span>{{ .latestDate }}</span>
+            <span>{{ .latestTitle }}</span>
+          </div>
+        </a>
+        {{- end }}
+      </div>
+    </div>
+  </section>
+
+  <section id="updates" class="insights-panel card component">
+    <div class="insights-section__head insights-section__head--compact">
+      <div>
+        <div class="insights-section__eyebrow">Updates</div>
+        <h2>最近发布</h2>
+      </div>
+      <p>按发布日期倒序展示，和首页右侧列表保持同一套真实来源。</p>
+    </div>
+    <div class="insights-update-grid">
+      {{- range $recentPublished }}
+      {{- $thumbSrc := "images/profile.png" | relURL -}}
+      {{- with partialCached "functions/thumbnail" . . -}}
+        {{- $thumbSrc = (.Fill "480x280").RelPermalink -}}
+      {{- end -}}
+      <a class="insights-update-card" href="{{ .RelPermalink }}">
+        <div class="insights-update-card__thumb">
+          <img src="{{ $thumbSrc }}" alt="{{ .Title }}">
+          <span>{{ upper .Section }}</span>
+        </div>
+        <div class="insights-update-card__body">
+          <strong>{{ .Title }}</strong>
+          <p>
+            {{- with .Description -}}
+              {{ . }}
+            {{- else -}}
+              {{ .Summary | plainify | truncate 92 }}
+            {{- end -}}
+          </p>
+          <div class="insights-update-card__meta">
+            <span>{{ .Date.Format "2006-01-02" }}</span>
+            <span>{{ if eq .Section "posts" }}BLOG{{ else if eq .Section "buu" }}BUU{{ else }}CONTEST{{ end }}</span>
+          </div>
+        </div>
+      </a>
+      {{- end }}
+    </div>
+  </section>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll("[data-insights-tabs]").forEach(function (group) {
+    var triggers = group.querySelectorAll("[data-insights-trigger]");
+    var panels = group.querySelectorAll("[data-insights-panel]");
+
+    function activate(key) {
+      triggers.forEach(function (button) {
+        button.classList.toggle("is-active", button.getAttribute("data-insights-trigger") === key);
+      });
+      panels.forEach(function (panel) {
+        panel.classList.toggle("is-active", panel.getAttribute("data-insights-panel") === key);
+      });
+    }
+
+    triggers.forEach(function (button) {
+      button.addEventListener("click", function () {
+        activate(button.getAttribute("data-insights-trigger"));
+      });
+    });
+  });
+});
+</script>
+{{ end }}

@@ -1,11 +1,16 @@
 {{ define "content" }}
 {{- $recentPosts := first 4 ((where site.RegularPages "Section" "in" (slice "posts" "about")).ByDate.Reverse) -}}
 {{- $featured := index $recentPosts 0 -}}
-{{- $allPages := site.RegularPages -}}
-{{- $buuPages := where site.RegularPages "Section" "buu" -}}
-{{- $blogPages := where site.RegularPages "Section" "posts" -}}
-{{- $categories := site.Taxonomies.categories.ByCount -}}
-{{- $tags := site.Taxonomies.tags.ByCount -}}
+{{- $dashboard := partial "functions/dashboard-data" . -}}
+{{- $summary := $dashboard.summary -}}
+{{- $activity7 := index $dashboard.activity "7d" -}}
+{{- $activity30 := index $dashboard.activity "30d" -}}
+{{- $activity12 := index $dashboard.activity "12m" -}}
+{{- $topCategories := $dashboard.topCategories -}}
+{{- $topTags := $dashboard.topTags -}}
+{{- $recentPublished := $dashboard.recentPublished -}}
+{{- $boards := $dashboard.boards -}}
+{{- $latestPublished := $dashboard.latestPublished -}}
 <div class="col-12 home-dashboard">
   <section class="home-hero card component border-0 overflow-hidden">
     <div class="home-hero__skyline" aria-hidden="true">
@@ -38,12 +43,12 @@
           <p class="home-profile__bio">哈基龙的博客，随便看看</p>
           <div class="home-profile__meta">
             <span>CN / SH</span>
-            <span>{{ len $allPages }} 篇内容</span>
+            <span>{{ $summary.content }} 篇内容</span>
           </div>
           <div class="home-profile__stats">
-            <div><strong>{{ len $blogPages }}</strong><span>Blog</span></div>
-            <div><strong>{{ len $buuPages }}</strong><span>BUU</span></div>
-            <div><strong>{{ len $tags }}</strong><span>Tags</span></div>
+            <div><strong>{{ $summary.blog }}</strong><span>Blog</span></div>
+            <div><strong>{{ $summary.buu }}</strong><span>BUU</span></div>
+            <div><strong>{{ $summary.tags }}</strong><span>Tags</span></div>
           </div>
           <div class="home-profile__links">
             <a href="/about/"><span>关于</span><b>01</b></a>
@@ -73,7 +78,7 @@
       <div class="home-panel card component">
         <h3 class="home-panel__title">标签速览</h3>
         <div class="home-tag-cloud">
-          {{- range first 10 $tags }}
+          {{- range $topTags }}
           <a href="{{ .Page.RelPermalink }}">{{ .Page.Title }}</a>
           {{- end }}
         </div>
@@ -82,9 +87,13 @@
 
     <main class="home-main">
       {{- range $index, $page := $recentPosts }}
+      {{- $thumbSrc := "images/profile.png" | relURL -}}
+      {{- with partialCached "functions/thumbnail" $page $page -}}
+        {{- $thumbSrc = (.Fill "320x360").RelPermalink -}}
+      {{- end -}}
       <article class="home-post-card home-post-card--{{ add $index 1 }} card component">
         <div class="home-post-card__thumb">
-          <img src="{{ "images/profile.png" | relURL }}" alt="{{ $page.Title }}">
+          <img src="{{ $thumbSrc }}" alt="{{ $page.Title }}">
           <div class="home-post-card__thumb-badge">{{ upper $page.Section }}</div>
         </div>
         <div class="home-post-card__body">
@@ -116,71 +125,95 @@
     </main>
 
     <aside class="home-side home-side--right">
-      <div class="home-panel card component">
-        <h3 class="home-panel__title">站点概览</h3>
-        <p class="home-panel__text">当前主页改成偏控制台式信息看板，内容区与侧边监控面板分离，后续会继续补数据块和专题入口。</p>
-        <div class="home-stat-list">
-          <div><strong>{{ len $allPages }}</strong><span>总文章</span></div>
-          <div><strong>{{ len $categories }}</strong><span>分类</span></div>
-          <div><strong>{{ len $tags }}</strong><span>标签</span></div>
-        </div>
-      </div>
-
-      <div class="home-panel card component">
-        <h3 class="home-panel__title">趋势</h3>
-        <div class="home-chart home-chart--line" aria-hidden="true">
-          <svg viewBox="0 0 220 120" preserveAspectRatio="none">
-            <defs>
-              <linearGradient id="lineGlow" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#79c2ff" stop-opacity="0.55"/>
-                <stop offset="100%" stop-color="#79c2ff" stop-opacity="0"/>
-              </linearGradient>
-            </defs>
-            <path d="M0 92 C24 88 34 60 54 58 C72 56 84 82 106 80 C130 78 136 30 160 24 C181 18 198 48 220 44 L220 120 L0 120 Z" fill="url(#lineGlow)"/>
-            <path d="M0 92 C24 88 34 60 54 58 C72 56 84 82 106 80 C130 78 136 30 160 24 C181 18 198 48 220 44" fill="none" stroke="#84c6ff" stroke-width="3" stroke-linecap="round"/>
-          </svg>
-        </div>
-      </div>
-
-      <div class="home-panel card component">
-        <h3 class="home-panel__title">内容分布</h3>
-        <div class="home-chart home-chart--radar" aria-hidden="true">
-          <svg viewBox="0 0 200 140">
-            <polygon points="100,16 154,44 154,98 100,124 46,98 46,44" class="radar-grid"/>
-            <polygon points="100,34 140,52 136,88 100,106 68,86 62,50" class="radar-shape"/>
-            <circle cx="100" cy="34" r="3"/>
-            <circle cx="140" cy="52" r="3"/>
-            <circle cx="136" cy="88" r="3"/>
-            <circle cx="100" cy="106" r="3"/>
-            <circle cx="68" cy="86" r="3"/>
-            <circle cx="62" cy="50" r="3"/>
-          </svg>
-          <div class="home-radar-legend">
-            <span>题解</span>
-            <span>博客</span>
-            <span>页面</span>
+      <a class="home-panel home-panel--link card component" href="/insights/#overview">
+        <div class="home-panel__head">
+          <div>
+            <div class="home-panel__eyebrow">Overview</div>
+            <h3 class="home-panel__title">站点概览</h3>
           </div>
+          <span class="home-panel__cta">OPEN</span>
         </div>
-      </div>
+        <p class="home-panel__text">
+          当前可见内容 {{ $summary.content }} 篇，专题与文章总数会在每次构建时按真实仓库自动刷新。
+          {{- with $latestPublished }}最近发布：{{ .Title }}。{{ end -}}
+        </p>
+        <div class="home-stat-list">
+          <div><strong>{{ $summary.content }}</strong><span>总内容</span></div>
+          <div><strong>{{ $summary.categories }}</strong><span>分类</span></div>
+          <div><strong>{{ $summary.tags }}</strong><span>标签</span></div>
+        </div>
+      </a>
+
+      <a class="home-panel home-panel--link card component" href="/insights/#activity">
+        <div class="home-panel__head">
+          <div>
+            <div class="home-panel__eyebrow">Activity</div>
+            <h3 class="home-panel__title">发布趋势</h3>
+          </div>
+          <span class="home-panel__cta">{{ $activity30.summary }}</span>
+        </div>
+        <div class="home-bar-chart" aria-hidden="true">
+          {{- range last 6 $activity12.points }}
+          <span class="home-bar-chart__item">
+            <b>{{ .count }}</b>
+            <i style="height: {{ div (mul .count 100) $activity12.max }}%;"></i>
+            <small>{{ .label }}</small>
+          </span>
+          {{- end }}
+        </div>
+        <div class="home-kpi-row">
+          <div><strong>{{ $activity7.total }}</strong><span>7天新增</span></div>
+          <div><strong>{{ $activity30.total }}</strong><span>30天新增</span></div>
+          <div><strong>{{ $activity12.total }}</strong><span>12个月新增</span></div>
+        </div>
+      </a>
+
+      <a class="home-panel home-panel--link card component" href="/insights/#distribution">
+        <div class="home-panel__head">
+          <div>
+            <div class="home-panel__eyebrow">Distribution</div>
+            <h3 class="home-panel__title">内容分布</h3>
+          </div>
+          <span class="home-panel__cta">{{ $summary.notes }} Notes</span>
+        </div>
+        <div class="home-distribution-list">
+          {{- range first 3 $boards }}
+          <div class="home-meter">
+            <div class="home-bar__label">
+              <span>{{ .name }}</span>
+              <strong>{{ .count }}</strong>
+            </div>
+            <div class="home-meter__track">
+              <span style="width: {{ .share }}%;"></span>
+            </div>
+          </div>
+          {{- end }}
+        </div>
+      </a>
+
+      <a class="home-panel home-panel--link card component" href="/insights/#boards">
+        <div class="home-panel__head">
+          <div>
+            <div class="home-panel__eyebrow">Boards</div>
+            <h3 class="home-panel__title">板块状态</h3>
+          </div>
+          <span class="home-panel__cta">{{ len $boards }} Blocks</span>
+        </div>
+        <div class="home-board-list">
+          {{- range $boards }}
+          <span class="home-board-chip home-board-chip--{{ .accent }}">
+            <strong>{{ .name }}</strong>
+            <b>{{ .count }}</b>
+            <small>{{ .latestDate }}</small>
+          </span>
+          {{- end }}
+        </div>
+      </a>
 
       <div class="home-panel card component">
-        <h3 class="home-panel__title">节点</h3>
-        <div class="home-chart home-chart--nodes" aria-hidden="true">
-          <span class="node node--1"></span>
-          <span class="node node--2"></span>
-          <span class="node node--3"></span>
-          <span class="node node--4"></span>
-          <span class="node node--5"></span>
-          <span class="node node--6"></span>
-          <span class="node node--7"></span>
-          <span class="node node--8"></span>
-        </div>
-      </div>
-
-      <div class="home-panel card component">
-        <h3 class="home-panel__title">最近更新</h3>
+        <h3 class="home-panel__title">最近发布</h3>
         <div class="home-mini-list">
-          {{- range first 5 $recentPosts }}
+          {{- range $recentPublished }}
           <a class="home-mini-list__item" href="{{ .RelPermalink }}">
             <strong>{{ .Title }}</strong>
             <span>{{ .Date.Format "2006-01-02" }}</span>
@@ -192,7 +225,7 @@
       <div class="home-panel card component">
         <h3 class="home-panel__title">分类</h3>
         <div class="home-category-list">
-          {{- range first 6 $categories }}
+          {{- range $topCategories }}
           <a href="{{ .Page.RelPermalink }}">
             <span>{{ .Page.Title }}</span>
             <strong>{{ .Count }}</strong>

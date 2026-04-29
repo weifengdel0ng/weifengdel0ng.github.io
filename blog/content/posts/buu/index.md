@@ -4,6 +4,7 @@ date = "2026-04-27"
 description = "BUUOJ PWN 题解专题入口。"
 categories = ["专题"]
 tags = ["BUU"]
+featuredImageAlt = "BUU 专题封面"
 readingTime = false
 +++
 

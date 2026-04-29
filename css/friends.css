@@ -11,12 +11,29 @@
   color: var(--friend-text);
 }
 
+html[data-bs-theme="light"] .friend-links-page {
+  --friend-body: #eef5ff;
+  --friend-panel: rgba(255, 255, 255, 0.95);
+  --friend-panel-soft: rgba(246, 250, 255, 0.98);
+  --friend-border: rgba(43, 83, 138, 0.12);
+  --friend-text: #13233d;
+  --friend-muted: #596f89;
+  --friend-blue: #2f6fe2;
+  --friend-blue-soft: #2958ab;
+  --friend-accent: #1aa49d;
+}
+
 .friend-links-page .component,
 .friend-links-page .card {
   background: var(--friend-panel);
   border: 1px solid var(--friend-border);
   border-radius: 22px;
   box-shadow: 0 18px 50px rgba(0, 0, 0, 0.22);
+}
+
+html[data-bs-theme="light"] .friend-links-page .component,
+html[data-bs-theme="light"] .friend-links-page .card {
+  box-shadow: 0 18px 44px rgba(24, 49, 86, 0.08);
 }
 
 .friend-links-hero {
@@ -26,6 +43,12 @@
   background:
     radial-gradient(circle at 80% 18%, rgba(255, 197, 101, 0.75), rgba(255, 197, 101, 0.14) 10%, transparent 28%),
     linear-gradient(135deg, rgba(28, 50, 83, 0.96), rgba(7, 13, 24, 0.96));
+}
+
+html[data-bs-theme="light"] .friend-links-hero {
+  background:
+    radial-gradient(circle at 80% 18%, rgba(255, 205, 116, 0.62), rgba(255, 205, 116, 0.12) 10%, transparent 28%),
+    linear-gradient(135deg, rgba(212, 228, 255, 0.96), rgba(247, 251, 255, 0.98));
 }
 
 .friend-links-hero__glow,
@@ -40,12 +63,24 @@
     linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(0, 0, 0, 0.28));
 }
 
+html[data-bs-theme="light"] .friend-links-hero__glow {
+  background:
+    radial-gradient(circle at 24% 24%, rgba(122, 233, 214, 0.12), transparent 18%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(220, 234, 255, 0.1));
+}
+
 .friend-links-hero__grid {
   background-image:
     linear-gradient(rgba(143, 197, 255, 0.08) 1px, transparent 1px),
     linear-gradient(90deg, rgba(143, 197, 255, 0.08) 1px, transparent 1px);
   background-size: 34px 34px;
   mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.95), transparent);
+}
+
+html[data-bs-theme="light"] .friend-links-hero__grid {
+  background-image:
+    linear-gradient(rgba(47, 111, 226, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(47, 111, 226, 0.08) 1px, transparent 1px);
 }
 
 .friend-links-hero__content {
@@ -65,6 +100,10 @@
   letter-spacing: 0.24em;
 }
 
+html[data-bs-theme="light"] .friend-links-hero__eyebrow {
+  color: #3e6eac;
+}
+
 .friend-links-hero__title {
   margin: 0;
   font-size: clamp(2rem, 4vw, 3.4rem);
@@ -77,6 +116,10 @@
   margin: 0.95rem 0 1.1rem;
   color: #dce8fb;
   line-height: 1.8;
+}
+
+html[data-bs-theme="light"] .friend-links-hero__subtitle {
+  color: #42556f;
 }
 
 .friend-links-hero__meta {
@@ -98,6 +141,14 @@
   background: rgba(255, 255, 255, 0.04);
   color: var(--friend-blue-soft);
   font-size: 0.82rem;
+}
+
+html[data-bs-theme="light"] .friend-links-hero__meta span,
+html[data-bs-theme="light"] .friend-link-card__tags span,
+html[data-bs-theme="light"] .friend-link-card__action {
+  border-color: rgba(43, 83, 138, 0.1);
+  background: rgba(47, 111, 226, 0.06);
+  color: #2858ab;
 }
 
 .friend-links-list {
@@ -123,6 +174,11 @@
   background: linear-gradient(135deg, rgba(104, 170, 252, 0.08), rgba(255, 255, 255, 0.02));
 }
 
+html[data-bs-theme="light"] .friend-link-card:hover {
+  border-color: rgba(47, 111, 226, 0.22);
+  background: linear-gradient(135deg, rgba(47, 111, 226, 0.08), rgba(255, 255, 255, 0.9));
+}
+
 .friend-link-card__avatar {
   width: 96px;
   height: 96px;
@@ -132,6 +188,13 @@
     linear-gradient(135deg, rgba(73, 122, 206, 0.3), rgba(10, 16, 26, 0.56)),
     linear-gradient(135deg, #20385f, #0c1521);
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+html[data-bs-theme="light"] .friend-link-card__avatar {
+  background:
+    linear-gradient(135deg, rgba(125, 168, 240, 0.28), rgba(228, 238, 252, 0.82)),
+    linear-gradient(135deg, #dbe8fb, #f3f8ff);
+  box-shadow: inset 0 0 0 1px rgba(43, 83, 138, 0.08);
 }
 
 .friend-link-card__avatar img {

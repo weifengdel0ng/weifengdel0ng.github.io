@@ -1,0 +1,190 @@
+﻿{{- $site := .Site -}}
+{{- $contentSections := slice "posts" "buu" "contest-2026" -}}
+{{- $contentPages := where $site.RegularPages "Section" "in" $contentSections -}}
+{{- $contentPagesByDate := $contentPages.ByDate.Reverse -}}
+{{- $blogPages := where $contentPages "Section" "posts" -}}
+{{- $buuPages := where $contentPages "Section" "buu" -}}
+{{- $contestPages := where $contentPages "Section" "contest-2026" -}}
+{{- $notePages := where $contentPages "Section" "in" (slice "buu" "contest-2026") -}}
+{{- $categories := $site.Taxonomies.categories.ByCount -}}
+{{- $tags := $site.Taxonomies.tags.ByCount -}}
+{{- $friendLinks := default (slice) hugo.Data.friends.links -}}
+{{- $totalContent := len $contentPages -}}
+{{- $summary := dict
+  "content" $totalContent
+  "blog" (len $blogPages)
+  "buu" (len $buuPages)
+  "contest" (len $contestPages)
+  "notes" (len $notePages)
+  "categories" (len $categories)
+  "tags" (len $tags)
+  "friends" (len $friendLinks)
+-}}
+
+{{- $boardsScratch := newScratch -}}
+{{- $boardsScratch.Set "items" (slice) -}}
+{{- $boardConfigs := slice
+  (dict "name" "文章" "key" "posts" "href" "/posts/" "pages" $blogPages "accent" "blue" "description" "博客文章与专题入口")
+  (dict "name" "BUU" "key" "buu" "href" "/buu/" "pages" $buuPages "accent" "cyan" "description" "BUUOJ PWN 题解")
+  (dict "name" "校赛" "key" "contest-2026" "href" "/contest-2026/" "pages" $contestPages "accent" "orange" "description" "2026 校赛题解")
+  (dict "name" "友链" "key" "friends" "href" "/friends/" "pages" (slice) "accent" "blue" "description" "博客好友与常看站点")
+-}}
+{{- range $boardConfigs }}
+  {{- $count := 0 -}}
+  {{- if eq .key "friends" -}}
+    {{- $count = len $friendLinks -}}
+  {{- else -}}
+    {{- $count = len .pages -}}
+  {{- end -}}
+  {{- $share := 0 -}}
+  {{- if and (ne .key "friends") (gt $totalContent 0) -}}
+    {{- $share = div (mul $count 100) $totalContent -}}
+  {{- end -}}
+  {{- $latestDate := "暂无内容" -}}
+  {{- $latestTitle := "等待更新" -}}
+  {{- if eq .key "friends" -}}
+    {{- if gt (len $friendLinks) 0 -}}
+      {{- $latestDate = printf "%d 条友链" (len $friendLinks) -}}
+      {{- $latestTitle = (index $friendLinks 0).name -}}
+    {{- else -}}
+      {{- $latestDate = "0 条友链" -}}
+      {{- $latestTitle = "等待添加友链" -}}
+    {{- end -}}
+  {{- else if gt (len .pages) 0 -}}
+    {{- with index (.pages.ByDate.Reverse) 0 -}}
+      {{- $latestDate = .Date.Format "2006-01-02" -}}
+      {{- $latestTitle = .Title -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $boardsScratch.Add "items" (slice (dict
+    "name" .name
+    "key" .key
+    "href" .href
+    "count" $count
+    "share" $share
+    "latestDate" $latestDate
+    "latestTitle" $latestTitle
+    "accent" .accent
+    "description" .description
+  )) -}}
+{{- end -}}
+
+{{- $activity7Scratch := newScratch -}}
+{{- $activity7Scratch.Set "items" (slice) -}}
+{{- $activity7Max := 0 -}}
+{{- $activity7Total := 0 -}}
+{{- range seq 0 6 }}
+  {{- $day := now.AddDate 0 0 (sub . 6) -}}
+  {{- $key := $day.Format "2006-01-02" -}}
+  {{- $count := 0 -}}
+  {{- range $contentPages }}
+    {{- if eq (.Date.Format "2006-01-02") $key -}}
+      {{- $count = add $count 1 -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if gt $count $activity7Max -}}
+    {{- $activity7Max = $count -}}
+  {{- end -}}
+  {{- $activity7Total = add $activity7Total $count -}}
+  {{- $activity7Scratch.Add "items" (slice (dict
+    "key" $key
+    "label" ($day.Format "01/02")
+    "shortLabel" ($day.Format "02")
+    "count" $count
+  )) -}}
+{{- end -}}
+{{- if lt $activity7Max 1 -}}
+  {{- $activity7Max = 1 -}}
+{{- end -}}
+
+{{- $activity30Scratch := newScratch -}}
+{{- $activity30Scratch.Set "items" (slice) -}}
+{{- $activity30Max := 0 -}}
+{{- $activity30Total := 0 -}}
+{{- range seq 0 29 }}
+  {{- $day := now.AddDate 0 0 (sub . 29) -}}
+  {{- $key := $day.Format "2006-01-02" -}}
+  {{- $count := 0 -}}
+  {{- range $contentPages }}
+    {{- if eq (.Date.Format "2006-01-02") $key -}}
+      {{- $count = add $count 1 -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $label := "" -}}
+  {{- if or (eq . 0) (eq (mod (add . 1) 5) 0) (eq . 29) -}}
+    {{- $label = $day.Format "01/02" -}}
+  {{- end -}}
+  {{- if gt $count $activity30Max -}}
+    {{- $activity30Max = $count -}}
+  {{- end -}}
+  {{- $activity30Total = add $activity30Total $count -}}
+  {{- $activity30Scratch.Add "items" (slice (dict
+    "key" $key
+    "label" $label
+    "shortLabel" ($day.Format "02")
+    "count" $count
+  )) -}}
+{{- end -}}
+{{- if lt $activity30Max 1 -}}
+  {{- $activity30Max = 1 -}}
+{{- end -}}
+
+{{- $activity12Scratch := newScratch -}}
+{{- $activity12Scratch.Set "items" (slice) -}}
+{{- $activity12Max := 0 -}}
+{{- $activity12Total := 0 -}}
+{{- $activity12PeakLabel := "暂无" -}}
+{{- range seq 0 11 }}
+  {{- $month := now.AddDate 0 (sub . 11) 0 -}}
+  {{- $key := $month.Format "2006-01" -}}
+  {{- $count := 0 -}}
+  {{- range $contentPages }}
+    {{- if eq (.Date.Format "2006-01") $key -}}
+      {{- $count = add $count 1 -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if gt $count $activity12Max -}}
+    {{- $activity12Max = $count -}}
+    {{- $activity12PeakLabel = $month.Format "2006-01" -}}
+  {{- end -}}
+  {{- $activity12Total = add $activity12Total $count -}}
+  {{- $activity12Scratch.Add "items" (slice (dict
+    "key" $key
+    "label" ($month.Format "01月")
+    "shortLabel" ($month.Format "01")
+    "count" $count
+  )) -}}
+{{- end -}}
+{{- if lt $activity12Max 1 -}}
+  {{- $activity12Max = 1 -}}
+{{- end -}}
+
+{{- $activity := dict
+  "7d" (dict "key" "7d" "label" "近 7 天" "summary" (printf "%d 篇" $activity7Total) "points" ($activity7Scratch.Get "items") "max" $activity7Max "total" $activity7Total)
+  "30d" (dict "key" "30d" "label" "近 30 天" "summary" (printf "%d 篇" $activity30Total) "points" ($activity30Scratch.Get "items") "max" $activity30Max "total" $activity30Total)
+  "12m" (dict "key" "12m" "label" "近 12 个月" "summary" (printf "%d 篇" $activity12Total) "points" ($activity12Scratch.Get "items") "max" $activity12Max "total" $activity12Total "peakLabel" $activity12PeakLabel)
+-}}
+
+{{- $topCategories := first 6 $categories -}}
+{{- $topTags := first 10 $tags -}}
+{{- $recentPublished := first 6 $contentPagesByDate -}}
+{{- $latestPublished := false -}}
+{{- if gt (len $contentPagesByDate) 0 -}}
+  {{- $latestPublished = index $contentPagesByDate 0 -}}
+{{- end -}}
+
+{{- return (dict
+  "summary" $summary
+  "activity" $activity
+  "boards" ($boardsScratch.Get "items")
+  "topCategories" $topCategories
+  "topTags" $topTags
+  "recentPublished" $recentPublished
+  "latestPublished" $latestPublished
+  "contentPages" $contentPages
+  "blogPages" $blogPages
+  "buuPages" $buuPages
+  "contestPages" $contestPages
+  "friendLinks" $friendLinks
+) -}}
+

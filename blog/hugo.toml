@@ -17,7 +17,7 @@ breadCrumb = false
 socialShare = false
 searchBar = true
 color = 'auto'
-customCSS = ['css/home.css', 'css/friends.css']
+customCSS = ['css/home.css', 'css/friends.css', 'css/insights.css']
 
 [menu]
 

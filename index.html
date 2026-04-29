@@ -2,7 +2,7 @@
 <html class="position-relative" itemscope itemtype="https://schema.org/WebPage" lang="en"
   data-bs-theme="auto" data-palette="blue">
   <head>
-	<meta name="generator" content="Hugo 0.160.1"><script src="/assets/init/bundle.min.1b6b489990b21758264b3f1276b77b42d24fa120ebaa187288cb11dbb7a1df23.js" integrity="sha256-G2tImZCyF1gmSz8Sdrd7QtJPoSDrqhhyiMsR27eh3yM=" crossorigin="anonymous"></script>
+	<meta name="generator" content="Hugo 0.160.1"><script src="/assets/init/bundle.min.c1e3d6877de849f84a3e0f71b7dce87f194c64b773333f309b407f4626200033.js" integrity="sha256-wePWh33oSfhKPg9xt9zofxlMZLdzMz8wm0B/RiYgADM=" crossorigin="anonymous"></script>
 <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>首页</title>
@@ -33,6 +33,7 @@
 <link data-precache rel="stylesheet" href="/assets/main/bundle.min.db20b90f1e018f02fe452451fb9603d42007e5f5abc40cd58ddadfec0d7764f3.css" integrity="sha256-2yC5Dx4BjwL+RSRR+5YD1CAH5fWrxAzVjdrf7A13ZPM=" crossorigin="anonymous">
 <link data-precache rel="stylesheet" href="https://weifengdel0ng.github.io/css/home.css" crossorigin="anonymous">
 <link data-precache rel="stylesheet" href="https://weifengdel0ng.github.io/css/friends.css" crossorigin="anonymous">
+<link data-precache rel="stylesheet" href="https://weifengdel0ng.github.io/css/insights.css" crossorigin="anonymous">
 
     <link data-precache rel="stylesheet" href="/assets/viewer/bundle.min.16d2c85c4cae39a98f8cb7a977e95e554b174f91a5484c32605637156f49ca6b.css" integrity="sha256-FtLIXEyuOamPjLepd&#43;leVUsXT5GlSEwyYFY3FW9Jyms=" crossorigin="anonymous">
 
@@ -229,7 +230,7 @@
           <p class="home-profile__bio">哈基龙的博客，随便看看</p>
           <div class="home-profile__meta">
             <span>CN / SH</span>
-            <span>61 篇内容</span>
+            <span>60 篇内容</span>
           </div>
           <div class="home-profile__stats">
             <div><strong>3</strong><span>Blog</span></div>
@@ -274,8 +275,7 @@
       </div>
     </aside>
 
-    <main class="home-main">
-      <article class="home-post-card home-post-card--1 card component">
+    <main class="home-main"><article class="home-post-card home-post-card--1 card component">
         <div class="home-post-card__thumb">
           <img src="/images/profile.png" alt="2026校赛">
           <div class="home-post-card__thumb-badge">POSTS</div>
@@ -296,8 +296,7 @@
             <a class="home-post-card__more" href="/posts/contest-2026/">查看详情</a>
           </div>
         </div>
-      </article>
-      <article class="home-post-card home-post-card--2 card component">
+      </article><article class="home-post-card home-post-card--2 card component">
         <div class="home-post-card__thumb">
           <img src="/images/profile.png" alt="博客已上线">
           <div class="home-post-card__thumb-badge">POSTS</div>
@@ -320,8 +319,7 @@
             <a class="home-post-card__more" href="/posts/hello-hugo/">查看详情</a>
           </div>
         </div>
-      </article>
-      <article class="home-post-card home-post-card--3 card component">
+      </article><article class="home-post-card home-post-card--3 card component">
         <div class="home-post-card__thumb">
           <img src="/images/profile.png" alt="BUU">
           <div class="home-post-card__thumb-badge">POSTS</div>
@@ -346,69 +344,143 @@
     </main>
 
     <aside class="home-side home-side--right">
-      <div class="home-panel card component">
-        <h3 class="home-panel__title">站点概览</h3>
-        <p class="home-panel__text">当前主页改成偏控制台式信息看板，内容区与侧边监控面板分离，后续会继续补数据块和专题入口。</p>
+      <a class="home-panel home-panel--link card component" href="/insights/#overview">
+        <div class="home-panel__head">
+          <div>
+            <div class="home-panel__eyebrow">Overview</div>
+            <h3 class="home-panel__title">站点概览</h3>
+          </div>
+          <span class="home-panel__cta">OPEN</span>
+        </div>
+        <p class="home-panel__text">
+          当前可见内容 60 篇，专题与文章总数会在每次构建时按真实仓库自动刷新。最近发布：2026校赛。</p>
         <div class="home-stat-list">
-          <div><strong>61</strong><span>总文章</span></div>
+          <div><strong>60</strong><span>总内容</span></div>
           <div><strong>4</strong><span>分类</span></div>
           <div><strong>6</strong><span>标签</span></div>
         </div>
-      </div>
+      </a>
 
-      <div class="home-panel card component">
-        <h3 class="home-panel__title">趋势</h3>
-        <div class="home-chart home-chart--line" aria-hidden="true">
-          <svg viewBox="0 0 220 120" preserveAspectRatio="none">
-            <defs>
-              <linearGradient id="lineGlow" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#79c2ff" stop-opacity="0.55"/>
-                <stop offset="100%" stop-color="#79c2ff" stop-opacity="0"/>
-              </linearGradient>
-            </defs>
-            <path d="M0 92 C24 88 34 60 54 58 C72 56 84 82 106 80 C130 78 136 30 160 24 C181 18 198 48 220 44 L220 120 L0 120 Z" fill="url(#lineGlow)"/>
-            <path d="M0 92 C24 88 34 60 54 58 C72 56 84 82 106 80 C130 78 136 30 160 24 C181 18 198 48 220 44" fill="none" stroke="#84c6ff" stroke-width="3" stroke-linecap="round"/>
-          </svg>
+      <a class="home-panel home-panel--link card component" href="/insights/#activity">
+        <div class="home-panel__head">
+          <div>
+            <div class="home-panel__eyebrow">Activity</div>
+            <h3 class="home-panel__title">发布趋势</h3>
+          </div>
+          <span class="home-panel__cta">31 篇</span>
         </div>
-      </div>
+        <div class="home-bar-chart" aria-hidden="true">
+          <span class="home-bar-chart__item">
+            <b>0</b>
+            <i style="height: 0%;"></i>
+            <small>11月</small>
+          </span>
+          <span class="home-bar-chart__item">
+            <b>2</b>
+            <i style="height: 6%;"></i>
+            <small>12月</small>
+          </span>
+          <span class="home-bar-chart__item">
+            <b>10</b>
+            <i style="height: 32%;"></i>
+            <small>01月</small>
+          </span>
+          <span class="home-bar-chart__item">
+            <b>17</b>
+            <i style="height: 54%;"></i>
+            <small>03月</small>
+          </span>
+          <span class="home-bar-chart__item">
+            <b>17</b>
+            <i style="height: 54%;"></i>
+            <small>03月</small>
+          </span>
+          <span class="home-bar-chart__item">
+            <b>31</b>
+            <i style="height: 100%;"></i>
+            <small>04月</small>
+          </span>
+        </div>
+        <div class="home-kpi-row">
+          <div><strong>4</strong><span>7天新增</span></div>
+          <div><strong>31</strong><span>30天新增</span></div>
+          <div><strong>77</strong><span>12个月新增</span></div>
+        </div>
+      </a>
 
-      <div class="home-panel card component">
-        <h3 class="home-panel__title">内容分布</h3>
-        <div class="home-chart home-chart--radar" aria-hidden="true">
-          <svg viewBox="0 0 200 140">
-            <polygon points="100,16 154,44 154,98 100,124 46,98 46,44" class="radar-grid"/>
-            <polygon points="100,34 140,52 136,88 100,106 68,86 62,50" class="radar-shape"/>
-            <circle cx="100" cy="34" r="3"/>
-            <circle cx="140" cy="52" r="3"/>
-            <circle cx="136" cy="88" r="3"/>
-            <circle cx="100" cy="106" r="3"/>
-            <circle cx="68" cy="86" r="3"/>
-            <circle cx="62" cy="50" r="3"/>
-          </svg>
-          <div class="home-radar-legend">
-            <span>题解</span>
-            <span>博客</span>
-            <span>页面</span>
+      <a class="home-panel home-panel--link card component" href="/insights/#distribution">
+        <div class="home-panel__head">
+          <div>
+            <div class="home-panel__eyebrow">Distribution</div>
+            <h3 class="home-panel__title">内容分布</h3>
+          </div>
+          <span class="home-panel__cta">57 Notes</span>
+        </div>
+        <div class="home-distribution-list">
+          <div class="home-meter">
+            <div class="home-bar__label">
+              <span>文章</span>
+              <strong>3</strong>
+            </div>
+            <div class="home-meter__track">
+              <span style="width: 5%;"></span>
+            </div>
+          </div>
+          <div class="home-meter">
+            <div class="home-bar__label">
+              <span>BUU</span>
+              <strong>53</strong>
+            </div>
+            <div class="home-meter__track">
+              <span style="width: 88%;"></span>
+            </div>
+          </div>
+          <div class="home-meter">
+            <div class="home-bar__label">
+              <span>校赛</span>
+              <strong>4</strong>
+            </div>
+            <div class="home-meter__track">
+              <span style="width: 6%;"></span>
+            </div>
           </div>
         </div>
-      </div>
+      </a>
 
-      <div class="home-panel card component">
-        <h3 class="home-panel__title">节点</h3>
-        <div class="home-chart home-chart--nodes" aria-hidden="true">
-          <span class="node node--1"></span>
-          <span class="node node--2"></span>
-          <span class="node node--3"></span>
-          <span class="node node--4"></span>
-          <span class="node node--5"></span>
-          <span class="node node--6"></span>
-          <span class="node node--7"></span>
-          <span class="node node--8"></span>
+      <a class="home-panel home-panel--link card component" href="/insights/#boards">
+        <div class="home-panel__head">
+          <div>
+            <div class="home-panel__eyebrow">Boards</div>
+            <h3 class="home-panel__title">板块状态</h3>
+          </div>
+          <span class="home-panel__cta">4 Blocks</span>
         </div>
-      </div>
+        <div class="home-board-list">
+          <span class="home-board-chip home-board-chip--blue">
+            <strong>文章</strong>
+            <b>3</b>
+            <small>2026-04-28</small>
+          </span>
+          <span class="home-board-chip home-board-chip--cyan">
+            <strong>BUU</strong>
+            <b>53</b>
+            <small>2026-04-23</small>
+          </span>
+          <span class="home-board-chip home-board-chip--orange">
+            <strong>校赛</strong>
+            <b>4</b>
+            <small>2026-04-14</small>
+          </span>
+          <span class="home-board-chip home-board-chip--blue">
+            <strong>友链</strong>
+            <b>2</b>
+            <small>2 条友链</small>
+          </span>
+        </div>
+      </a>
 
       <div class="home-panel card component">
-        <h3 class="home-panel__title">最近更新</h3>
+        <h3 class="home-panel__title">最近发布</h3>
         <div class="home-mini-list">
           <a class="home-mini-list__item" href="/posts/contest-2026/">
             <strong>2026校赛</strong>
@@ -421,6 +493,18 @@
           <a class="home-mini-list__item" href="/posts/buu/">
             <strong>BUU</strong>
             <span>2026-04-27</span>
+          </a>
+          <a class="home-mini-list__item" href="/buu/%E7%AC%AC%E4%BA%8C%E9%A1%B5/2-4/2-4-2/wp/">
+            <strong>wp</strong>
+            <span>2026-04-23</span>
+          </a>
+          <a class="home-mini-list__item" href="/buu/%E7%AC%AC%E4%BA%8C%E9%A1%B5/2-4/2-4-1/wp/">
+            <strong>wp</strong>
+            <span>2026-04-21</span>
+          </a>
+          <a class="home-mini-list__item" href="/buu/%E7%AC%AC%E4%BA%8C%E9%A1%B5/2-4/2-4-2/ret2syscall/">
+            <strong>ret2syscall</strong>
+            <span>2026-04-21</span>
           </a>
         </div>
       </div>
@@ -502,7 +586,7 @@
   <div class="col-12 col-lg-8 offset-0 offset-lg-1"></div>
 </div>
 </footer>
-<script data-precache src="/assets/main/bundle.min.73c98eeffab33bc6013304accecad2b2157007d0ad1c44b576da02878d21e639.js" integrity="sha256-c8mO7/qzO8YBMwSszsrSshVwB9CtHES1dtoCh40h5jk=" crossorigin="anonymous" async></script><script data-precache src="/assets/icons/bundle.min.2afb6643b7cdde837754668abae3dceedc993b71ebefe8bc9c80af3e2e349075.js" integrity="sha256-KvtmQ7fN3oN3VGaKuuPc7tyZO3Hr7&#43;i8nICvPi40kHU=" crossorigin="anonymous" defer></script>
+<script data-precache src="/assets/main/bundle.min.ac488fad291893b1c3a484e9ded445523925ef3ea6cab80590bedaf83e0f0784.js" integrity="sha256-rEiPrSkYk7HDpITp3tRFUjkl7z6myrgFkL7a&#43;D4PB4Q=" crossorigin="anonymous" async></script><script data-precache src="/assets/icons/bundle.min.2afb6643b7cdde837754668abae3dceedc993b71ebefe8bc9c80af3e2e349075.js" integrity="sha256-KvtmQ7fN3oN3VGaKuuPc7tyZO3Hr7&#43;i8nICvPi40kHU=" crossorigin="anonymous" defer></script>
 <script data-precache src="/assets/viewer/bundle.min.13800f940d1d83422ff174b45ece49c4c58a17a608fe79bdba39aec874d4c7fe.js" integrity="sha256-E4APlA0dg0Iv8XS0Xs5JxMWKF6YI/nm9ujmuyHTUx/4=" crossorigin="anonymous" defer></script>
 
   </body>

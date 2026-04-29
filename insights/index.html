@@ -1,0 +1,858 @@
+<!doctype html>
+<html class="position-relative" itemscope itemtype="https://schema.org/WebPage" lang="en"
+  data-bs-theme="auto" data-palette="blue">
+  <head><script src="/assets/init/bundle.min.c1e3d6877de849f84a3e0f71b7dce87f194c64b773333f309b407f4626200033.js" integrity="sha256-wePWh33oSfhKPg9xt9zofxlMZLdzMz8wm0B/RiYgADM=" crossorigin="anonymous"></script>
+<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>站点看板 - 微风的龙</title>
+    <link rel="icon" href="/favicon_hu_912579ba8553ef86.png" sizes="16x16" type="image/png">
+    <link rel="icon" href="/favicon_hu_220d0e60e04d07f1.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="/favicon_hu_e404a0b940aa1839.png" sizes="150x150" type="image/png">
+    <link rel="apple-touch-icon" href="/favicon_hu_603e3ce51eff6377.png" sizes="180x180" type="image/png">
+    <link rel="icon" href="/favicon_hu_149e475083d0f0f9.png" sizes="192x192" type="image/png">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#6f42c1">
+<meta name="keywords" content="博客, Hugo, PWN, BUUOJ, 个人主页" />
+  <meta name="description" content="首页右侧卡片对应的真实数据面板，按当前仓库内容自动统计。" />
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="站点看板">
+  <meta name="twitter:description" content="首页右侧卡片对应的真实数据面板，按当前仓库内容自动统计。">
+<meta property="og:url" content="https://weifengdel0ng.github.io/insights/">
+  <meta property="og:site_name" content="微风的龙">
+  <meta property="og:title" content="站点看板">
+  <meta property="og:description" content="首页右侧卡片对应的真实数据面板，按当前仓库内容自动统计。">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+
+  <meta itemprop="name" content="站点看板">
+  <meta itemprop="description" content="首页右侧卡片对应的真实数据面板，按当前仓库内容自动统计。">
+  <meta itemprop="wordCount" content="47">
+
+<link data-precache rel="stylesheet" href="/assets/main/bundle.min.db20b90f1e018f02fe452451fb9603d42007e5f5abc40cd58ddadfec0d7764f3.css" integrity="sha256-2yC5Dx4BjwL+RSRR+5YD1CAH5fWrxAzVjdrf7A13ZPM=" crossorigin="anonymous">
+<link data-precache rel="stylesheet" href="https://weifengdel0ng.github.io/css/home.css" crossorigin="anonymous">
+<link data-precache rel="stylesheet" href="https://weifengdel0ng.github.io/css/friends.css" crossorigin="anonymous">
+<link data-precache rel="stylesheet" href="https://weifengdel0ng.github.io/css/insights.css" crossorigin="anonymous">
+
+    <link data-precache rel="stylesheet" href="/assets/viewer/bundle.min.16d2c85c4cae39a98f8cb7a977e95e554b174f91a5484c32605637156f49ca6b.css" integrity="sha256-FtLIXEyuOamPjLepd&#43;leVUsXT5GlSEwyYFY3FW9Jyms=" crossorigin="anonymous">
+
+
+</head>
+  <body><header class="mb-4 sticky-top">
+  
+<nav class="top-app-bar shadow navbar navbar-expand-xxl">
+  <div class="container">
+<a class="navbar-brand d-flex align-items-center flex-grow-1 flex-xxl-grow-0 justify-content-xxl-start ms-2 ms-xxl-0 mx-auto me-xxl-2"
+    href="https://weifengdel0ng.github.io/">微风的龙
+</a>
+
+    <div class="offcanvas-xxl offcanvas-end flex-grow-1" data-bs-scroll="true" tabindex="-1" id="navbarMenus" aria-labelledby="navbarMenusLabel">
+      <div class="offcanvas-header px-4 pb-0">
+        <div class="offcanvas-title h5" id="navbarMenusLabel">微风的龙</div>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" data-bs-target="#navbarMenus" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body p-4 pt-0 p-xxl-0">
+        <hr class="d-xxl-none">
+        <ul class="navbar-nav flex-row flex-wrap align-items-center me-auto"><li class="nav-item col-6 col-xxl-auto">
+            <a class="nav-link py-2 px-0 px-xxl-2" href="https://weifengdel0ng.github.io/">首页
+            </a>
+          </li><li class="nav-item col-6 col-xxl-auto">
+            <a class="nav-link py-2 px-0 px-xxl-2" href="https://weifengdel0ng.github.io/posts/">文章
+            </a>
+          </li><li class="nav-item col-6 col-xxl-auto">
+            <a class="nav-link py-2 px-0 px-xxl-2" href="https://weifengdel0ng.github.io/friends/">友链
+            </a>
+          </li><li class="nav-item col-6 col-xxl-auto">
+            <a class="nav-link py-2 px-0 px-xxl-2" href="https://weifengdel0ng.github.io/about/">关于
+            </a>
+          </li>
+        </ul>
+        
+    <hr class="d-xxl-none">
+    <form class="search-bar ms-auto my-auto" action="" novalidate>
+      <div class="input-group align-items-center">
+        <span class="btn btn-search disabled position-absolute left-0 border-0 px-1">
+          <i class="fas fa-fw fa-search fa-lg"></i>
+        </span>
+        <input
+          class="my-1 form-control border-white rounded-5 search-input bg-body"
+          name="q"
+          type="search"
+          placeholder="搜索"
+          aria-label="Search"
+          required>
+          <span class="search-shortcut position-absolute end-0 top-0 me-2">
+            <kbd class="text-dark bg-white opacity-75 rounded-3 shadow border border-primary py-1 fw-bold">/</kbd>
+          </span>
+      </div>
+    </form><hr class="d-xxl-none">
+        <ul class="navbar-nav flex-row flex-wrap align-items-center ms-md-auto">
+<li class="nav-item dropdown col-6 col-xxl-auto">
+    <a class="nav-link px-0 py-2 px-xxl-1" href="#" id="paletteDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="fas fa-fw fa-palette"></i>
+        <span class="d-xxl-none">配色</span>
+    </a>
+    <ul class="palette-dropdown-menu dropdown-menu dropdown-menu-end px-2 row g-2" aria-labelledby="paletteDropdown">
+            <li class="col-4 my-1">
+                <a role="button" id="palette-blue" aria-label="蓝色"
+                    class="btn btn-sm w-100 palette text-bg-blue" data-palette="blue">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-blue-gray" aria-label="蓝灰色"
+                    class="btn btn-sm w-100 palette text-bg-blue-gray" data-palette="blue-gray">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-brown" aria-label="棕色"
+                    class="btn btn-sm w-100 palette text-bg-brown" data-palette="brown">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-cyan" aria-label="青色"
+                    class="btn btn-sm w-100 palette text-bg-cyan" data-palette="cyan">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-green" aria-label="绿色"
+                    class="btn btn-sm w-100 palette text-bg-green" data-palette="green">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-indigo" aria-label="靛青色"
+                    class="btn btn-sm w-100 palette text-bg-indigo" data-palette="indigo">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-orange" aria-label="橙色"
+                    class="btn btn-sm w-100 palette text-bg-orange" data-palette="orange">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-pink" aria-label="粉色"
+                    class="btn btn-sm w-100 palette text-bg-pink" data-palette="pink">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-purple" aria-label="紫色"
+                    class="btn btn-sm w-100 palette text-bg-purple" data-palette="purple">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-red" aria-label="红色"
+                    class="btn btn-sm w-100 palette text-bg-red" data-palette="red">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-teal" aria-label="蓝绿色"
+                    class="btn btn-sm w-100 palette text-bg-teal" data-palette="teal">
+                </a>
+            </li>
+            <li class="col-4 my-1">
+                <a role="button" id="palette-yellow" aria-label="黄色"
+                    class="btn btn-sm w-100 palette text-bg-yellow" data-palette="yellow">
+                </a>
+            </li>
+    </ul>
+</li>
+<li class="nav-item dropdown col-6 col-xxl-auto">
+    <a class="nav-link px-0 py-2 px-xxl-1" href="#" id="modeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="mode-icon fas fa-fw fa-adjust" id="modeIcon"></i>
+        <span class="d-xxl-none">模式</span>
+    </a>
+    <ul class="mode-dropdown-menu dropdown-menu dropdown-menu-end" aria-labelledby="modeDropdown">
+        <li class="mode-item" data-color-mode="light" data-icon="sun">
+            <button class="dropdown-item">
+                <i class="mode-icon fas fa-fw fa-sun"></i> 浅色
+            </button>
+        </li>
+        <li class="mode-item" data-color-mode="dark" data-icon="moon">
+            <button class="dropdown-item">
+                <i class="mode-icon fas fa-fw fa-moon"></i> 深色
+            </button>
+        </li>
+        <li class="mode-item active" data-color-mode="auto" data-icon="adjust">
+            <button class="dropdown-item">
+                <i class="mode-icon fas fa-fw fa-adjust"></i> 自动
+            </button>
+        </li>
+    </ul>
+</li>
+        </ul>
+      </div>
+    </div>
+    <div class="d-flex">
+      <button class="navbar-toggler order-5 border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarMenus"
+        aria-controls="navbarMenus" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-ellipsis-h"></i>
+      </button>
+    </div>
+  </div>
+</nav>
+
+</header>
+
+    <main class="container has-sidebar" data-kind="page"><script data-precache src="/js/main-init.f7179afb1166ccce2102740afe4caf205dbc623896eb19a268f6cb9367e6eea6.js" integrity="sha256-9xea&#43;xFmzM4hAnQK/kyvIF28YjiW6xmiaPbLk2fm7qY=" crossorigin="anonymous"></script>
+
+      <div class="row content"><noscript>
+    <div class="alert alert-danger" role="alert">你的浏览器不支持 JavaScript。</div>
+</noscript>
+<div class="col-12 insights-page">
+  <section class="insights-hero card component border-0 overflow-hidden">
+    <div class="insights-hero__grid" aria-hidden="true"></div>
+    <div class="insights-hero__glow" aria-hidden="true"></div>
+    <div class="insights-hero__content">
+      <div>
+        <div class="insights-hero__eyebrow">INSIGHTS / LIVE SNAPSHOT</div>
+        <h1 class="insights-hero__title">站点看板</h1>
+        <p class="insights-hero__subtitle">
+          首页右侧卡片对应的真实数据面板，按当前仓库内容自动统计。
+        </p>
+      </div>
+      <div class="insights-hero__meta">
+        <span>60 篇内容</span>
+        <span>57 篇题解</span>
+        <span>2 个友链</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="overview" class="insights-section">
+    <div class="insights-section__head">
+      <div>
+        <div class="insights-section__eyebrow">Overview</div>
+        <h2>站点概览</h2>
+      </div>
+      <p>这部分展示当前仓库构建出来的真实内容规模，不再使用占位数字。</p>
+    </div>
+    <div class="insights-summary-grid">
+      <article class="insights-summary-card card component">
+        <span>内容总数</span>
+        <strong>60</strong>
+        <p>文章 3 / BUU 53 / 校赛 4</p>
+      </article>
+      <article class="insights-summary-card card component">
+        <span>近 30 天</span>
+        <strong>31</strong>
+        <p>按发布日期统计的新增内容。</p>
+      </article>
+      <article class="insights-summary-card card component">
+        <span>分类与标签</span>
+        <strong>4 / 6</strong>
+        <p>分别对应当前分类数和标签数。</p>
+      </article>
+      <article class="insights-summary-card card component">
+        <span>友链与板块</span>
+        <strong>2 / 4</strong>
+        <p>首页右侧卡片和专题板块都会从这里展开。</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="activity" class="insights-panel card component">
+    <div class="insights-section__head insights-section__head--compact">
+      <div>
+        <div class="insights-section__eyebrow">Activity</div>
+        <h2>发布趋势</h2>
+      </div>
+      <p>按内容发布日期统计。切换时间范围后会显示对应粒度的真实分布。</p>
+    </div>
+    <div class="insights-tabs" data-insights-tabs>
+      <div class="insights-tabs__bar" role="tablist" aria-label="时间范围">
+        <button
+          class="insights-tabs__button is-active"
+          type="button"
+          data-insights-trigger="7d"
+        >
+          近 7 天
+        </button>
+        <button
+          class="insights-tabs__button"
+          type="button"
+          data-insights-trigger="30d"
+        >
+          近 30 天
+        </button>
+        <button
+          class="insights-tabs__button"
+          type="button"
+          data-insights-trigger="12m"
+        >
+          近 12 个月
+        </button>
+      </div>
+      <div class="insights-tabs__panel is-active" data-insights-panel="7d">
+        <div class="insights-tabs__summary">
+          <div>
+            <strong>4 篇</strong>
+            <span>共 7 个统计节点</span>
+          </div>
+          <span>按当前仓库内容自动刷新</span>
+        </div>
+        <div class="insights-chart-scroll">
+          <div class="insights-bar-chart insights-bar-chart--7d">
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">1</span>
+              <i style="height: 50%;"></i>
+              <small>04/23</small>
+            </div>
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">0</span>
+              <i style="height: 0%;"></i>
+              <small>04/24</small>
+            </div>
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">0</span>
+              <i style="height: 0%;"></i>
+              <small>04/25</small>
+            </div>
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">0</span>
+              <i style="height: 0%;"></i>
+              <small>04/26</small>
+            </div>
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">2</span>
+              <i style="height: 100%;"></i>
+              <small>04/27</small>
+            </div>
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">1</span>
+              <i style="height: 50%;"></i>
+              <small>04/28</small>
+            </div>
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">0</span>
+              <i style="height: 0%;"></i>
+              <small>04/29</small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="insights-tabs__panel" data-insights-panel="30d">
+        <div class="insights-tabs__summary">
+          <div>
+            <strong>31 篇</strong>
+            <span>共 30 个统计节点</span>
+          </div>
+          <span>按当前仓库内容自动刷新</span>
+        </div>
+        <div class="insights-chart-scroll">
+          <div class="insights-bar-chart insights-bar-chart--30d">
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">0</span>
+              <i style="height: 0%;"></i>
+              <small>03/31</small>
+            </div>
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">2</span>
+              <i style="height: 20%;"></i>
+              <small>&nbsp;</small>
+            </div>
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">0</span>
+              <i style="height: 0%;"></i>
+              <small>&nbsp;</small>
+            </div>
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">0</span>
+              <i style="height: 0%;"></i>
+              <small>&nbsp;</small>
+            </div>
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">0</span>
+              <i style="height: 0%;"></i>
+              <small>04/04</small>
+            </div>
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">0</span>
+              <i style="height: 0%;"></i>
+              <small>&nbsp;</small>
+            </div>
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">0</span>
+              <i style="height: 0%;"></i>
+              <small>&nbsp;</small>
+            </div>
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">0</span>
+              <i style="height: 0%;"></i>
+              <small>&nbsp;</small>
+            </div>
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">0</span>
+              <i style="height: 0%;"></i>
+              <small>&nbsp;</small>
+            </div>
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">0</span>
+              <i style="height: 0%;"></i>
+              <small>04/09</small>
+            </div>
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">0</span>
+              <i style="height: 0%;"></i>
+              <small>&nbsp;</small>
+            </div>
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">0</span>
+              <i style="height: 0%;"></i>
+              <small>&nbsp;</small>
+            </div>
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">0</span>
+              <i style="height: 0%;"></i>
+              <small>&nbsp;</small>
+            </div>
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">0</span>
+              <i style="height: 0%;"></i>
+              <small>&nbsp;</small>
+            </div>
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">6</span>
+              <i style="height: 60%;"></i>
+              <small>04/14</small>
+            </div>
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">10</span>
+              <i style="height: 100%;"></i>
+              <small>&nbsp;</small>
+            </div>
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">3</span>
+              <i style="height: 30%;"></i>
+              <small>&nbsp;</small>
+            </div>
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">4</span>
+              <i style="height: 40%;"></i>
+              <small>&nbsp;</small>
+            </div>
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">0</span>
+              <i style="height: 0%;"></i>
+              <small>&nbsp;</small>
+            </div>
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">0</span>
+              <i style="height: 0%;"></i>
+              <small>04/19</small>
+            </div>
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">0</span>
+              <i style="height: 0%;"></i>
+              <small>&nbsp;</small>
+            </div>
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">2</span>
+              <i style="height: 20%;"></i>
+              <small>&nbsp;</small>
+            </div>
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">0</span>
+              <i style="height: 0%;"></i>
+              <small>&nbsp;</small>
+            </div>
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">1</span>
+              <i style="height: 10%;"></i>
+              <small>&nbsp;</small>
+            </div>
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">0</span>
+              <i style="height: 0%;"></i>
+              <small>04/24</small>
+            </div>
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">0</span>
+              <i style="height: 0%;"></i>
+              <small>&nbsp;</small>
+            </div>
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">0</span>
+              <i style="height: 0%;"></i>
+              <small>&nbsp;</small>
+            </div>
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">2</span>
+              <i style="height: 20%;"></i>
+              <small>&nbsp;</small>
+            </div>
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">1</span>
+              <i style="height: 10%;"></i>
+              <small>&nbsp;</small>
+            </div>
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">0</span>
+              <i style="height: 0%;"></i>
+              <small>04/29</small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="insights-tabs__panel" data-insights-panel="12m">
+        <div class="insights-tabs__summary">
+          <div>
+            <strong>77 篇</strong>
+            <span>共 12 个统计节点</span>
+          </div>
+          <span>峰值月份 2026-04</span>
+        </div>
+        <div class="insights-chart-scroll">
+          <div class="insights-bar-chart insights-bar-chart--12m">
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">0</span>
+              <i style="height: 0%;"></i>
+              <small>05月</small>
+            </div>
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">0</span>
+              <i style="height: 0%;"></i>
+              <small>06月</small>
+            </div>
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">0</span>
+              <i style="height: 0%;"></i>
+              <small>07月</small>
+            </div>
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">0</span>
+              <i style="height: 0%;"></i>
+              <small>08月</small>
+            </div>
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">0</span>
+              <i style="height: 0%;"></i>
+              <small>09月</small>
+            </div>
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">0</span>
+              <i style="height: 0%;"></i>
+              <small>10月</small>
+            </div>
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">0</span>
+              <i style="height: 0%;"></i>
+              <small>11月</small>
+            </div>
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">2</span>
+              <i style="height: 6%;"></i>
+              <small>12月</small>
+            </div>
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">10</span>
+              <i style="height: 32%;"></i>
+              <small>01月</small>
+            </div>
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">17</span>
+              <i style="height: 54%;"></i>
+              <small>03月</small>
+            </div>
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">17</span>
+              <i style="height: 54%;"></i>
+              <small>03月</small>
+            </div>
+            <div class="insights-bar-chart__item">
+              <span class="insights-bar-chart__value">31</span>
+              <i style="height: 100%;"></i>
+              <small>04月</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="insights-split">
+    <div id="distribution" class="insights-panel card component">
+      <div class="insights-section__head insights-section__head--compact">
+        <div>
+          <div class="insights-section__eyebrow">Distribution</div>
+          <h2>内容分布</h2>
+        </div>
+        <p>按真实板块内容占比展示，避免首页里那种固定占位雷达图。</p>
+      </div>
+      <div class="insights-distribution-list">
+        <div class="insights-meter">
+          <div class="insights-meter__label">
+            <span>文章</span>
+            <strong>3</strong>
+          </div>
+          <div class="insights-meter__track">
+            <span style="width: 5%;"></span>
+          </div>
+          <small>博客文章与专题入口</small>
+        </div>
+        <div class="insights-meter">
+          <div class="insights-meter__label">
+            <span>BUU</span>
+            <strong>53</strong>
+          </div>
+          <div class="insights-meter__track">
+            <span style="width: 88%;"></span>
+          </div>
+          <small>BUUOJ PWN 题解</small>
+        </div>
+        <div class="insights-meter">
+          <div class="insights-meter__label">
+            <span>校赛</span>
+            <strong>4</strong>
+          </div>
+          <div class="insights-meter__track">
+            <span style="width: 6%;"></span>
+          </div>
+          <small>2026 校赛题解</small>
+        </div>
+      </div>
+      <div class="insights-taxonomy-grid">
+        <div>
+          <h3>热门分类</h3>
+          <div class="insights-chip-list">
+            <a href="/categories/buu/">BUU · 53</a>
+            <a href="/categories/%E6%AF%94%E8%B5%9B/">比赛 · 4</a>
+            <a href="/categories/%E4%B8%93%E9%A2%98/">专题 · 2</a>
+            <a href="/categories/%E5%BB%BA%E7%AB%99/">建站 · 1</a>
+          </div>
+        </div>
+        <div>
+          <h3>热门标签</h3>
+          <div class="insights-chip-list">
+            <a href="/tags/buu/">BUU</a>
+            <a href="/tags/2026%E6%A0%A1%E8%B5%9B/">2026校赛</a>
+            <a href="/tags/blog/">Blog</a>
+            <a href="/tags/github-pages/">GitHub Pages</a>
+            <a href="/tags/hugo/">Hugo</a>
+            <a href="/tags/%E6%A0%A1%E8%B5%9B/">校赛</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="boards" class="insights-panel card component">
+      <div class="insights-section__head insights-section__head--compact">
+        <div>
+          <div class="insights-section__eyebrow">Boards</div>
+          <h2>板块状态</h2>
+        </div>
+        <p>每个板块都显示真实数量、最近一条内容和跳转入口。</p>
+      </div>
+      <div class="insights-board-grid">
+        <a class="insights-board-card insights-board-card--blue" href="/posts/">
+          <div class="insights-board-card__head">
+            <span>文章</span>
+            <strong>3</strong>
+          </div>
+          <p>博客文章与专题入口</p>
+          <div class="insights-board-card__meta">
+            <span>2026-04-28</span>
+            <span>2026校赛</span>
+          </div>
+        </a>
+        <a class="insights-board-card insights-board-card--cyan" href="/buu/">
+          <div class="insights-board-card__head">
+            <span>BUU</span>
+            <strong>53</strong>
+          </div>
+          <p>BUUOJ PWN 题解</p>
+          <div class="insights-board-card__meta">
+            <span>2026-04-23</span>
+            <span>wp</span>
+          </div>
+        </a>
+        <a class="insights-board-card insights-board-card--orange" href="/contest-2026/">
+          <div class="insights-board-card__head">
+            <span>校赛</span>
+            <strong>4</strong>
+          </div>
+          <p>2026 校赛题解</p>
+          <div class="insights-board-card__meta">
+            <span>2026-04-14</span>
+            <span>wp4--srop盲注</span>
+          </div>
+        </a>
+        <a class="insights-board-card insights-board-card--blue" href="/friends/">
+          <div class="insights-board-card__head">
+            <span>友链</span>
+            <strong>2</strong>
+          </div>
+          <p>博客好友与常看站点</p>
+          <div class="insights-board-card__meta">
+            <span>2 条友链</span>
+            <span>AlF-ovo</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="updates" class="insights-panel card component">
+    <div class="insights-section__head insights-section__head--compact">
+      <div>
+        <div class="insights-section__eyebrow">Updates</div>
+        <h2>最近发布</h2>
+      </div>
+      <p>按发布日期倒序展示，和首页右侧列表保持同一套真实来源。</p>
+    </div>
+    <div class="insights-update-grid"><a class="insights-update-card" href="/posts/contest-2026/">
+        <div class="insights-update-card__thumb">
+          <img src="/images/profile.png" alt="2026校赛">
+          <span>POSTS</span>
+        </div>
+        <div class="insights-update-card__body">
+          <strong>2026校赛</strong>
+          <p>2026 校赛题解与比赛笔记入口。</p>
+          <div class="insights-update-card__meta">
+            <span>2026-04-28</span>
+            <span>BLOG</span>
+          </div>
+        </div>
+      </a><a class="insights-update-card" href="/posts/hello-hugo/">
+        <div class="insights-update-card__thumb">
+          <img src="/images/profile.png" alt="博客已上线">
+          <span>POSTS</span>
+        </div>
+        <div class="insights-update-card__body">
+          <strong>博客已上线</strong>
+          <p>第一篇文章，确认站点已经可访问。</p>
+          <div class="insights-update-card__meta">
+            <span>2026-04-27</span>
+            <span>BLOG</span>
+          </div>
+        </div>
+      </a><a class="insights-update-card" href="/posts/buu/">
+        <div class="insights-update-card__thumb">
+          <img src="/images/profile.png" alt="BUU">
+          <span>POSTS</span>
+        </div>
+        <div class="insights-update-card__body">
+          <strong>BUU</strong>
+          <p>BUUOJ PWN 题解专题入口。</p>
+          <div class="insights-update-card__meta">
+            <span>2026-04-27</span>
+            <span>BLOG</span>
+          </div>
+        </div>
+      </a><a class="insights-update-card" href="/buu/%E7%AC%AC%E4%BA%8C%E9%A1%B5/2-4/2-4-2/wp/">
+        <div class="insights-update-card__thumb">
+          <img src="/images/profile.png" alt="wp">
+          <span>BUU</span>
+        </div>
+        <div class="insights-update-card__body">
+          <strong>wp</strong>
+          <p>Pasted image 20260421190124.png 直接去问ROPgadget要ropchain
+p = b&#39;&#39; p += …</p>
+          <div class="insights-update-card__meta">
+            <span>2026-04-23</span>
+            <span>BUU</span>
+          </div>
+        </div>
+      </a><a class="insights-update-card" href="/buu/%E7%AC%AC%E4%BA%8C%E9%A1%B5/2-4/2-4-1/wp/">
+        <div class="insights-update-card__thumb">
+          <img src="/images/profile.png" alt="wp">
+          <span>BUU</span>
+        </div>
+        <div class="insights-update-card__body">
+          <strong>wp</strong>
+          <p>Pasted image 20260421184217.png 简单栈溢出
+from pwn import * elf = ELF(&#39;./pwn&#39;) …</p>
+          <div class="insights-update-card__meta">
+            <span>2026-04-21</span>
+            <span>BUU</span>
+          </div>
+        </div>
+      </a><a class="insights-update-card" href="/buu/%E7%AC%AC%E4%BA%8C%E9%A1%B5/2-4/2-4-2/ret2syscall/">
+        <div class="insights-update-card__thumb">
+          <img src="/images/profile.png" alt="ret2syscall">
+          <span>BUU</span>
+        </div>
+        <div class="insights-update-card__body">
+          <strong>ret2syscall</strong>
+          <p>cmcc_simplerop解题ROP链原理及作用分析在cmcc_simplerop题目中，ROP链的核心原理是利用静态编译特性和ret2syscall技术直接触发系统调用获取 …</p>
+          <div class="insights-update-card__meta">
+            <span>2026-04-21</span>
+            <span>BUU</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </section>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll("[data-insights-tabs]").forEach(function (group) {
+    var triggers = group.querySelectorAll("[data-insights-trigger]");
+    var panels = group.querySelectorAll("[data-insights-panel]");
+
+    function activate(key) {
+      triggers.forEach(function (button) {
+        button.classList.toggle("is-active", button.getAttribute("data-insights-trigger") === key);
+      });
+      panels.forEach(function (panel) {
+        panel.classList.toggle("is-active", panel.getAttribute("data-insights-panel") === key);
+      });
+    }
+
+    triggers.forEach(function (button) {
+      button.addEventListener("click", function () {
+        activate(button.getAttribute("data-insights-trigger"));
+      });
+    });
+  });
+});
+</script>
+
+      </div>
+    </main><footer class="footer mt-auto py-3 text-center container"><div class="offcanvas offcanvas-bottom h-auto" tabindex="-1" id="offcanvasActionsPanel"
+  aria-labelledby="offcanvasActionsPanelLabel">
+  <div class="offcanvas-header">
+    <div class="offcanvas-title h5" id="offcanvasActionsPanelLabel">
+      <i class="fas fa-fw fa-th-large me-1"></i>
+      操作
+    </div>
+    <button type="button" class="btn-close ms-auto" data-bs-dismiss="offcanvas" data-bs-target="offcanvasActionsPanel" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body mt-2"><div class="actions d-flex overflow-auto align-items-center">
+      <a role="button" class="action action-go-back d-flex flex-column align-items-center me-3" href="javascript: window.history.back();">
+        <span class="action-icon mb-2"><i class="fas fa-2x fa-chevron-circle-down" data-fa-transform="rotate-90"></i></span> 返回
+      </a>
+      <a role="button" class="action action-reload-page d-flex flex-column align-items-center me-3">
+        <span class="action-icon mb-2"><i class="fas fa-2x fa-redo-alt"></i></span> 刷新
+      </a>
+      <a role="button" class="action action-copy-url d-flex flex-column align-items-center me-3">
+        <span class="action-icon mb-2"><i class="fas fa-2x fa-link"></i></span> 复制链接
+      </a>
+    </div>
+  </div>
+</div><div class="row text-center">
+  <div class="col-12 mt-2">
+    <p class="mb-2">微风的龙</p>
+    <p class="text-secondary mb-2"><small>微风的龙的个人博客，记录技术、项目和思考。</small></p><div class="copyright mb-2 text-secondary">
+  <small>
+</small>
+</div>
+<div class="powered-by mb-2 text-secondary">
+  <small>
+    Build with ❤️ from the <a class="text-primary" href="https://gohugo.io" target="_blank" rel="noopener noreferrer">Hugo</a> and the <a class="text-primary" href="https://github.com/razonyang/hugo-theme-bootstrap" target="_blank" rel="noopener noreferrer">HBS</a> theme.
+  </small>
+</div>
+
+
+<nav class="social-links nav justify-content-center mb-2 mt-3">
+  <a class="nav-link social-link p-0 me-1 mb-2" target="_blank" data-rss-feed href="https://weifengdel0ng.github.io/index.xml" title="RSS" rel="me">
+    <i class="fas fa-fw fa-2x fa-rss" style="color: #ea6221;"></i>
+  </a>
+</nav>
+</div>
+  <div class="col-12 col-lg-8 offset-0 offset-lg-1"></div>
+</div>
+</footer>
+<script data-precache src="/assets/main/bundle.min.ac488fad291893b1c3a484e9ded445523925ef3ea6cab80590bedaf83e0f0784.js" integrity="sha256-rEiPrSkYk7HDpITp3tRFUjkl7z6myrgFkL7a&#43;D4PB4Q=" crossorigin="anonymous" async></script><script data-precache src="/assets/icons/bundle.min.2afb6643b7cdde837754668abae3dceedc993b71ebefe8bc9c80af3e2e349075.js" integrity="sha256-KvtmQ7fN3oN3VGaKuuPc7tyZO3Hr7&#43;i8nICvPi40kHU=" crossorigin="anonymous" defer></script>
+<script data-precache src="/assets/viewer/bundle.min.13800f940d1d83422ff174b45ece49c4c58a17a608fe79bdba39aec874d4c7fe.js" integrity="sha256-E4APlA0dg0Iv8XS0Xs5JxMWKF6YI/nm9ujmuyHTUx/4=" crossorigin="anonymous" defer></script>
+
+
+  </body>
+</html>
