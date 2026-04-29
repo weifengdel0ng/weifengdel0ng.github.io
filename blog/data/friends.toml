@@ -23,3 +23,10 @@ url = "http://bakamu.github.io/"
 avatar = "images/friends/bakamu.jpg"
 description = "vn大佬"
 site = "bakamu.github.io"
+
+[[links]]
+name = "Q"
+url = "https://blog.colix.cn/"
+avatar = "images/friends/q.jpg"
+description = "佬"
+site = "blog.colix.cn"
