@@ -83,6 +83,37 @@
       </div>
       {{- range $index, $range := $activityRanges }}
       <div class="insights-tabs__panel{{ if eq $index 0 }} is-active{{ end }}" data-insights-panel="{{ $range.key }}">
+        {{- $pointScratch := newScratch -}}
+        {{- $labelScratch := newScratch -}}
+        {{- $pointScratch.Set "items" (slice) -}}
+        {{- $labelScratch.Set "items" (slice) -}}
+        {{- $pathCommands := slice -}}
+        {{- $count := len $range.points -}}
+        {{- $step := 100 -}}
+        {{- if gt $count 1 -}}
+          {{- $step = div 100.0 (sub $count 1) -}}
+        {{- end -}}
+        {{- range $pointIndex, $point := $range.points }}
+          {{- $x := 0.0 -}}
+          {{- if gt $pointIndex 0 -}}
+            {{- $x = mul (float $pointIndex) $step -}}
+          {{- end -}}
+          {{- $plotHeight := 76.0 -}}
+          {{- $baseLine := 88.0 -}}
+          {{- $y := sub $baseLine (mul (div (float $point.count) (float $range.max)) $plotHeight) -}}
+          {{- if eq $point.count 0 -}}
+            {{- $y = $baseLine -}}
+          {{- end -}}
+          {{- $pointScratch.Add "items" (slice (printf "%.2f,%.2f" $x $y)) -}}
+          {{- $pathCommands = $pathCommands | append (printf "L %.2f %.2f" $x $y) -}}
+          {{- $labelScratch.Add "items" (slice (dict "x" (printf "%.2f%%" $x) "label" $point.label "count" $point.count)) -}}
+        {{- end -}}
+        {{- $polylinePoints := delimit ($pointScratch.Get "items") " " -}}
+        {{- $linePath := printf "M %s" (replace (index $pathCommands 0) "L " "") -}}
+        {{- if gt (len $pathCommands) 1 -}}
+          {{- $linePath = printf "%s %s" $linePath (delimit (after 1 $pathCommands) " ") -}}
+        {{- end -}}
+        {{- $areaPath := printf "%s L 100 88 L 0 88 Z" $linePath -}}
         <div class="insights-tabs__summary">
           <div>
             <strong>{{ $range.summary }}</strong>
@@ -91,14 +122,32 @@
           <span>{{ if and (eq $range.key "12m") $range.peakLabel }}峰值月份 {{ $range.peakLabel }}{{ else }}按当前仓库内容自动刷新{{ end }}</span>
         </div>
         <div class="insights-chart-scroll">
-          <div class="insights-bar-chart insights-bar-chart--{{ $range.key }}">
-            {{- range $range.points }}
-            <div class="insights-bar-chart__item">
-              <span class="insights-bar-chart__value">{{ .count }}</span>
-              <i style="height: {{ div (mul .count 100) $range.max }}%;"></i>
-              <small>{{ if .label }}{{ .label }}{{ else }}&nbsp;{{ end }}</small>
+          <div class="insights-line-chart insights-line-chart--{{ $range.key }}">
+            <svg class="insights-line-chart__svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+              <path class="insights-line-chart__area" d="{{ $areaPath }}"></path>
+              <path class="insights-line-chart__line" d="{{ $linePath }}"></path>
+              {{- range $pointIndex, $point := $range.points }}
+                {{- $x := 0.0 -}}
+                {{- if gt $pointIndex 0 -}}
+                  {{- $x = mul (float $pointIndex) $step -}}
+                {{- end -}}
+                {{- $plotHeight := 76.0 -}}
+                {{- $baseLine := 88.0 -}}
+                {{- $y := sub $baseLine (mul (div (float $point.count) (float $range.max)) $plotHeight) -}}
+                {{- if eq $point.count 0 -}}
+                  {{- $y = $baseLine -}}
+                {{- end -}}
+              <circle class="insights-line-chart__dot" cx="{{ printf "%.2f" $x }}" cy="{{ printf "%.2f" $y }}" r="1.7"></circle>
+              {{- end }}
+            </svg>
+            <div class="insights-line-chart__labels">
+              {{- range $labelScratch.Get "items" }}
+              <div class="insights-line-chart__label" style="left: {{ .x }};">
+                <span>{{ .count }}</span>
+                <small>{{ if .label }}{{ .label }}{{ else }}&nbsp;{{ end }}</small>
+              </div>
+              {{- end }}
             </div>
-            {{- end }}
           </div>
         </div>
       </div>
