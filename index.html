@@ -212,7 +212,16 @@
     <div class="home-hero__content">
       <div class="home-hero__eyebrow">WEIFENGDEL0NG / PERSONAL SPACE</div>
       <h1 class="home-hero__title">哈基龙的小站</h1>
-      <p class="home-hero__subtitle">持续记录 PWN、题解、项目和碎片实践，把有复用价值的内容沉淀成长期可查的站点。</p>
+      <div class="home-hero__runtime" data-site-runtime data-started-at="2026-04-29T10:38:27&#43;08:00">
+        <div class="home-hero__runtime-label">建站时长</div>
+        <div class="home-hero__runtime-grid">
+          <span><b data-runtime-days>0</b><small>天</small></span>
+          <span><b data-runtime-hours>0</b><small>时</small></span>
+          <span><b data-runtime-minutes>0</b><small>分</small></span>
+          <span><b data-runtime-seconds>0</b><small>秒</small></span>
+        </div>
+        <p class="home-hero__runtime-meta">起始时间：2026-04-29 10:38:27 (UTC+8)</p>
+      </div>
       <div class="home-hero__actions">
         <a class="btn btn-primary" href="/posts/">进入文章区</a>
         <a class="btn btn-outline-light" href="/buu/">查看 BUU 专题</a>
@@ -540,6 +549,38 @@
     </aside>
   </section>
 </div>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var runtime = document.querySelector("[data-site-runtime]");
+  if (!runtime) return;
+
+  var startedAt = runtime.getAttribute("data-started-at");
+  var startTime = new Date(startedAt).getTime();
+  if (Number.isNaN(startTime)) return;
+
+  var daysEl = runtime.querySelector("[data-runtime-days]");
+  var hoursEl = runtime.querySelector("[data-runtime-hours]");
+  var minutesEl = runtime.querySelector("[data-runtime-minutes]");
+  var secondsEl = runtime.querySelector("[data-runtime-seconds]");
+
+  function updateRuntime() {
+    var diff = Math.max(0, Date.now() - startTime);
+    var totalSeconds = Math.floor(diff / 1000);
+    var days = Math.floor(totalSeconds / 86400);
+    var hours = Math.floor((totalSeconds % 86400) / 3600);
+    var minutes = Math.floor((totalSeconds % 3600) / 60);
+    var seconds = totalSeconds % 60;
+
+    daysEl.textContent = String(days);
+    hoursEl.textContent = String(hours).padStart(2, "0");
+    minutesEl.textContent = String(minutes).padStart(2, "0");
+    secondsEl.textContent = String(seconds).padStart(2, "0");
+  }
+
+  updateRuntime();
+  window.setInterval(updateRuntime, 1000);
+});
+</script>
 
       </div>
     </main><footer class="footer mt-auto py-3 text-center container"><div class="offcanvas offcanvas-bottom h-auto" tabindex="-1" id="offcanvasActionsPanel"
