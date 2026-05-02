@@ -154,29 +154,91 @@
         </div>
       </a>
 
-      <a class="home-panel home-panel--link card component" href="/insights/#activity">
+      <div class="home-panel card component">
         <div class="home-panel__head">
           <div>
             <div class="home-panel__eyebrow">Activity</div>
             <h3 class="home-panel__title">发布趋势</h3>
           </div>
-          <span class="home-panel__cta">{{ $activity30.summary }}</span>
+          <a class="home-panel__cta" href="/insights/#activity">OPEN</a>
         </div>
-        <div class="home-bar-chart" aria-hidden="true">
-          {{- range last 6 $activity12.points }}
-          <span class="home-bar-chart__item">
-            <b>{{ .count }}</b>
-            <i style="height: {{ div (mul .count 100) $activity12.max }}%;"></i>
-            <small>{{ .label }}</small>
-          </span>
+        <div class="home-activity" data-home-activity-tabs>
+          <div class="home-activity__toolbar">
+            <div class="home-activity__tabs" role="tablist" aria-label="首页趋势时间范围">
+              <button class="home-activity__tab is-active" type="button" data-home-activity-trigger="7d">7天</button>
+              <button class="home-activity__tab" type="button" data-home-activity-trigger="30d">30天</button>
+              <button class="home-activity__tab" type="button" data-home-activity-trigger="12m">12个月</button>
+            </div>
+            <span class="home-activity__summary" data-home-activity-summary>4 篇</span>
+          </div>
+          {{- range $range := slice $activity7 $activity30 $activity12 }}
+          {{- $pointScratch := newScratch -}}
+          {{- $labelScratch := newScratch -}}
+          {{- $pointScratch.Set "items" (slice) -}}
+          {{- $labelScratch.Set "items" (slice) -}}
+          {{- $pathCommands := slice -}}
+          {{- $count := len $range.points -}}
+          {{- $step := 100 -}}
+          {{- if gt $count 1 -}}
+            {{- $step = div 100.0 (sub $count 1) -}}
+          {{- end -}}
+          {{- range $pointIndex, $point := $range.points }}
+            {{- $x := 0.0 -}}
+            {{- if gt $pointIndex 0 -}}
+              {{- $x = mul (float $pointIndex) $step -}}
+            {{- end -}}
+            {{- $plotHeight := 58.0 -}}
+            {{- $baseLine := 72.0 -}}
+            {{- $y := sub $baseLine (mul (div (float $point.count) (float $range.max)) $plotHeight) -}}
+            {{- if eq $point.count 0 -}}
+              {{- $y = $baseLine -}}
+            {{- end -}}
+            {{- $pointScratch.Add "items" (slice (printf "%.2f,%.2f" $x $y)) -}}
+            {{- $pathCommands = $pathCommands | append (printf "L %.2f %.2f" $x $y) -}}
+            {{- $labelScratch.Add "items" (slice (dict "x" (printf "%.2f%%" $x) "label" $point.label "count" $point.count)) -}}
+          {{- end }}
+          {{- $linePath := printf "M %s" (replace (index $pathCommands 0) "L " "") -}}
+          {{- if gt (len $pathCommands) 1 -}}
+            {{- $linePath = printf "%s %s" $linePath (delimit (after 1 $pathCommands) " ") -}}
+          {{- end -}}
+          {{- $areaPath := printf "%s L 100 72 L 0 72 Z" $linePath -}}
+          <div class="home-activity__panel{{ if eq $range.key "7d" }} is-active{{ end }}" data-home-activity-panel="{{ $range.key }}" data-home-activity-total="{{ $range.total }}">
+            <div class="home-line-chart home-line-chart--{{ $range.key }}">
+              <svg class="home-line-chart__svg" viewBox="0 0 100 84" preserveAspectRatio="none" aria-hidden="true">
+                <path class="home-line-chart__area" d="{{ $areaPath }}"></path>
+                <path class="home-line-chart__line" d="{{ $linePath }}"></path>
+                {{- range $pointIndex, $point := $range.points }}
+                  {{- $x := 0.0 -}}
+                  {{- if gt $pointIndex 0 -}}
+                    {{- $x = mul (float $pointIndex) $step -}}
+                  {{- end -}}
+                  {{- $plotHeight := 58.0 -}}
+                  {{- $baseLine := 72.0 -}}
+                  {{- $y := sub $baseLine (mul (div (float $point.count) (float $range.max)) $plotHeight) -}}
+                  {{- if eq $point.count 0 -}}
+                    {{- $y = $baseLine -}}
+                  {{- end -}}
+                <circle class="home-line-chart__dot" cx="{{ printf "%.2f" $x }}" cy="{{ printf "%.2f" $y }}" r="1.8"></circle>
+                {{- end }}
+              </svg>
+              <div class="home-line-chart__labels">
+                {{- range $labelScratch.Get "items" }}
+                <div class="home-line-chart__label" style="left: {{ .x }};">
+                  <b>{{ .count }}</b>
+                  <small>{{ if .label }}{{ .label }}{{ else }}&nbsp;{{ end }}</small>
+                </div>
+                {{- end }}
+              </div>
+            </div>
+          </div>
           {{- end }}
         </div>
-        <div class="home-kpi-row">
+        <div class="home-kpi-row home-kpi-row--activity">
           <div><strong>{{ $activity7.total }}</strong><span>7天新增</span></div>
           <div><strong>{{ $activity30.total }}</strong><span>30天新增</span></div>
           <div><strong>{{ $activity12.total }}</strong><span>12个月新增</span></div>
         </div>
-      </a>
+      </div>
 
       <a class="home-panel home-panel--link card component" href="/insights/#distribution">
         <div class="home-panel__head">
@@ -259,33 +321,60 @@
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   var runtime = document.querySelector("[data-site-runtime]");
-  if (!runtime) return;
+  if (runtime) {
+    var startedAt = runtime.getAttribute("data-started-at");
+    var startTime = new Date(startedAt).getTime();
+    if (!Number.isNaN(startTime)) {
+      var daysEl = runtime.querySelector("[data-runtime-days]");
+      var hoursEl = runtime.querySelector("[data-runtime-hours]");
+      var minutesEl = runtime.querySelector("[data-runtime-minutes]");
+      var secondsEl = runtime.querySelector("[data-runtime-seconds]");
 
-  var startedAt = runtime.getAttribute("data-started-at");
-  var startTime = new Date(startedAt).getTime();
-  if (Number.isNaN(startTime)) return;
+      function updateRuntime() {
+        var diff = Math.max(0, Date.now() - startTime);
+        var totalSeconds = Math.floor(diff / 1000);
+        var days = Math.floor(totalSeconds / 86400);
+        var hours = Math.floor((totalSeconds % 86400) / 3600);
+        var minutes = Math.floor((totalSeconds % 3600) / 60);
+        var seconds = totalSeconds % 60;
 
-  var daysEl = runtime.querySelector("[data-runtime-days]");
-  var hoursEl = runtime.querySelector("[data-runtime-hours]");
-  var minutesEl = runtime.querySelector("[data-runtime-minutes]");
-  var secondsEl = runtime.querySelector("[data-runtime-seconds]");
+        daysEl.textContent = String(days);
+        hoursEl.textContent = String(hours).padStart(2, "0");
+        minutesEl.textContent = String(minutes).padStart(2, "0");
+        secondsEl.textContent = String(seconds).padStart(2, "0");
+      }
 
-  function updateRuntime() {
-    var diff = Math.max(0, Date.now() - startTime);
-    var totalSeconds = Math.floor(diff / 1000);
-    var days = Math.floor(totalSeconds / 86400);
-    var hours = Math.floor((totalSeconds % 86400) / 3600);
-    var minutes = Math.floor((totalSeconds % 3600) / 60);
-    var seconds = totalSeconds % 60;
-
-    daysEl.textContent = String(days);
-    hoursEl.textContent = String(hours).padStart(2, "0");
-    minutesEl.textContent = String(minutes).padStart(2, "0");
-    secondsEl.textContent = String(seconds).padStart(2, "0");
+      updateRuntime();
+      window.setInterval(updateRuntime, 1000);
+    }
   }
 
-  updateRuntime();
-  window.setInterval(updateRuntime, 1000);
+  document.querySelectorAll("[data-home-activity-tabs]").forEach(function (group) {
+    var triggers = group.querySelectorAll("[data-home-activity-trigger]");
+    var panels = group.querySelectorAll("[data-home-activity-panel]");
+    var summary = group.querySelector("[data-home-activity-summary]");
+
+    function activate(key) {
+      triggers.forEach(function (button) {
+        button.classList.toggle("is-active", button.getAttribute("data-home-activity-trigger") === key);
+      });
+      panels.forEach(function (panel) {
+        var active = panel.getAttribute("data-home-activity-panel") === key;
+        panel.classList.toggle("is-active", active);
+        if (active && summary) {
+          summary.textContent = panel.getAttribute("data-home-activity-total") + " 篇";
+        }
+      });
+    }
+
+    triggers.forEach(function (button) {
+      button.addEventListener("click", function () {
+        activate(button.getAttribute("data-home-activity-trigger"));
+      });
+    });
+
+    activate("7d");
+  }
 });
 </script>
 {{ end }}
