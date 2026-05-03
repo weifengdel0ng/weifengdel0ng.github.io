@@ -1,7 +1,7 @@
 .home-dashboard {
   --home-body: #08111a;
-  --home-panel: rgba(12, 19, 29, 0.96);
-  --home-panel-soft: rgba(17, 26, 40, 0.9);
+  --home-panel: rgba(12, 19, 29, var(--site-panel-opacity, 0.96));
+  --home-panel-soft: rgba(17, 26, 40, var(--site-panel-soft-opacity, 0.9));
   --home-border: rgba(111, 161, 232, 0.14);
   --home-text: #eef5ff;
   --home-muted: #8ea0bb;
@@ -14,8 +14,8 @@
 
 html[data-bs-theme="light"] .home-dashboard {
   --home-body: #eef5ff;
-  --home-panel: rgba(255, 255, 255, 0.94);
-  --home-panel-soft: rgba(246, 250, 255, 0.98);
+  --home-panel: rgba(255, 255, 255, var(--site-panel-opacity, 0.94));
+  --home-panel-soft: rgba(246, 250, 255, var(--site-panel-soft-opacity, 0.98));
   --home-border: rgba(43, 83, 138, 0.12);
   --home-text: #13233d;
   --home-muted: #58708e;

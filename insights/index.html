@@ -35,6 +35,22 @@
     <link data-precache rel="stylesheet" href="/assets/viewer/bundle.min.16d2c85c4cae39a98f8cb7a977e95e554b174f91a5484c32605637156f49ca6b.css" integrity="sha256-FtLIXEyuOamPjLepd&#43;leVUsXT5GlSEwyYFY3FW9Jyms=" crossorigin="anonymous">
 
 
+<link rel="stylesheet" href="/css/site-overrides.css">
+<script>
+  (function() {
+    try {
+      var stored = localStorage.getItem("hakilong:panel-opacity");
+      if (!stored) return;
+      var opacity = parseFloat(stored);
+      if (!isFinite(opacity)) return;
+      opacity = Math.max(0.35, Math.min(1, opacity));
+      document.documentElement.style.setProperty("--site-panel-opacity", opacity.toFixed(2));
+      document.documentElement.style.setProperty("--site-panel-soft-opacity", Math.min(opacity + 0.04, 1).toFixed(2));
+    } catch (error) {
+      console.debug("panel opacity preload failed", error);
+    }
+  })();
+</script>
 </head>
   <body><header class="mb-4 sticky-top">
   
@@ -174,6 +190,12 @@
                 <i class="mode-icon fas fa-fw fa-adjust"></i> 自动
             </button>
         </li>
+        <li><hr class="dropdown-divider"></li>
+        <li class="px-3 py-2 panel-opacity-control" data-panel-opacity-control>
+            <div class="small text-uppercase text-secondary mb-2">Panel Opacity</div>
+            <input class="form-range" type="range" min="35" max="100" step="1" value="88" data-panel-opacity-slider>
+            <div class="small text-secondary">Current: <span class="panel-opacity-control__value" data-panel-opacity-value>88%</span></div>
+        </li>
     </ul>
 </li>
         </ul>
@@ -231,7 +253,7 @@
       </article>
       <article class="insights-summary-card card component">
         <span>近 30 天</span>
-        <strong>31</strong>
+        <strong>29</strong>
         <p>按发布日期统计的新增内容。</p>
       </article>
       <article class="insights-summary-card card component">
@@ -281,7 +303,7 @@
       </div>
       <div class="insights-tabs__panel is-active" data-insights-panel="7d"><div class="insights-tabs__summary">
           <div>
-            <strong>4 篇</strong>
+            <strong>3 篇</strong>
             <span>共 7 个统计节点</span>
           </div>
           <span>按当前仓库内容自动刷新</span>
@@ -289,37 +311,37 @@
         <div class="insights-chart-scroll">
           <div class="insights-line-chart insights-line-chart--7d">
             <svg class="insights-line-chart__svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-              <path class="insights-line-chart__area" d="M 0.00 50.00 L 16.67 88.00 L 33.33 88.00 L 50.00 88.00 L 66.67 12.00 L 83.33 50.00 L 100.00 88.00 L 100 88 L 0 88 Z"></path>
-              <path class="insights-line-chart__line" d="M 0.00 50.00 L 16.67 88.00 L 33.33 88.00 L 50.00 88.00 L 66.67 12.00 L 83.33 50.00 L 100.00 88.00"></path><circle class="insights-line-chart__dot" cx="0.00" cy="50.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="16.67" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="33.33" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="50.00" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="66.67" cy="12.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="83.33" cy="50.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="100.00" cy="88.00" r="1.7"></circle>
+              <path class="insights-line-chart__area" d="M 0.00 12.00 L 16.67 50.00 L 33.33 88.00 L 50.00 88.00 L 66.67 88.00 L 83.33 88.00 L 100.00 88.00 L 100 88 L 0 88 Z"></path>
+              <path class="insights-line-chart__line" d="M 0.00 12.00 L 16.67 50.00 L 33.33 88.00 L 50.00 88.00 L 66.67 88.00 L 83.33 88.00 L 100.00 88.00"></path><circle class="insights-line-chart__dot" cx="0.00" cy="12.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="16.67" cy="50.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="33.33" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="50.00" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="66.67" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="83.33" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="100.00" cy="88.00" r="1.7"></circle>
             </svg>
             <div class="insights-line-chart__labels">
               <div class="insights-line-chart__label" style="left: 0.00%;">
-                <span>1</span>
-                <small>04/23</small>
-              </div>
-              <div class="insights-line-chart__label" style="left: 16.67%;">
-                <span>0</span>
-                <small>04/24</small>
-              </div>
-              <div class="insights-line-chart__label" style="left: 33.33%;">
-                <span>0</span>
-                <small>04/25</small>
-              </div>
-              <div class="insights-line-chart__label" style="left: 50.00%;">
-                <span>0</span>
-                <small>04/26</small>
-              </div>
-              <div class="insights-line-chart__label" style="left: 66.67%;">
                 <span>2</span>
                 <small>04/27</small>
               </div>
-              <div class="insights-line-chart__label" style="left: 83.33%;">
+              <div class="insights-line-chart__label" style="left: 16.67%;">
                 <span>1</span>
                 <small>04/28</small>
               </div>
-              <div class="insights-line-chart__label" style="left: 100.00%;">
+              <div class="insights-line-chart__label" style="left: 33.33%;">
                 <span>0</span>
                 <small>04/29</small>
+              </div>
+              <div class="insights-line-chart__label" style="left: 50.00%;">
+                <span>0</span>
+                <small>04/30</small>
+              </div>
+              <div class="insights-line-chart__label" style="left: 66.67%;">
+                <span>0</span>
+                <small>05/01</small>
+              </div>
+              <div class="insights-line-chart__label" style="left: 83.33%;">
+                <span>0</span>
+                <small>05/02</small>
+              </div>
+              <div class="insights-line-chart__label" style="left: 100.00%;">
+                <span>0</span>
+                <small>05/03</small>
               </div>
             </div>
           </div>
@@ -327,7 +349,7 @@
       </div>
       <div class="insights-tabs__panel" data-insights-panel="30d"><div class="insights-tabs__summary">
           <div>
-            <strong>31 篇</strong>
+            <strong>29 篇</strong>
             <span>共 30 个统计节点</span>
           </div>
           <span>按当前仓库内容自动刷新</span>
@@ -335,16 +357,16 @@
         <div class="insights-chart-scroll">
           <div class="insights-line-chart insights-line-chart--30d">
             <svg class="insights-line-chart__svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-              <path class="insights-line-chart__area" d="M 0.00 88.00 L 3.45 72.80 L 6.90 88.00 L 10.34 88.00 L 13.79 88.00 L 17.24 88.00 L 20.69 88.00 L 24.14 88.00 L 27.59 88.00 L 31.03 88.00 L 34.48 88.00 L 37.93 88.00 L 41.38 88.00 L 44.83 88.00 L 48.28 42.40 L 51.72 12.00 L 55.17 65.20 L 58.62 57.60 L 62.07 88.00 L 65.52 88.00 L 68.97 88.00 L 72.41 72.80 L 75.86 88.00 L 79.31 80.40 L 82.76 88.00 L 86.21 88.00 L 89.66 88.00 L 93.10 72.80 L 96.55 80.40 L 100.00 88.00 L 100 88 L 0 88 Z"></path>
-              <path class="insights-line-chart__line" d="M 0.00 88.00 L 3.45 72.80 L 6.90 88.00 L 10.34 88.00 L 13.79 88.00 L 17.24 88.00 L 20.69 88.00 L 24.14 88.00 L 27.59 88.00 L 31.03 88.00 L 34.48 88.00 L 37.93 88.00 L 41.38 88.00 L 44.83 88.00 L 48.28 42.40 L 51.72 12.00 L 55.17 65.20 L 58.62 57.60 L 62.07 88.00 L 65.52 88.00 L 68.97 88.00 L 72.41 72.80 L 75.86 88.00 L 79.31 80.40 L 82.76 88.00 L 86.21 88.00 L 89.66 88.00 L 93.10 72.80 L 96.55 80.40 L 100.00 88.00"></path><circle class="insights-line-chart__dot" cx="0.00" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="3.45" cy="72.80" r="1.7"></circle><circle class="insights-line-chart__dot" cx="6.90" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="10.34" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="13.79" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="17.24" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="20.69" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="24.14" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="27.59" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="31.03" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="34.48" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="37.93" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="41.38" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="44.83" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="48.28" cy="42.40" r="1.7"></circle><circle class="insights-line-chart__dot" cx="51.72" cy="12.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="55.17" cy="65.20" r="1.7"></circle><circle class="insights-line-chart__dot" cx="58.62" cy="57.60" r="1.7"></circle><circle class="insights-line-chart__dot" cx="62.07" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="65.52" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="68.97" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="72.41" cy="72.80" r="1.7"></circle><circle class="insights-line-chart__dot" cx="75.86" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="79.31" cy="80.40" r="1.7"></circle><circle class="insights-line-chart__dot" cx="82.76" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="86.21" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="89.66" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="93.10" cy="72.80" r="1.7"></circle><circle class="insights-line-chart__dot" cx="96.55" cy="80.40" r="1.7"></circle><circle class="insights-line-chart__dot" cx="100.00" cy="88.00" r="1.7"></circle>
+              <path class="insights-line-chart__area" d="M 0.00 88.00 L 3.45 88.00 L 6.90 88.00 L 10.34 88.00 L 13.79 88.00 L 17.24 88.00 L 20.69 88.00 L 24.14 88.00 L 27.59 88.00 L 31.03 88.00 L 34.48 42.40 L 37.93 12.00 L 41.38 65.20 L 44.83 57.60 L 48.28 88.00 L 51.72 88.00 L 55.17 88.00 L 58.62 72.80 L 62.07 88.00 L 65.52 80.40 L 68.97 88.00 L 72.41 88.00 L 75.86 88.00 L 79.31 72.80 L 82.76 80.40 L 86.21 88.00 L 89.66 88.00 L 93.10 88.00 L 96.55 88.00 L 100.00 88.00 L 100 88 L 0 88 Z"></path>
+              <path class="insights-line-chart__line" d="M 0.00 88.00 L 3.45 88.00 L 6.90 88.00 L 10.34 88.00 L 13.79 88.00 L 17.24 88.00 L 20.69 88.00 L 24.14 88.00 L 27.59 88.00 L 31.03 88.00 L 34.48 42.40 L 37.93 12.00 L 41.38 65.20 L 44.83 57.60 L 48.28 88.00 L 51.72 88.00 L 55.17 88.00 L 58.62 72.80 L 62.07 88.00 L 65.52 80.40 L 68.97 88.00 L 72.41 88.00 L 75.86 88.00 L 79.31 72.80 L 82.76 80.40 L 86.21 88.00 L 89.66 88.00 L 93.10 88.00 L 96.55 88.00 L 100.00 88.00"></path><circle class="insights-line-chart__dot" cx="0.00" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="3.45" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="6.90" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="10.34" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="13.79" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="17.24" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="20.69" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="24.14" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="27.59" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="31.03" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="34.48" cy="42.40" r="1.7"></circle><circle class="insights-line-chart__dot" cx="37.93" cy="12.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="41.38" cy="65.20" r="1.7"></circle><circle class="insights-line-chart__dot" cx="44.83" cy="57.60" r="1.7"></circle><circle class="insights-line-chart__dot" cx="48.28" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="51.72" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="55.17" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="58.62" cy="72.80" r="1.7"></circle><circle class="insights-line-chart__dot" cx="62.07" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="65.52" cy="80.40" r="1.7"></circle><circle class="insights-line-chart__dot" cx="68.97" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="72.41" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="75.86" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="79.31" cy="72.80" r="1.7"></circle><circle class="insights-line-chart__dot" cx="82.76" cy="80.40" r="1.7"></circle><circle class="insights-line-chart__dot" cx="86.21" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="89.66" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="93.10" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="96.55" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="100.00" cy="88.00" r="1.7"></circle>
             </svg>
             <div class="insights-line-chart__labels">
               <div class="insights-line-chart__label" style="left: 0.00%;">
                 <span>0</span>
-                <small>03/31</small>
+                <small>04/04</small>
               </div>
               <div class="insights-line-chart__label" style="left: 3.45%;">
-                <span>2</span>
+                <span>0</span>
                 <small>&nbsp;</small>
               </div>
               <div class="insights-line-chart__label" style="left: 6.90%;">
@@ -357,7 +379,7 @@
               </div>
               <div class="insights-line-chart__label" style="left: 13.79%;">
                 <span>0</span>
-                <small>04/04</small>
+                <small>04/08</small>
               </div>
               <div class="insights-line-chart__label" style="left: 17.24%;">
                 <span>0</span>
@@ -377,38 +399,38 @@
               </div>
               <div class="insights-line-chart__label" style="left: 31.03%;">
                 <span>0</span>
-                <small>04/09</small>
+                <small>04/13</small>
               </div>
               <div class="insights-line-chart__label" style="left: 34.48%;">
-                <span>0</span>
+                <span>6</span>
                 <small>&nbsp;</small>
               </div>
               <div class="insights-line-chart__label" style="left: 37.93%;">
-                <span>0</span>
-                <small>&nbsp;</small>
-              </div>
-              <div class="insights-line-chart__label" style="left: 41.38%;">
-                <span>0</span>
-                <small>&nbsp;</small>
-              </div>
-              <div class="insights-line-chart__label" style="left: 44.83%;">
-                <span>0</span>
-                <small>&nbsp;</small>
-              </div>
-              <div class="insights-line-chart__label" style="left: 48.28%;">
-                <span>6</span>
-                <small>04/14</small>
-              </div>
-              <div class="insights-line-chart__label" style="left: 51.72%;">
                 <span>10</span>
                 <small>&nbsp;</small>
               </div>
-              <div class="insights-line-chart__label" style="left: 55.17%;">
+              <div class="insights-line-chart__label" style="left: 41.38%;">
                 <span>3</span>
                 <small>&nbsp;</small>
               </div>
-              <div class="insights-line-chart__label" style="left: 58.62%;">
+              <div class="insights-line-chart__label" style="left: 44.83%;">
                 <span>4</span>
+                <small>&nbsp;</small>
+              </div>
+              <div class="insights-line-chart__label" style="left: 48.28%;">
+                <span>0</span>
+                <small>04/18</small>
+              </div>
+              <div class="insights-line-chart__label" style="left: 51.72%;">
+                <span>0</span>
+                <small>&nbsp;</small>
+              </div>
+              <div class="insights-line-chart__label" style="left: 55.17%;">
+                <span>0</span>
+                <small>&nbsp;</small>
+              </div>
+              <div class="insights-line-chart__label" style="left: 58.62%;">
+                <span>2</span>
                 <small>&nbsp;</small>
               </div>
               <div class="insights-line-chart__label" style="left: 62.07%;">
@@ -416,15 +438,15 @@
                 <small>&nbsp;</small>
               </div>
               <div class="insights-line-chart__label" style="left: 65.52%;">
-                <span>0</span>
-                <small>04/19</small>
+                <span>1</span>
+                <small>04/23</small>
               </div>
               <div class="insights-line-chart__label" style="left: 68.97%;">
                 <span>0</span>
                 <small>&nbsp;</small>
               </div>
               <div class="insights-line-chart__label" style="left: 72.41%;">
-                <span>2</span>
+                <span>0</span>
                 <small>&nbsp;</small>
               </div>
               <div class="insights-line-chart__label" style="left: 75.86%;">
@@ -432,12 +454,12 @@
                 <small>&nbsp;</small>
               </div>
               <div class="insights-line-chart__label" style="left: 79.31%;">
-                <span>1</span>
+                <span>2</span>
                 <small>&nbsp;</small>
               </div>
               <div class="insights-line-chart__label" style="left: 82.76%;">
-                <span>0</span>
-                <small>04/24</small>
+                <span>1</span>
+                <small>04/28</small>
               </div>
               <div class="insights-line-chart__label" style="left: 86.21%;">
                 <span>0</span>
@@ -448,16 +470,16 @@
                 <small>&nbsp;</small>
               </div>
               <div class="insights-line-chart__label" style="left: 93.10%;">
-                <span>2</span>
+                <span>0</span>
                 <small>&nbsp;</small>
               </div>
               <div class="insights-line-chart__label" style="left: 96.55%;">
-                <span>1</span>
+                <span>0</span>
                 <small>&nbsp;</small>
               </div>
               <div class="insights-line-chart__label" style="left: 100.00%;">
                 <span>0</span>
-                <small>04/29</small>
+                <small>05/03</small>
               </div>
             </div>
           </div>
@@ -465,7 +487,7 @@
       </div>
       <div class="insights-tabs__panel" data-insights-panel="12m"><div class="insights-tabs__summary">
           <div>
-            <strong>77 篇</strong>
+            <strong>60 篇</strong>
             <span>共 12 个统计节点</span>
           </div>
           <span>峰值月份 2026-04</span>
@@ -473,57 +495,57 @@
         <div class="insights-chart-scroll">
           <div class="insights-line-chart insights-line-chart--12m">
             <svg class="insights-line-chart__svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-              <path class="insights-line-chart__area" d="M 0.00 88.00 L 9.09 88.00 L 18.18 88.00 L 27.27 88.00 L 36.36 88.00 L 45.45 88.00 L 54.55 88.00 L 63.64 83.10 L 72.73 63.48 L 81.82 46.32 L 90.91 46.32 L 100.00 12.00 L 100 88 L 0 88 Z"></path>
-              <path class="insights-line-chart__line" d="M 0.00 88.00 L 9.09 88.00 L 18.18 88.00 L 27.27 88.00 L 36.36 88.00 L 45.45 88.00 L 54.55 88.00 L 63.64 83.10 L 72.73 63.48 L 81.82 46.32 L 90.91 46.32 L 100.00 12.00"></path><circle class="insights-line-chart__dot" cx="0.00" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="9.09" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="18.18" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="27.27" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="36.36" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="45.45" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="54.55" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="63.64" cy="83.10" r="1.7"></circle><circle class="insights-line-chart__dot" cx="72.73" cy="63.48" r="1.7"></circle><circle class="insights-line-chart__dot" cx="81.82" cy="46.32" r="1.7"></circle><circle class="insights-line-chart__dot" cx="90.91" cy="46.32" r="1.7"></circle><circle class="insights-line-chart__dot" cx="100.00" cy="12.00" r="1.7"></circle>
+              <path class="insights-line-chart__area" d="M 0.00 88.00 L 9.09 88.00 L 18.18 88.00 L 27.27 88.00 L 36.36 88.00 L 45.45 88.00 L 54.55 83.10 L 63.64 63.48 L 72.73 88.00 L 81.82 46.32 L 90.91 12.00 L 100.00 88.00 L 100 88 L 0 88 Z"></path>
+              <path class="insights-line-chart__line" d="M 0.00 88.00 L 9.09 88.00 L 18.18 88.00 L 27.27 88.00 L 36.36 88.00 L 45.45 88.00 L 54.55 83.10 L 63.64 63.48 L 72.73 88.00 L 81.82 46.32 L 90.91 12.00 L 100.00 88.00"></path><circle class="insights-line-chart__dot" cx="0.00" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="9.09" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="18.18" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="27.27" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="36.36" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="45.45" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="54.55" cy="83.10" r="1.7"></circle><circle class="insights-line-chart__dot" cx="63.64" cy="63.48" r="1.7"></circle><circle class="insights-line-chart__dot" cx="72.73" cy="88.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="81.82" cy="46.32" r="1.7"></circle><circle class="insights-line-chart__dot" cx="90.91" cy="12.00" r="1.7"></circle><circle class="insights-line-chart__dot" cx="100.00" cy="88.00" r="1.7"></circle>
             </svg>
             <div class="insights-line-chart__labels">
               <div class="insights-line-chart__label" style="left: 0.00%;">
                 <span>0</span>
-                <small>05月</small>
+                <small>06月</small>
               </div>
               <div class="insights-line-chart__label" style="left: 9.09%;">
                 <span>0</span>
-                <small>06月</small>
+                <small>07月</small>
               </div>
               <div class="insights-line-chart__label" style="left: 18.18%;">
                 <span>0</span>
-                <small>07月</small>
+                <small>08月</small>
               </div>
               <div class="insights-line-chart__label" style="left: 27.27%;">
                 <span>0</span>
-                <small>08月</small>
+                <small>09月</small>
               </div>
               <div class="insights-line-chart__label" style="left: 36.36%;">
                 <span>0</span>
-                <small>09月</small>
+                <small>10月</small>
               </div>
               <div class="insights-line-chart__label" style="left: 45.45%;">
                 <span>0</span>
-                <small>10月</small>
-              </div>
-              <div class="insights-line-chart__label" style="left: 54.55%;">
-                <span>0</span>
                 <small>11月</small>
               </div>
-              <div class="insights-line-chart__label" style="left: 63.64%;">
+              <div class="insights-line-chart__label" style="left: 54.55%;">
                 <span>2</span>
                 <small>12月</small>
               </div>
-              <div class="insights-line-chart__label" style="left: 72.73%;">
+              <div class="insights-line-chart__label" style="left: 63.64%;">
                 <span>10</span>
                 <small>01月</small>
+              </div>
+              <div class="insights-line-chart__label" style="left: 72.73%;">
+                <span>0</span>
+                <small>02月</small>
               </div>
               <div class="insights-line-chart__label" style="left: 81.82%;">
                 <span>17</span>
                 <small>03月</small>
               </div>
               <div class="insights-line-chart__label" style="left: 90.91%;">
-                <span>17</span>
-                <small>03月</small>
-              </div>
-              <div class="insights-line-chart__label" style="left: 100.00%;">
                 <span>31</span>
                 <small>04月</small>
+              </div>
+              <div class="insights-line-chart__label" style="left: 100.00%;">
+                <span>0</span>
+                <small>05月</small>
               </div>
             </div>
           </div>
@@ -817,7 +839,8 @@ document.addEventListener("DOMContentLoaded", function () {
 </div>
 </footer>
 <script data-precache src="/assets/main/bundle.min.ac488fad291893b1c3a484e9ded445523925ef3ea6cab80590bedaf83e0f0784.js" integrity="sha256-rEiPrSkYk7HDpITp3tRFUjkl7z6myrgFkL7a&#43;D4PB4Q=" crossorigin="anonymous" async></script><script data-precache src="/assets/icons/bundle.min.2afb6643b7cdde837754668abae3dceedc993b71ebefe8bc9c80af3e2e349075.js" integrity="sha256-KvtmQ7fN3oN3VGaKuuPc7tyZO3Hr7&#43;i8nICvPi40kHU=" crossorigin="anonymous" defer></script>
-<script data-precache src="/assets/viewer/bundle.min.13800f940d1d83422ff174b45ece49c4c58a17a608fe79bdba39aec874d4c7fe.js" integrity="sha256-E4APlA0dg0Iv8XS0Xs5JxMWKF6YI/nm9ujmuyHTUx/4=" crossorigin="anonymous" defer></script>
+<script data-precache src="/assets/viewer/bundle.min.13800f940d1d83422ff174b45ece49c4c58a17a608fe79bdba39aec874d4c7fe.js" integrity="sha256-E4APlA0dg0Iv8XS0Xs5JxMWKF6YI/nm9ujmuyHTUx/4=" crossorigin="anonymous" defer></script><script src="/js/site-overrides.js" defer></script>
+
 
 
   </body>

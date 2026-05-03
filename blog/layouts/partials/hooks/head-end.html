@@ -1,0 +1,16 @@
+<link rel="stylesheet" href="{{ "css/site-overrides.css" | relURL }}">
+<script>
+  (function() {
+    try {
+      var stored = localStorage.getItem("hakilong:panel-opacity");
+      if (!stored) return;
+      var opacity = parseFloat(stored);
+      if (!isFinite(opacity)) return;
+      opacity = Math.max(0.35, Math.min(1, opacity));
+      document.documentElement.style.setProperty("--site-panel-opacity", opacity.toFixed(2));
+      document.documentElement.style.setProperty("--site-panel-soft-opacity", Math.min(opacity + 0.04, 1).toFixed(2));
+    } catch (error) {
+      console.debug("panel opacity preload failed", error);
+    }
+  })();
+</script>

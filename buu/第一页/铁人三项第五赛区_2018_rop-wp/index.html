@@ -110,6 +110,22 @@ io.interactive()
     <link data-precache rel="stylesheet" href="/assets/viewer/bundle.min.16d2c85c4cae39a98f8cb7a977e95e554b174f91a5484c32605637156f49ca6b.css" integrity="sha256-FtLIXEyuOamPjLepd&#43;leVUsXT5GlSEwyYFY3FW9Jyms=" crossorigin="anonymous">
 
 
+<link rel="stylesheet" href="/css/site-overrides.css">
+<script>
+  (function() {
+    try {
+      var stored = localStorage.getItem("hakilong:panel-opacity");
+      if (!stored) return;
+      var opacity = parseFloat(stored);
+      if (!isFinite(opacity)) return;
+      opacity = Math.max(0.35, Math.min(1, opacity));
+      document.documentElement.style.setProperty("--site-panel-opacity", opacity.toFixed(2));
+      document.documentElement.style.setProperty("--site-panel-soft-opacity", Math.min(opacity + 0.04, 1).toFixed(2));
+    } catch (error) {
+      console.debug("panel opacity preload failed", error);
+    }
+  })();
+</script>
 </head>
   <body><header class="mb-4 sticky-top">
   
@@ -248,6 +264,12 @@ io.interactive()
             <button class="dropdown-item">
                 <i class="mode-icon fas fa-fw fa-adjust"></i> 自动
             </button>
+        </li>
+        <li><hr class="dropdown-divider"></li>
+        <li class="px-3 py-2 panel-opacity-control" data-panel-opacity-control>
+            <div class="small text-uppercase text-secondary mb-2">Panel Opacity</div>
+            <input class="form-range" type="range" min="35" max="100" step="1" value="88" data-panel-opacity-slider>
+            <div class="small text-secondary">Current: <span class="panel-opacity-control__value" data-panel-opacity-value>88%</span></div>
         </li>
     </ul>
 </li>
@@ -666,7 +688,8 @@ io.interactive()
 </div>
 </footer>
 <script data-precache src="/assets/main/bundle.min.ac488fad291893b1c3a484e9ded445523925ef3ea6cab80590bedaf83e0f0784.js" integrity="sha256-rEiPrSkYk7HDpITp3tRFUjkl7z6myrgFkL7a&#43;D4PB4Q=" crossorigin="anonymous" async></script><script data-precache src="/assets/icons/bundle.min.2afb6643b7cdde837754668abae3dceedc993b71ebefe8bc9c80af3e2e349075.js" integrity="sha256-KvtmQ7fN3oN3VGaKuuPc7tyZO3Hr7&#43;i8nICvPi40kHU=" crossorigin="anonymous" defer></script>
-<script data-precache src="/assets/viewer/bundle.min.13800f940d1d83422ff174b45ece49c4c58a17a608fe79bdba39aec874d4c7fe.js" integrity="sha256-E4APlA0dg0Iv8XS0Xs5JxMWKF6YI/nm9ujmuyHTUx/4=" crossorigin="anonymous" defer></script>
+<script data-precache src="/assets/viewer/bundle.min.13800f940d1d83422ff174b45ece49c4c58a17a608fe79bdba39aec874d4c7fe.js" integrity="sha256-E4APlA0dg0Iv8XS0Xs5JxMWKF6YI/nm9ujmuyHTUx/4=" crossorigin="anonymous" defer></script><script src="/js/site-overrides.js" defer></script>
+
 
 
   </body>

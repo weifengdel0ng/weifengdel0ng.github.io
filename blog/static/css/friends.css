@@ -1,7 +1,7 @@
 .friend-links-page {
   --friend-body: #08111a;
-  --friend-panel: rgba(12, 19, 29, 0.96);
-  --friend-panel-soft: rgba(17, 26, 40, 0.92);
+  --friend-panel: rgba(12, 19, 29, var(--site-panel-opacity, 0.96));
+  --friend-panel-soft: rgba(17, 26, 40, var(--site-panel-soft-opacity, 0.92));
   --friend-border: rgba(111, 161, 232, 0.14);
   --friend-text: #eef5ff;
   --friend-muted: #93a5c0;
@@ -13,8 +13,8 @@
 
 html[data-bs-theme="light"] .friend-links-page {
   --friend-body: #eef5ff;
-  --friend-panel: rgba(255, 255, 255, 0.95);
-  --friend-panel-soft: rgba(246, 250, 255, 0.98);
+  --friend-panel: rgba(255, 255, 255, var(--site-panel-opacity, 0.95));
+  --friend-panel-soft: rgba(246, 250, 255, var(--site-panel-soft-opacity, 0.98));
   --friend-border: rgba(43, 83, 138, 0.12);
   --friend-text: #13233d;
   --friend-muted: #596f89;
