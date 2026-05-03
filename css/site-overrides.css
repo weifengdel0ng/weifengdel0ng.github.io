@@ -4,23 +4,28 @@
   --site-panel-blur: 18px;
   --site-surface-rgb: 12, 19, 29;
   --site-bg-image: url("/images/site-background.webp");
+  --site-bg-size: min(680px, 82vw);
 }
 
 html[data-bs-theme="light"] {
   --site-surface-rgb: 255, 255, 255;
 }
 
-html,
-body {
-  background: transparent !important;
+html {
+  background-color: #08111a !important;
+  background-image: var(--site-bg-image) !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
+  background-size: var(--site-bg-size) auto !important;
 }
 
 body {
+  background: transparent !important;
   position: relative;
   min-height: 100vh;
 }
 
-body::before,
 body::after {
   content: "";
   position: fixed;
@@ -28,26 +33,17 @@ body::after {
   pointer-events: none;
 }
 
-body::before {
-  z-index: -2;
-  background-color: #08111a;
-  background-image: var(--site-bg-image);
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
 body::after {
   z-index: -1;
   background:
-    linear-gradient(180deg, rgba(4, 8, 14, 0.66), rgba(4, 8, 14, 0.78)),
-    radial-gradient(circle at center, rgba(12, 19, 29, 0.12), rgba(12, 19, 29, 0.54));
+    linear-gradient(180deg, rgba(4, 8, 14, 0.46), rgba(4, 8, 14, 0.58)),
+    radial-gradient(circle at center, rgba(12, 19, 29, 0.05), rgba(12, 19, 29, 0.34));
 }
 
 html[data-bs-theme="light"] body::after {
   background:
-    linear-gradient(180deg, rgba(242, 247, 255, 0.6), rgba(235, 243, 255, 0.72)),
-    radial-gradient(circle at center, rgba(255, 255, 255, 0.1), rgba(226, 237, 255, 0.42));
+    linear-gradient(180deg, rgba(242, 247, 255, 0.32), rgba(235, 243, 255, 0.48)),
+    radial-gradient(circle at center, rgba(255, 255, 255, 0.03), rgba(226, 237, 255, 0.24));
 }
 
 main,
