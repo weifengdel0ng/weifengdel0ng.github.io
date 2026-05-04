@@ -32,6 +32,16 @@ def slugify(value: str) -> str:
     return value or "post"
 
 
+def display_title(source: Path) -> str:
+    stem = source.stem.strip()
+    normalized = stem.lower()
+    if normalized in {"wp", "writeup", "111"}:
+        stem = source.parent.name
+
+    stem = re.sub(r"(?i)(---wp|-wp|_wp)$", "", stem).strip()
+    return stem or source.parent.name
+
+
 def encode_rel_path(path: str) -> str:
     return "/".join(quote(part) for part in path.split("/"))
 
@@ -116,9 +126,10 @@ def write_section_index(target_dir: Path, title: str, description: str) -> None:
 
 def build_front_matter(source: Path, category: str, tag: str) -> str:
     date = datetime.fromtimestamp(source.stat().st_mtime).strftime("%Y-%m-%d")
+    title = display_title(source)
     lines = [
         "+++",
-        f'title = "{source.stem.replace(chr(34), "")}"',
+        f'title = "{title.replace(chr(34), "")}"',
         f'date = "{date}"',
         'type = "post"',
         f'categories = ["{category}"]',

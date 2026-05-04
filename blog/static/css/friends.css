@@ -41,14 +41,14 @@ html[data-bs-theme="light"] .friend-links-page .card {
   margin-bottom: 1.3rem;
   min-height: 240px;
   background:
-    radial-gradient(circle at 80% 18%, rgba(255, 197, 101, 0.75), rgba(255, 197, 101, 0.14) 10%, transparent 28%),
-    linear-gradient(135deg, rgba(28, 50, 83, 0.96), rgba(7, 13, 24, 0.96));
+    linear-gradient(180deg, rgba(10, 15, 24, 0.22), rgba(10, 15, 24, 0.42)),
+    url("/images/site-background.webp") center center / cover no-repeat;
 }
 
 html[data-bs-theme="light"] .friend-links-hero {
   background:
-    radial-gradient(circle at 80% 18%, rgba(255, 205, 116, 0.62), rgba(255, 205, 116, 0.12) 10%, transparent 28%),
-    linear-gradient(135deg, rgba(212, 228, 255, 0.96), rgba(247, 251, 255, 0.98));
+    linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(232, 240, 255, 0.36)),
+    url("/images/site-background.webp") center center / cover no-repeat;
 }
 
 .friend-links-hero__glow,

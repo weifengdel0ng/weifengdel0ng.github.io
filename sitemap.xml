@@ -2,13 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://weifengdel0ng.github.io/posts/contest-2026/</loc>
-    <lastmod>2026-04-28T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://weifengdel0ng.github.io/categories/</loc>
-    <lastmod>2026-04-28T00:00:00+00:00</lastmod>
+    <lastmod>2026-05-03T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://weifengdel0ng.github.io/reverse/iscc/wp/</loc>
+    <lastmod>2026-05-03T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://weifengdel0ng.github.io/categories/reverse/</loc>
+    <lastmod>2026-05-03T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://weifengdel0ng.github.io/reverse/</loc>
+    <lastmod>2026-05-03T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://weifengdel0ng.github.io/tags/reverse/</loc>
+    <lastmod>2026-05-03T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://weifengdel0ng.github.io/tags/</loc>
+    <lastmod>2026-05-03T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://weifengdel0ng.github.io/</loc>
+    <lastmod>2026-05-03T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://weifengdel0ng.github.io/posts/contest-2026/</loc>
     <lastmod>2026-04-28T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://weifengdel0ng.github.io/categories/%E4%B8%93%E9%A2%98/</loc>
@@ -21,9 +36,6 @@
     <lastmod>2026-04-28T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://weifengdel0ng.github.io/tags/%E6%A0%A1%E8%B5%9B/</loc>
-    <lastmod>2026-04-28T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://weifengdel0ng.github.io/</loc>
     <lastmod>2026-04-28T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://weifengdel0ng.github.io/tags/blog/</loc>
@@ -296,6 +308,18 @@
     <loc>https://weifengdel0ng.github.io/buu/%E7%AC%AC%E4%B8%80%E9%A1%B5/ciscn_s_3/wp-srop/</loc>
     <lastmod>2026-03-04T00:00:00+00:00</lastmod>
   </url><url>
+    <loc>https://weifengdel0ng.github.io/reverse/zjpcctf/crakemeup/wp/</loc>
+    <lastmod>2026-01-22T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://weifengdel0ng.github.io/reverse/zjpcctf/ezre/ezre-wp/</loc>
+    <lastmod>2026-01-22T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://weifengdel0ng.github.io/reverse/zjpcctf/ezxor/ezxor-wp/</loc>
+    <lastmod>2026-01-22T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://weifengdel0ng.github.io/reverse/zjpcctf/rc4/wp/</loc>
+    <lastmod>2026-01-22T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://weifengdel0ng.github.io/buu/%E7%AC%AC%E4%B8%80%E9%A1%B5/harekazectf2019baby_rop2/exp/</loc>
     <lastmod>2026-01-14T00:00:00+00:00</lastmod>
   </url><url>
@@ -334,6 +358,9 @@
   </url><url>
     <loc>https://weifengdel0ng.github.io/buu/%E7%AC%AC%E4%B8%80%E9%A1%B5/%E9%93%81%E4%BA%BA%E4%B8%89%E9%A1%B9%E7%AC%AC%E4%BA%94%E8%B5%9B%E5%8C%BA_2018_rop-wp/</loc>
     <lastmod>2026-01-10T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://weifengdel0ng.github.io/reverse/zjpcctf/rc4/111/</loc>
+    <lastmod>2025-12-17T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://weifengdel0ng.github.io/buu/%E7%AC%AC%E4%B8%80%E9%A1%B5/buu-newstarctf--ret2lbic25.12.15/return2libc/</loc>
     <lastmod>2025-12-15T00:00:00+00:00</lastmod>

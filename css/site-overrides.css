@@ -17,7 +17,7 @@ html {
   background-position: center center !important;
   background-repeat: no-repeat !important;
   background-attachment: fixed !important;
-  background-size: var(--site-bg-size) auto !important;
+  background-size: cover !important;
 }
 
 body {
