@@ -41,7 +41,7 @@
       <article class="insights-summary-card card component">
         <span>内容总数</span>
         <strong>{{ $summary.content }}</strong>
-        <p>文章 {{ $summary.blog }} / BUU {{ $summary.buu }} / 校赛 {{ $summary.contest }}</p>
+        <p>文章 {{ $summary.blog }} / BUU {{ $summary.buu }} / Reverse {{ $summary.reverse }} / ISCC2026 {{ $summary.iscc }} / 校赛 {{ $summary.contest }}</p>
       </article>
       <article class="insights-summary-card card component">
         <span>近 30 天</span>
@@ -254,7 +254,7 @@
           </p>
           <div class="insights-update-card__meta">
             <span>{{ .Date.Format "2006-01-02" }}</span>
-            <span>{{ if eq .Section "posts" }}BLOG{{ else if eq .Section "buu" }}BUU{{ else }}CONTEST{{ end }}</span>
+            <span>{{ if eq .Section "posts" }}BLOG{{ else if eq .Section "buu" }}BUU{{ else if eq .Section "reverse" }}REVERSE{{ else if eq .Section "iscc-2026" }}ISCC2026{{ else }}CONTEST{{ end }}</span>
           </div>
         </div>
       </a>

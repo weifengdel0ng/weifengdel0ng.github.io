@@ -1,12 +1,13 @@
 ﻿{{- $site := .Site -}}
-{{- $contentSections := slice "posts" "buu" "reverse" "contest-2026" -}}
+{{- $contentSections := slice "posts" "buu" "reverse" "contest-2026" "iscc-2026" -}}
 {{- $contentPages := where $site.RegularPages "Section" "in" $contentSections -}}
 {{- $contentPagesByDate := $contentPages.ByDate.Reverse -}}
 {{- $blogPages := where $contentPages "Section" "posts" -}}
 {{- $buuPages := where $contentPages "Section" "buu" -}}
 {{- $reversePages := where $contentPages "Section" "reverse" -}}
 {{- $contestPages := where $contentPages "Section" "contest-2026" -}}
-{{- $notePages := where $contentPages "Section" "in" (slice "buu" "reverse" "contest-2026") -}}
+{{- $isccPages := where $contentPages "Section" "iscc-2026" -}}
+{{- $notePages := where $contentPages "Section" "in" (slice "buu" "reverse" "contest-2026" "iscc-2026") -}}
 {{- $categories := $site.Taxonomies.categories.ByCount -}}
 {{- $tags := $site.Taxonomies.tags.ByCount -}}
 {{- $friendLinks := default (slice) hugo.Data.friends.links -}}
@@ -17,6 +18,7 @@
   "buu" (len $buuPages)
   "reverse" (len $reversePages)
   "contest" (len $contestPages)
+  "iscc" (len $isccPages)
   "notes" (len $notePages)
   "categories" (len $categories)
   "tags" (len $tags)
@@ -30,6 +32,7 @@
   (dict "name" "BUU" "key" "buu" "href" "/buu/" "pages" $buuPages "accent" "cyan" "description" "BUUOJ PWN 题解")
   (dict "name" "Reverse" "key" "reverse" "href" "/reverse/" "pages" $reversePages "accent" "orange" "description" "逆向分析与解题记录")
   (dict "name" "校赛" "key" "contest-2026" "href" "/contest-2026/" "pages" $contestPages "accent" "orange" "description" "2026 校赛题解")
+  (dict "name" "ISCC2026" "key" "iscc-2026" "href" "/iscc-2026/" "pages" $isccPages "accent" "cyan" "description" "ISCC 2026 题解与附件")
   (dict "name" "友链" "key" "friends" "href" "/friends/" "pages" (slice) "accent" "blue" "description" "博客好友与常看站点")
 -}}
 {{- range $boardConfigs }}
@@ -189,6 +192,7 @@
   "buuPages" $buuPages
   "reversePages" $reversePages
   "contestPages" $contestPages
+  "isccPages" $isccPages
   "friendLinks" $friendLinks
 ) -}}
 

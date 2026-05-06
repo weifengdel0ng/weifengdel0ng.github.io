@@ -1,5 +1,4 @@
 {{ define "content" }}
-{{- if or (eq .Section "buu") (eq .Section "iscc-2026") -}}
 <div class="{{ if default true .Params.sidebar }}col-xxl-8{{ else }}col-xxl-12{{ end }}">
   <div class="container">
     {{- if not .IsHome }}
@@ -34,7 +33,10 @@
     </div>
     {{- end }}
 
-    {{- $pages := .RegularPages }}
+    {{- $pages := .RegularPagesRecursive }}
+    {{- if .IsSection }}
+      {{- $pages = .RegularPages }}
+    {{- end }}
     {{- if gt (len $pages) 0 }}
     <div class="posts mb-4">
       {{- range $pages.ByTitle }}
@@ -45,38 +47,4 @@
   </div>
 </div>
 {{- partial "sidebar" . -}}
-{{- else if eq .Section "posts" -}}
-<div class="{{ if default true .Params.sidebar }}col-xxl-8{{ else }}col-xxl-12{{ end }}">
-  <div class="container">
-    {{- if not .IsHome }}
-      {{- partial "breadcrumb" . }}
-    {{- end }}
-
-    {{- $entrySections := slice "buu" "reverse" "contest-2026" "iscc-2026" -}}
-    {{- $entryPages := where site.Sections "Section" "in" $entrySections -}}
-    {{- if gt (len $entryPages) 0 }}
-    <div class="posts mb-4">
-      {{- range sort $entryPages ".Title" "asc" }}
-        {{- partial "list-item" (dict "Page" . "PinnedPosts" ($.Scratch.Get "pinnedPosts")) }}
-      {{- end }}
-    </div>
-    {{- end }}
-
-    {{- $pages := .RegularPages }}
-    {{- if gt (len $pages) 0 }}
-    <div class="posts mb-4">
-      {{- range $pages.ByDate.Reverse }}
-        {{- partial "list-item" (dict "Page" . "PinnedPosts" ($.Scratch.Get "pinnedPosts")) }}
-      {{- end }}
-    </div>
-    {{- end }}
-  </div>
-</div>
-{{- partial "sidebar" . -}}
-{{- else -}}
-<div class="{{ if default true .Params.sidebar }}col-xxl-8{{ else }}col-xxl-12{{ end }}">
-  {{ partial "list" . }}
-</div>
-{{- partial "sidebar" . -}}
-{{- end -}}
 {{ end }}

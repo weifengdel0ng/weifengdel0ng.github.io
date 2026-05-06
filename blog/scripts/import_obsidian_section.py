@@ -141,16 +141,48 @@ def build_front_matter(source: Path, category: str, tag: str) -> str:
     return "\n".join(lines)
 
 
+def build_attachment_block(attachments: list[tuple[str, str]]) -> str:
+    if not attachments:
+        return ""
+
+    lines = [
+        "",
+        "## 附件下载",
+        "",
+    ]
+    for label, href in attachments:
+        lines.append(f'- [{label}]({href})')
+    lines.append("")
+    return "\n".join(lines)
+
+
 def import_note(source_root: Path, dest_root: Path, source_file: Path, category: str, tag: str) -> None:
     rel_parent = source_file.parent.relative_to(source_root)
     dest_parent = dest_root.joinpath(*rel_parent.parts)
-    bundle_dir = dest_parent / slugify(source_file.stem)
+    if slugify(source_file.stem) == slugify(source_file.parent.name):
+        bundle_dir = dest_parent
+    else:
+        bundle_dir = dest_parent / slugify(source_file.stem)
     bundle_dir.mkdir(parents=True, exist_ok=True)
 
     body, asset_map = convert_wikilinks(read_text(source_file), source_root, source_file.parent)
     body = body.replace("\r\n", "\n")
+    used_names = set(asset_map.values())
+    direct_attachments = []
+    for sibling in sorted(source_file.parent.iterdir()):
+        if not sibling.is_file() or sibling.name == source_file.name:
+            continue
+        if sibling.suffix.lower() in SKIP_EXTS:
+            continue
+        target_name = asset_map.get(sibling)
+        if target_name is None:
+            target_name = unique_asset_name(sibling, used_names)
+            asset_map[sibling] = target_name
+        direct_attachments.append((sibling.name, encode_rel_path(target_name)))
+
+    body = body.strip() + build_attachment_block(direct_attachments) + "\n"
     front_matter = build_front_matter(source_file, category, tag)
-    (bundle_dir / "index.md").write_text(front_matter + body.strip() + "\n", encoding="utf-8")
+    (bundle_dir / "index.md").write_text(front_matter + body, encoding="utf-8")
 
     for source_asset, target_name in asset_map.items():
         shutil.copy2(source_asset, bundle_dir / target_name)

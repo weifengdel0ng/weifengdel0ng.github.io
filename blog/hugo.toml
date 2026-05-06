@@ -10,9 +10,9 @@ writeStats = true
 
 [params]
 description = '微风的龙的个人博客，记录技术、项目和思考。'
-keywords = '博客, Hugo, PWN, BUUOJ, Reverse, 个人主页'
+keywords = '博客, Hugo, PWN, BUUOJ, Reverse, ISCC2026, 个人主页'
 logo = false
-mainSections = ['posts', 'buu', 'reverse', 'contest-2026']
+mainSections = ['posts', 'buu', 'reverse', 'contest-2026', 'iscc-2026']
 breadCrumb = false
 socialShare = false
 searchBar = true

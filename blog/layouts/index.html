@@ -1,10 +1,13 @@
 {{ define "content" }}
-{{- $recentPosts := first 4 ((where site.RegularPages "Section" "in" (slice "posts" "buu" "reverse" "contest-2026")).ByDate.Reverse) -}}
+{{- $recentPosts := first 4 ((where site.RegularPages "Section" "in" (slice "posts" "buu" "reverse" "contest-2026" "iscc-2026")).ByDate.Reverse) -}}
 {{- $entryCards := slice -}}
 {{- with site.GetPage "/buu" -}}
   {{- $entryCards = $entryCards | append . -}}
 {{- end -}}
 {{- with site.GetPage "/reverse" -}}
+  {{- $entryCards = $entryCards | append . -}}
+{{- end -}}
+{{- with site.GetPage "/iscc-2026" -}}
   {{- $entryCards = $entryCards | append . -}}
 {{- end -}}
 {{- $homeCards := $entryCards | append $recentPosts -}}
@@ -67,12 +70,14 @@
             <div><strong>{{ $summary.blog }}</strong><span>Blog</span></div>
             <div><strong>{{ $summary.buu }}</strong><span>BUU</span></div>
             <div><strong>{{ $summary.reverse }}</strong><span>Reverse</span></div>
+            <div><strong>{{ $summary.iscc }}</strong><span>ISCC2026</span></div>
           </div>
           <div class="home-profile__links">
             <a href="/about/"><span>关于</span><b>01</b></a>
             <a href="/posts/"><span>文章</span><b>02</b></a>
             <a href="/buu/"><span>BUU</span><b>03</b></a>
             <a href="/reverse/"><span>Reverse</span><b>04</b></a>
+            <a href="/iscc-2026/"><span>ISCC2026</span><b>05</b></a>
             <a href="/contest-2026/"><span>2026校赛</span><b>05</b></a>
             <a href="/friends/"><span>友链</span><b>06</b></a>
             <a href="https://github.com/weifengdel0ng" target="_blank" rel="noopener noreferrer"><span>GitHub</span><b>07</b></a>
@@ -87,6 +92,7 @@
           <a href="/posts/"><span>文章归档</span><b>↗</b></a>
           <a href="/buu/"><span>BUU 专题</span><b>↗</b></a>
           <a href="/reverse/"><span>Reverse</span><b>↗</b></a>
+          <a href="/iscc-2026/"><span>ISCC2026</span><b>↗</b></a>
           <a href="/contest-2026/"><span>2026校赛</span><b>↗</b></a>
           <a href="/friends/"><span>友链</span><b>↗</b></a>
           <a href="/tags/"><span>标签</span><b>#</b></a>
