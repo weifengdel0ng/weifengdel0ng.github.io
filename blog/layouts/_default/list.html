@@ -52,7 +52,7 @@
       {{- partial "breadcrumb" . }}
     {{- end }}
 
-    {{- $entrySections := slice "buu" "reverse" "contest-2026" "iscc-2026" -}}
+    {{- $entrySections := slice "buu" "reverse" "iscc-2026" -}}
     {{- $entryPages := where site.Sections "Section" "in" $entrySections -}}
     {{- if gt (len $entryPages) 0 }}
     <div class="posts mb-4">
