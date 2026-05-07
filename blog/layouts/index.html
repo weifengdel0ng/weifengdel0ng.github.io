@@ -168,7 +168,8 @@
           <span class="home-panel__cta">OPEN</span>
         </div>
         <p class="home-panel__text">
-          褰撳墠鍙鍐呭 {{ $summary.content }} 绡囷紝涓撻涓庢枃绔犳€绘暟浼氬湪姣忔鏋勫缓鏃舵寜鐪熷疄浠撳簱鑷姩鍒锋柊銆?          {{- with $latestPublished }}鏈€杩戝彂甯冿細{{ .Title }}銆倇{ end -}}
+          褰撳墠鍙鍐呭 {{ $summary.content }} 绡囷紝涓撻涓庢枃绔犳€绘暟浼氬湪姣忔鏋勫缓鏃舵寜鐪熷疄浠撳簱鑷姩鍒锋柊銆?
+          {{- with $latestPublished }}鏈€杩戝彂甯冿細{{ .Title }}。{{ end -}}
         </p>
         <div class="home-stat-list">
           <div><strong>{{ $summary.content }}</strong><span>鎬诲唴瀹?/span></div>
