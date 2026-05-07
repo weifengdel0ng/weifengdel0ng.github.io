@@ -1,4 +1,4 @@
-{{ define "content" }}
+﻿{{ define "content" }}
 {{- $aboutPage := site.GetPage "/about" -}}
 {{- $recentPosts := first 5 ((where site.RegularPages "Section" "in" (slice "posts" "buu" "reverse" "contest-2026" "iscc-2026")).ByDate.Reverse) -}}
 {{- $entryCards := slice -}}
@@ -45,20 +45,19 @@
     <div class="home-hero__orb"></div>
     <div class="home-hero__content">
       <div class="home-hero__eyebrow">WEIFENGDEL0NG / PERSONAL SPACE</div>
-      <h1 class="home-hero__title">哈基龙的小站</h1>
+      <h1 class="home-hero__title">鍝堝熀榫欑殑灏忕珯</h1>
       <div class="home-hero__runtime" data-site-runtime data-started-at="{{ $siteStartedAt }}">
-        <div class="home-hero__runtime-label">建站时长</div>
+        <div class="home-hero__runtime-label">寤虹珯鏃堕暱</div>
         <div class="home-hero__runtime-grid">
-          <span><b data-runtime-days>0</b><small>天</small></span>
-          <span><b data-runtime-hours>0</b><small>时</small></span>
-          <span><b data-runtime-minutes>0</b><small>分</small></span>
-          <span><b data-runtime-seconds>0</b><small>秒</small></span>
+          <span><b data-runtime-days>0</b><small>澶?/small></span>
+          <span><b data-runtime-hours>0</b><small>鏃?/small></span>
+          <span><b data-runtime-minutes>0</b><small>鍒?/small></span>
+          <span><b data-runtime-seconds>0</b><small>绉?/small></span>
         </div>
-        <p class="home-hero__runtime-meta">起始时间：2026-04-29 10:38:27 (UTC+8)</p>
+        <p class="home-hero__runtime-meta">璧峰鏃堕棿锛?026-04-29 10:38:27 (UTC+8)</p>
       </div>
       <div class="home-hero__actions">
-        <a class="btn btn-primary" href="/posts/">进入文章区</a>
-        <a class="btn btn-outline-light" href="/buu/">查看 BUU 专题</a>
+        <a class="btn btn-primary" href="/posts/">杩涘叆鏂囩珷鍖?/a>
       </div>
     </div>
   </section>
@@ -70,10 +69,10 @@
         <div class="home-profile__body">
           <img class="home-profile__avatar" src="{{ "images/profile.png" | relURL }}" alt="{{ site.Params.author.name }}">
           <h2 class="home-panel__title">{{ site.Params.author.name }}</h2>
-          <p class="home-profile__bio">哈基龙的博客，随便看看</p>
+          <p class="home-profile__bio">鍝堝熀榫欑殑鍗氬锛岄殢渚跨湅鐪?/p>
           <div class="home-profile__meta">
             <span>CN / SH</span>
-            <span>{{ $summary.content }} 篇内容</span>
+            <span>{{ $summary.content }} 绡囧唴瀹?/span>
           </div>
           <div class="home-profile__stats">
             <div><strong>{{ $summary.blog }}</strong><span>Blog</span></div>
@@ -82,36 +81,36 @@
             <div><strong>{{ $summary.iscc }}</strong><span>ISCC2026</span></div>
           </div>
           <div class="home-profile__links">
-            <a href="/about/"><span>关于</span><b>01</b></a>
-            <a href="/posts/"><span>文章</span><b>02</b></a>
+            <a href="/about/"><span>鍏充簬</span><b>01</b></a>
+            <a href="/posts/"><span>鏂囩珷</span><b>02</b></a>
             <a href="/buu/"><span>BUU</span><b>03</b></a>
             <a href="/reverse/"><span>Reverse</span><b>04</b></a>
             <a href="/iscc-2026/"><span>ISCC2026</span><b>05</b></a>
-            <a href="/contest-2026/"><span>2026校赛</span><b>05</b></a>
-            <a href="/friends/"><span>友链</span><b>06</b></a>
+            <a href="/contest-2026/"><span>2026鏍¤禌</span><b>05</b></a>
+            <a href="/friends/"><span>鍙嬮摼</span><b>06</b></a>
             <a href="https://github.com/weifengdel0ng" target="_blank" rel="noopener noreferrer"><span>GitHub</span><b>07</b></a>
           </div>
         </div>
       </div>
 
       <div class="home-panel card component">
-        <h3 class="home-panel__title">导航</h3>
+        <h3 class="home-panel__title">瀵艰埅</h3>
         <nav class="home-nav-list">
-          <a href="/"><span>主页</span><b>⌂</b></a>
-          <a href="/posts/"><span>文章归档</span><b>↗</b></a>
-          <a href="/buu/"><span>BUU 专题</span><b>↗</b></a>
-          <a href="/reverse/"><span>Reverse</span><b>↗</b></a>
-          <a href="/iscc-2026/"><span>ISCC2026</span><b>↗</b></a>
-          <a href="/contest-2026/"><span>2026校赛</span><b>↗</b></a>
-          <a href="/friends/"><span>友链</span><b>↗</b></a>
-          <a href="/tags/"><span>标签</span><b>#</b></a>
-          <a href="/categories/"><span>分类</span><b>◫</b></a>
-          <a href="/about/"><span>关于我</span><b>?</b></a>
+          <a href="/"><span>涓婚〉</span><b>鈱?/b></a>
+          <a href="/posts/"><span>鏂囩珷褰掓。</span><b>鈫?/b></a>
+          <a href="/buu/"><span>BUU 涓撻</span><b>鈫?/b></a>
+          <a href="/reverse/"><span>Reverse</span><b>鈫?/b></a>
+          <a href="/iscc-2026/"><span>ISCC2026</span><b>鈫?/b></a>
+          <a href="/contest-2026/"><span>2026鏍¤禌</span><b>鈫?/b></a>
+          <a href="/friends/"><span>鍙嬮摼</span><b>鈫?/b></a>
+          <a href="/tags/"><span>鏍囩</span><b>#</b></a>
+          <a href="/categories/"><span>鍒嗙被</span><b>鈼?/b></a>
+          <a href="/about/"><span>鍏充簬鎴?/span><b>?</b></a>
         </nav>
       </div>
 
       <div class="home-panel card component">
-        <h3 class="home-panel__title">标签速览</h3>
+        <h3 class="home-panel__title">鏍囩閫熻</h3>
         <div class="home-tag-cloud">
           {{- range $topTags }}
           <a href="{{ .Page.RelPermalink }}">{{ .Page.Title }}</a>
@@ -152,7 +151,7 @@
               <a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
               {{- end }}
             </div>
-            <a class="home-post-card__more" href="{{ $page.RelPermalink }}">查看详情</a>
+            <a class="home-post-card__more" href="{{ $page.RelPermalink }}">鏌ョ湅璇︽儏</a>
           </div>
         </div>
       </article>
@@ -164,18 +163,17 @@
         <div class="home-panel__head">
           <div>
             <div class="home-panel__eyebrow">Overview</div>
-            <h3 class="home-panel__title">站点概览</h3>
+            <h3 class="home-panel__title">绔欑偣姒傝</h3>
           </div>
           <span class="home-panel__cta">OPEN</span>
         </div>
         <p class="home-panel__text">
-          当前可见内容 {{ $summary.content }} 篇，专题与文章总数会在每次构建时按真实仓库自动刷新。
-          {{- with $latestPublished }}最近发布：{{ .Title }}。{{ end -}}
+          褰撳墠鍙鍐呭 {{ $summary.content }} 绡囷紝涓撻涓庢枃绔犳€绘暟浼氬湪姣忔鏋勫缓鏃舵寜鐪熷疄浠撳簱鑷姩鍒锋柊銆?          {{- with $latestPublished }}鏈€杩戝彂甯冿細{{ .Title }}銆倇{ end -}}
         </p>
         <div class="home-stat-list">
-          <div><strong>{{ $summary.content }}</strong><span>总内容</span></div>
-          <div><strong>{{ $summary.categories }}</strong><span>分类</span></div>
-          <div><strong>{{ $summary.tags }}</strong><span>标签</span></div>
+          <div><strong>{{ $summary.content }}</strong><span>鎬诲唴瀹?/span></div>
+          <div><strong>{{ $summary.categories }}</strong><span>鍒嗙被</span></div>
+          <div><strong>{{ $summary.tags }}</strong><span>鏍囩</span></div>
         </div>
       </a>
 
@@ -183,18 +181,18 @@
         <div class="home-panel__head">
           <div>
             <div class="home-panel__eyebrow">Activity</div>
-            <h3 class="home-panel__title">发布趋势</h3>
+            <h3 class="home-panel__title">鍙戝竷瓒嬪娍</h3>
           </div>
           <a class="home-panel__cta" href="/insights/#activity">OPEN</a>
         </div>
         <div class="home-activity" data-home-activity-tabs>
           <div class="home-activity__toolbar">
-            <div class="home-activity__tabs" role="tablist" aria-label="首页趋势时间范围">
-              <button class="home-activity__tab is-active" type="button" data-home-activity-trigger="7d">7天</button>
-              <button class="home-activity__tab" type="button" data-home-activity-trigger="30d">30天</button>
-              <button class="home-activity__tab" type="button" data-home-activity-trigger="12m">12个月</button>
+            <div class="home-activity__tabs" role="tablist" aria-label="棣栭〉瓒嬪娍鏃堕棿鑼冨洿">
+              <button class="home-activity__tab is-active" type="button" data-home-activity-trigger="7d">7澶?/button>
+              <button class="home-activity__tab" type="button" data-home-activity-trigger="30d">30澶?/button>
+              <button class="home-activity__tab" type="button" data-home-activity-trigger="12m">12涓湀</button>
             </div>
-            <span class="home-activity__summary" data-home-activity-summary>4 篇</span>
+            <span class="home-activity__summary" data-home-activity-summary>4 绡?/span>
           </div>
           {{- range $range := slice $activity7 $activity30 $activity12 }}
           {{- $pointScratch := newScratch -}}
@@ -259,9 +257,9 @@
           {{- end }}
         </div>
         <div class="home-kpi-row home-kpi-row--activity">
-          <div><strong>{{ $activity7.total }}</strong><span>7天新增</span></div>
-          <div><strong>{{ $activity30.total }}</strong><span>30天新增</span></div>
-          <div><strong>{{ $activity12.total }}</strong><span>12个月新增</span></div>
+          <div><strong>{{ $activity7.total }}</strong><span>7澶╂柊澧?/span></div>
+          <div><strong>{{ $activity30.total }}</strong><span>30澶╂柊澧?/span></div>
+          <div><strong>{{ $activity12.total }}</strong><span>12涓湀鏂板</span></div>
         </div>
       </div>
 
@@ -269,7 +267,7 @@
         <div class="home-panel__head">
           <div>
             <div class="home-panel__eyebrow">Distribution</div>
-            <h3 class="home-panel__title">内容分布</h3>
+            <h3 class="home-panel__title">鍐呭鍒嗗竷</h3>
           </div>
           <span class="home-panel__cta">{{ $summary.notes }} Notes</span>
         </div>
@@ -292,7 +290,7 @@
         <div class="home-panel__head">
           <div>
             <div class="home-panel__eyebrow">Boards</div>
-            <h3 class="home-panel__title">板块状态</h3>
+            <h3 class="home-panel__title">鏉垮潡鐘舵€?/h3>
           </div>
           <span class="home-panel__cta">{{ len $boards }} Blocks</span>
         </div>
@@ -308,7 +306,7 @@
       </a>
 
       <div class="home-panel card component">
-        <h3 class="home-panel__title">最近发布</h3>
+        <h3 class="home-panel__title">鏈€杩戝彂甯?/h3>
         <div class="home-mini-list">
           {{- range $recentPublished }}
           <a class="home-mini-list__item" href="{{ .RelPermalink }}">
@@ -320,7 +318,7 @@
       </div>
 
       <div class="home-panel card component">
-        <h3 class="home-panel__title">分类</h3>
+        <h3 class="home-panel__title">鍒嗙被</h3>
         <div class="home-category-list">
           {{- range $topCategories }}
           <a href="{{ .Page.RelPermalink }}">
@@ -333,7 +331,7 @@
 
       {{- with $featured }}
       <div class="home-panel home-featured card component">
-        <h3 class="home-panel__title">精选入口</h3>
+        <h3 class="home-panel__title">绮鹃€夊叆鍙?/h3>
         <a class="home-featured__link" href="{{ .RelPermalink }}">
           <strong>{{ .Title }}</strong>
           <span>{{ .Description }}</span>
@@ -387,7 +385,7 @@ document.addEventListener("DOMContentLoaded", function () {
         var active = panel.getAttribute("data-home-activity-panel") === key;
         panel.classList.toggle("is-active", active);
         if (active && summary) {
-          summary.textContent = panel.getAttribute("data-home-activity-total") + " 篇";
+          summary.textContent = panel.getAttribute("data-home-activity-total") + " 绡?;
         }
       });
     }
@@ -403,3 +401,4 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 {{ end }}
+
