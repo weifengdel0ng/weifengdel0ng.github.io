@@ -150,7 +150,6 @@ html[data-bs-theme="light"] body {
 .bottom-easter-egg__card {
   display: inline-flex;
   flex-direction: column;
-  gap: 0.15rem;
   min-width: 12.5rem;
   padding: 0.8rem 0.95rem;
   border-radius: 16px;
@@ -171,11 +170,6 @@ html[data-bs-theme="light"] body {
 .bottom-easter-egg__card-title {
   font-size: 0.92rem;
   font-weight: 700;
-}
-
-.bottom-easter-egg__card-meta {
-  font-size: 0.72rem;
-  color: rgba(229, 237, 255, 0.78);
 }
 
 html[data-bs-theme="light"] .bottom-easter-egg__hint {
@@ -200,10 +194,6 @@ html[data-bs-theme="light"] .bottom-easter-egg__card {
 
 html[data-bs-theme="light"] .bottom-easter-egg__card:hover {
   color: #0a1b35;
-}
-
-html[data-bs-theme="light"] .bottom-easter-egg__card-meta {
-  color: rgba(43, 63, 99, 0.72);
 }
 
 @media (max-width: 767.98px) {
