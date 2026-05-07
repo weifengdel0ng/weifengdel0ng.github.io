@@ -1,8 +1,8 @@
-(function () {
+﻿(function () {
   var STORAGE_KEY = "hakilong:panel-opacity";
   var DEFAULT_OPACITY = 0.88;
-  var EASTER_EGG_STORAGE_KEY = "hakilong:jump-bottom-reaches";
-  var EASTER_EGG_UNLOCK_COUNT = 5;
+  var EASTER_EGG_STORAGE_KEY = "hakilong:jump-click-count";
+  var EASTER_EGG_INITIAL_COUNT = 10;
 
   function clampOpacity(value) {
     var numeric = parseFloat(value);
@@ -52,21 +52,21 @@
     return path === "/" || path === "/index.html";
   }
 
-  function loadBottomReachCount() {
+  function loadEasterEggCount() {
     try {
-      var value = parseInt(localStorage.getItem(EASTER_EGG_STORAGE_KEY) || "0", 10);
-      return Number.isFinite(value) ? Math.max(0, value) : 0;
+      var value = parseInt(localStorage.getItem(EASTER_EGG_STORAGE_KEY) || String(EASTER_EGG_INITIAL_COUNT), 10);
+      return Number.isFinite(value) ? Math.max(0, Math.min(EASTER_EGG_INITIAL_COUNT, value)) : EASTER_EGG_INITIAL_COUNT;
     } catch (error) {
-      console.debug("bottom reach count load failed", error);
-      return 0;
+      console.debug("easter egg count load failed", error);
+      return EASTER_EGG_INITIAL_COUNT;
     }
   }
 
-  function saveBottomReachCount(count) {
+  function saveEasterEggCount(count) {
     try {
       localStorage.setItem(EASTER_EGG_STORAGE_KEY, String(Math.max(0, count)));
     } catch (error) {
-      console.debug("bottom reach count save failed", error);
+      console.debug("easter egg count save failed", error);
     }
   }
 
@@ -80,37 +80,60 @@
       return;
     }
 
-    var count = loadBottomReachCount();
-    var atBottom = false;
+    var hint = container.querySelector("[data-bottom-easter-hint]");
+    var card = container.querySelector("[data-bottom-easter-card]");
+    var count = loadEasterEggCount();
 
-    function syncState() {
-      if (count > 0) {
-        container.classList.add("is-hint-visible");
+    function render() {
+      container.classList.add("is-hint-visible");
+      if (hint) {
+        hint.textContent = count > 0 ? "\u518d\u70b9" + count + "\u6b21\u5c31\u8981\u70b8\u4e86" : "\u53ef\u4ee5\u8fdb\u5165\u5c0f\u6e38\u620f";
       }
-      if (count >= EASTER_EGG_UNLOCK_COUNT) {
+
+      if (count <= 0) {
         container.classList.add("is-card-visible");
+        if (hint) {
+          hint.hidden = true;
+        }
+        if (card) {
+          card.hidden = false;
+        }
+      } else {
+        container.classList.remove("is-card-visible");
+        if (hint) {
+          hint.hidden = false;
+        }
+        if (card) {
+          card.hidden = true;
+        }
       }
     }
 
-    function detectBottom() {
-      var doc = document.documentElement;
-      var threshold = 8;
-      var reachedBottom = window.innerHeight + window.scrollY >= doc.scrollHeight - threshold;
-
-      if (reachedBottom && !atBottom) {
-        atBottom = true;
-        count += 1;
-        saveBottomReachCount(count);
-        syncState();
-      } else if (!reachedBottom) {
-        atBottom = false;
-      }
+    if (hint) {
+      hint.addEventListener("click", function () {
+        if (count <= 0) {
+          return;
+        }
+        count -= 1;
+        saveEasterEggCount(count);
+        render();
+      });
     }
 
-    syncState();
-    detectBottom();
-    window.addEventListener("scroll", detectBottom, { passive: true });
-    window.addEventListener("resize", detectBottom);
+    if (card) {
+      card.addEventListener("click", function () {
+        count = 0;
+        saveEasterEggCount(count);
+        render();
+      });
+    }
+
+    if (count < 0 || count > EASTER_EGG_INITIAL_COUNT) {
+      count = EASTER_EGG_INITIAL_COUNT;
+      saveEasterEggCount(count);
+    }
+
+    render();
   }
 
   document.addEventListener("DOMContentLoaded", function () {
@@ -135,3 +158,4 @@
     });
   });
 })();
+
