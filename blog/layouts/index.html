@@ -1,5 +1,6 @@
 {{ define "content" }}
-{{- $recentPosts := first 4 ((where site.RegularPages "Section" "in" (slice "posts" "buu" "reverse" "contest-2026" "iscc-2026")).ByDate.Reverse) -}}
+{{- $aboutPage := site.GetPage "/about" -}}
+{{- $recentPosts := first 5 ((where site.RegularPages "Section" "in" (slice "posts" "buu" "reverse" "contest-2026" "iscc-2026")).ByDate.Reverse) -}}
 {{- $entryCards := slice -}}
 {{- with site.GetPage "/buu" -}}
   {{- $entryCards = $entryCards | append . -}}
@@ -10,7 +11,15 @@
 {{- with site.GetPage "/iscc-2026" -}}
   {{- $entryCards = $entryCards | append . -}}
 {{- end -}}
-{{- $homeCards := $entryCards | append $recentPosts -}}
+{{- with site.GetPage "/contest-2026" -}}
+  {{- $entryCards = $entryCards | append . -}}
+{{- end -}}
+{{- $homeCards := slice -}}
+{{- with $aboutPage -}}
+  {{- $homeCards = $homeCards | append . -}}
+{{- end -}}
+{{- $homeCards = $homeCards | append $recentPosts -}}
+{{- $homeCards = $homeCards | append $entryCards -}}
 {{- $featured := index $recentPosts 0 -}}
 {{- $dashboard := partial "functions/dashboard-data" . -}}
 {{- $summary := $dashboard.summary -}}
