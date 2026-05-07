@@ -1,4 +1,4 @@
-﻿{{- $site := .Site -}}
+{{- $site := .Site -}}
 {{- $contentSections := slice "posts" "buu" "reverse" "contest-2026" "iscc-2026" -}}
 {{- $contentPages := where $site.RegularPages "Section" "in" $contentSections -}}
 {{- $contentPagesByDate := $contentPages.ByDate.Reverse -}}
@@ -195,4 +195,3 @@
   "isccPages" $isccPages
   "friendLinks" $friendLinks
 ) -}}
-
