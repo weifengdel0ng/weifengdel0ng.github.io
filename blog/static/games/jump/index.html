@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>中翼软件科技、跳动2018</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="full-screen" content="true">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-fullscreen" content="true">
+    <meta name="360-fullscreen" content="true">
+	<link rel="icon" href="/zc.ico">
+    <style>
+        html, body {
+            -ms-touch-action: none;
+            background: #000000;
+            padding: 0;
+            border: 0;
+            margin: 0;
+            height: 100%;
+        }
+    </style>
+
+    <!--这个标签为通过egret提供的第三方库的方式生成的 javascript 文件。删除 modules_files 标签后，库文件加载列表将不会变化，请谨慎操作！-->
+    <!--modules_files_start-->
+	<script egret="lib" src="./libjs/egret.min.js"></script>
+	<script egret="lib" src="./libjs/egret.web.min.js"></script>
+	<script egret="lib" src="./libjs/eui.min.js"></script>
+	<script egret="lib" src="./libjs/res.min.js"></script>
+	<script egret="lib" src="./libjs/game.min.js"></script>
+	<script egret="lib" src="./libjs/game.web.min.js"></script>
+	<script egret="lib" src="./libjs/tween.min.js"></script>
+	<script egret="lib" src="./libjs/socket.min.js"></script>
+	<script egret="lib" src="./libjs/weixinapi.min.js"></script>
+	<script egret="lib" src="./libjs/particle.min.js"></script>
+	<!--modules_files_end-->
+
+    <!--这个标签为不通过egret提供的第三方库的方式使用的 javascript 文件，请将这些文件放在libs下，但不要放在modules下面。-->
+    <!--other_libs_files_start-->
+    <!--other_libs_files_end-->
+
+    <!--这个标签会被替换为项目中所有的 javascript 文件。删除 game_files 标签后，项目文件加载列表将不会变化，请谨慎操作！-->
+    <!--game_files_start-->
+	<script src="./libjs/main.min.js"></script>
+	<script src="./blog-shim.js"></script>
+	<!--game_files_end-->
+</head>
+<body>
+
+    <div id="advLayer" style="margin: auto; width: 100%; height: 100%; overflow: hidden; position: relative; transform: translateZ(0px);" class="egret-player" data-entry-class="Main" data-orientation="auto" data-scale-mode="showAll" data-frame-rate="30" data-content-width="750" data-content-height="1209" data-show-paint-rect="false" data-multi-fingered="2" data-show-fps="false" data-show-log="false" data-show-fps-style="x:0,y:0,size:12,textColor:0xffffff,bgAlpha:0.9">
+    <canvas width="1080" height="1920" style="cursor: inherit; position: absolute; top: 0px; bottom: 0px; left: 497px; right: 0px; transform-origin: 0% 0% 0px; width: 372px; height: 662px; transform: rotate(0deg);"></canvas><div id="StageDelegateDiv" style="position: absolute; left: 497px; top: 0px; border: none; padding: 0px; transform: rotate(0deg); transform-origin: 0% 0% 0px;"><div style="position: absolute; left: 0px; top: -100px; border: none; padding: 0px; width: 0px; height: 0px; transform-origin: 0% 0% 0px;"><textarea id="egretTextarea" tabindex="-1" style="resize: none; width: 1px; height: 12px; position: absolute; left: 0px; top: 0px; border: none; padding: 0px; outline: thin; background: none; overflow: hidden; word-break: break-all; opacity: 0;"></textarea><input id="egretInput" type="text" tabindex="-1" style="width: 1px; height: 12px; position: absolute; left: 0px; top: 0px; border: none; padding: 0px; outline: thin; background: none; overflow: hidden; word-break: break-all; opacity: 0;"></div></div></div>
+    <script>
+        /**
+         * {
+         * "renderMode":, //引擎渲染模式，"canvas" 或者 "webgl"
+         * "audioType": "" //使用的音频类型，0:默认，1:qq audio，2:web audio，3:audio
+         * }
+         **/
+        egret.runEgret({renderMode:"canvas", audioType:0});
+    </script>
+
+
+</body></html>

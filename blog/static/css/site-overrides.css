@@ -89,3 +89,107 @@ html[data-bs-theme="light"] body {
 .mode-dropdown-menu .panel-opacity-control__value {
   font-variant-numeric: tabular-nums;
 }
+
+.footer {
+  position: relative;
+  overflow: visible;
+}
+
+.bottom-easter-egg {
+  position: absolute;
+  left: clamp(16px, 2vw, 28px);
+  bottom: clamp(10px, 2vw, 18px);
+  z-index: 4;
+  display: flex;
+  align-items: flex-end;
+  gap: 0.75rem;
+  pointer-events: none;
+}
+
+.bottom-easter-egg__hint,
+.bottom-easter-egg__card {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.bottom-easter-egg__hint {
+  max-width: 16rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+}
+
+.bottom-easter-egg.is-hint-visible .bottom-easter-egg__hint,
+.bottom-easter-egg.is-card-visible .bottom-easter-egg__card {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.bottom-easter-egg.is-card-visible {
+  pointer-events: auto;
+}
+
+.bottom-easter-egg__card {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 12.5rem;
+  padding: 0.8rem 0.95rem;
+  border-radius: 16px;
+  text-decoration: none;
+  color: #f5f8ff;
+  background: linear-gradient(145deg, rgba(14, 24, 38, 0.92), rgba(31, 52, 79, 0.8));
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 18px 36px rgba(3, 8, 16, 0.32);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.bottom-easter-egg__card:hover {
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.bottom-easter-egg__card-title {
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.bottom-easter-egg__card-meta {
+  font-size: 0.72rem;
+  color: rgba(229, 237, 255, 0.78);
+}
+
+html[data-bs-theme="light"] .bottom-easter-egg__hint {
+  color: rgba(23, 35, 58, 0.88);
+  text-shadow: 0 2px 12px rgba(255, 255, 255, 0.42);
+}
+
+html[data-bs-theme="light"] .bottom-easter-egg__card {
+  color: #112341;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(226, 236, 252, 0.88));
+  border-color: rgba(126, 154, 198, 0.28);
+  box-shadow: 0 18px 36px rgba(97, 128, 170, 0.18);
+}
+
+html[data-bs-theme="light"] .bottom-easter-egg__card:hover {
+  color: #0a1b35;
+}
+
+html[data-bs-theme="light"] .bottom-easter-egg__card-meta {
+  color: rgba(43, 63, 99, 0.72);
+}
+
+@media (max-width: 767.98px) {
+  .bottom-easter-egg {
+    right: 1rem;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .bottom-easter-egg__card {
+    min-width: min(14rem, calc(100vw - 2rem));
+  }
+}
