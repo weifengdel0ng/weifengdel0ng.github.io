@@ -1,0 +1,158 @@
+.live2d-widget {
+  --live2d-accent: 102, 204, 255;
+  position: fixed;
+  right: 24px;
+  bottom: 0;
+  z-index: 10000;
+  width: 280px;
+  height: 250px;
+  user-select: none;
+  touch-action: none;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.live2d-widget.is-hidden {
+  display: none;
+}
+
+.live2d-widget.is-dragging {
+  cursor: grabbing;
+}
+
+.live2d-widget__canvas {
+  position: absolute;
+  inset: 0;
+  width: 280px;
+  height: 250px;
+  cursor: grab;
+}
+
+.live2d-widget.is-dragging .live2d-widget__canvas {
+  cursor: grabbing;
+}
+
+.live2d-widget__message {
+  position: absolute;
+  left: -18px;
+  top: -72px;
+  width: 316px;
+  min-height: 38px;
+  padding: 8px 12px;
+  border: 1px solid rgba(var(--live2d-accent), 0.45);
+  border-radius: 14px;
+  background: rgba(16, 28, 42, 0.74);
+  box-shadow: 0 12px 28px rgba(18, 92, 128, 0.28);
+  color: #f4fbff;
+  font-size: 13px;
+  line-height: 1.45;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.live2d-widget__message.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.live2d-widget__controls {
+  position: absolute;
+  top: 12px;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  opacity: 0;
+  transform: translateX(8px);
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.live2d-widget:hover .live2d-widget__controls,
+.live2d-widget:focus-within .live2d-widget__controls {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.live2d-widget__button,
+.live2d-widget__restore {
+  border: 1px solid rgba(var(--live2d-accent), 0.5);
+  border-radius: 999px;
+  background: rgba(var(--live2d-accent), 0.22);
+  box-shadow: 0 6px 18px rgba(28, 124, 168, 0.24);
+  color: #f6fcff;
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.live2d-widget__button {
+  width: 62px;
+  min-height: 24px;
+}
+
+.live2d-widget__button:hover,
+.live2d-widget__restore:hover {
+  background: rgba(var(--live2d-accent), 0.42);
+  color: #ffffff;
+}
+
+.live2d-widget__credit {
+  position: absolute;
+  left: 8px;
+  bottom: 6px;
+  max-width: 220px;
+  color: rgba(255, 255, 255, 0.44);
+  font-size: 10px;
+  line-height: 1.2;
+  opacity: 0;
+  transition: opacity 160ms ease;
+  pointer-events: none;
+}
+
+.live2d-widget:hover .live2d-widget__credit {
+  opacity: 1;
+}
+
+.live2d-widget__restore {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 10000;
+  min-height: 34px;
+  padding: 0 14px;
+}
+
+html[data-bs-theme="light"] .live2d-widget__message {
+  background: rgba(246, 251, 255, 0.82);
+  color: #17314a;
+  box-shadow: 0 12px 28px rgba(92, 147, 190, 0.2);
+}
+
+html[data-bs-theme="light"] .live2d-widget__button,
+html[data-bs-theme="light"] .live2d-widget__restore {
+  color: #11304a;
+  background: rgba(226, 246, 255, 0.74);
+}
+
+html[data-bs-theme="light"] .live2d-widget__button:hover,
+html[data-bs-theme="light"] .live2d-widget__restore:hover {
+  color: #071b2d;
+  background: rgba(204, 239, 255, 0.95);
+}
+
+html[data-bs-theme="light"] .live2d-widget__credit {
+  color: rgba(17, 48, 74, 0.52);
+}
+
+@media (max-width: 860px) {
+  .live2d-widget,
+  .live2d-widget__restore {
+    display: none !important;
+  }
+}

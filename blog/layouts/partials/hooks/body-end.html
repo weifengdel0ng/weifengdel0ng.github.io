@@ -1,1 +1,13 @@
 <script src="{{ "js/site-overrides.js" | relURL }}" defer></script>
+<div class="live2d-widget" id="hakilong-live2d" data-live2d-widget>
+  <div class="live2d-widget__message" data-live2d-message aria-live="polite"></div>
+  <canvas class="live2d-widget__canvas" id="hakilong-live2d-canvas" width="280" height="250"></canvas>
+  <div class="live2d-widget__controls" aria-label="Live2D controls">
+    <button class="live2d-widget__button" type="button" data-live2d-sing>Sing</button>
+    <button class="live2d-widget__button" type="button" data-live2d-hide>隐藏</button>
+  </div>
+  <div class="live2d-widget__credit">Live2D: unsignedzhang/luotianyi-live2d</div>
+</div>
+<button class="live2d-widget__restore" type="button" data-live2d-restore hidden>看板娘</button>
+<script src="{{ "live2d/luotianyi/js/live2d.js" | relURL }}" defer></script>
+<script src="{{ "live2d/luotianyi/js/live2d-widget.js" | relURL }}" defer></script>

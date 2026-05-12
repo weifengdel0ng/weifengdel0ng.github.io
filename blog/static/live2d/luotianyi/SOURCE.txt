@@ -1,0 +1,7 @@
+Source: https://github.com/unsignedzhang/luotianyi-live2d
+Fetched for local static hosting in this Hugo site.
+The upstream repository did not declare a license at fetch time.
+
+Local changes:
+- model/tianyi/model.json.php was converted to static JSON at model/tianyi/model.json.
+- The site uses js/live2d.js as the model renderer, but replaces the original jQuery message.js behavior with js/live2d-widget.js.
