@@ -30,3 +30,10 @@ url = "https://blog.colix.cn/"
 avatar = "images/friends/q.jpg"
 description = "佬"
 site = "blog.colix.cn"
+
+[[links]]
+name = "Xiaohao's Blog"
+url = "https://blog.enxiaohao.cn/"
+avatar = "https://img.enxiaohao.cn/images/favicon.png"
+description = "Xiaohao's Blog"
+site = "blog.enxiaohao.cn"
