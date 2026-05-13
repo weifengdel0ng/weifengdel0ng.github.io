@@ -54,7 +54,8 @@
     var restoreButton = document.querySelector("[data-live2d-restore]");
     var singButton = document.querySelector("[data-live2d-sing]");
     var hideTimer = null;
-    var currentAudio = null;
+    var currentSong = null;
+    var songList = [];
     var songsPromise = null;
     var dragging = null;
     var suppressNextClick = false;
@@ -118,61 +119,128 @@
             return response.json();
           })
           .then(function (songs) {
-            return Array.isArray(songs) ? songs.filter(function (song) {
+            songList = Array.isArray(songs) ? songs.filter(function (song) {
               return song && song.url;
             }) : [];
+            return songList;
+          })
+          .catch(function () {
+            songList = [];
+            return songList;
           });
       }
       return songsPromise;
     }
 
     function stopSong() {
-      if (currentAudio) {
-        currentAudio.pause();
-        currentAudio.src = "";
-        currentAudio = null;
+      if (currentSong) {
+        currentSong.stop();
+        currentSong = null;
       }
       if (singButton) {
         singButton.textContent = "Sing";
       }
     }
 
+    function playLocalMelody(songName) {
+      var AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContext) {
+        showMessage("\u5f53\u524d\u6d4f\u89c8\u5668\u4e0d\u652f\u6301 WebAudio\u3002");
+        return;
+      }
+
+      var context = new AudioContext();
+      var masterGain = context.createGain();
+      var notes = [
+        [392, 0.22],
+        [440, 0.22],
+        [494, 0.28],
+        [587, 0.34],
+        [523, 0.22],
+        [494, 0.22],
+        [440, 0.32],
+        [392, 0.28],
+        [330, 0.22],
+        [392, 0.22],
+        [440, 0.28],
+        [494, 0.42],
+        [440, 0.24],
+        [392, 0.24],
+        [330, 0.46]
+      ];
+      var startAt = context.currentTime + 0.03;
+      var cursor = startAt;
+      var oscillators = [];
+
+      masterGain.gain.setValueAtTime(0.0001, context.currentTime);
+      masterGain.gain.exponentialRampToValueAtTime(0.13, context.currentTime + 0.04);
+      masterGain.connect(context.destination);
+
+      notes.forEach(function (note, index) {
+        var frequency = note[0];
+        var duration = note[1];
+        var oscillator = context.createOscillator();
+        var noteGain = context.createGain();
+        var endAt = cursor + duration;
+
+        oscillator.type = index % 3 === 0 ? "sine" : "triangle";
+        oscillator.frequency.setValueAtTime(frequency, cursor);
+        noteGain.gain.setValueAtTime(0.0001, cursor);
+        noteGain.gain.exponentialRampToValueAtTime(0.95, cursor + 0.015);
+        noteGain.gain.exponentialRampToValueAtTime(0.0001, Math.max(cursor + 0.02, endAt - 0.035));
+        oscillator.connect(noteGain);
+        noteGain.connect(masterGain);
+        oscillator.start(cursor);
+        oscillator.stop(endAt);
+        oscillators.push(oscillator);
+        cursor = endAt + 0.035;
+      });
+
+      var songHandle = {
+        stop: function () {
+          oscillators.forEach(function (oscillator) {
+            try {
+              oscillator.stop();
+            } catch (error) {
+            }
+          });
+          masterGain.gain.cancelScheduledValues(context.currentTime);
+          masterGain.gain.setTargetAtTime(0.0001, context.currentTime, 0.025);
+          window.setTimeout(function () {
+            context.close().catch(function () {
+            });
+          }, 120);
+        }
+      };
+      currentSong = songHandle;
+
+      context.resume()
+        .then(function () {
+          if (singButton) {
+            singButton.textContent = "Pause";
+          }
+          showMessage("\u6b63\u5728\u64ad\u653e\uff1a" + songName);
+          window.setTimeout(function () {
+            if (currentSong === songHandle) {
+              stopSong();
+            }
+          }, Math.max(1200, Math.round((cursor - context.currentTime) * 1000) + 120));
+        })
+        .catch(function () {
+          stopSong();
+          showMessage("\u64ad\u653e\u5931\u8d25\uff0c\u8bf7\u518d\u70b9\u4e00\u4e0b Sing\u3002");
+        });
+    }
+
     function playRandomSong() {
-      if (currentAudio) {
+      if (currentSong) {
         stopSong();
         showMessage("\u5df2\u6682\u505c\u3002", 2200);
         return;
       }
 
-      loadSongs()
-        .then(function (songs) {
-          if (!songs.length) {
-            showMessage("\u6ca1\u6709\u627e\u5230\u53ef\u64ad\u653e\u7684\u6b4c\u66f2\u3002");
-            return;
-          }
-          var song = randomItem(songs);
-          currentAudio = new Audio(song.url);
-          currentAudio.preload = "none";
-          currentAudio.addEventListener("ended", stopSong, { once: true });
-          currentAudio.addEventListener("error", function () {
-            stopSong();
-            showMessage("\u6b4c\u66f2\u94fe\u63a5\u6682\u65f6\u4e0d\u53ef\u7528\u3002");
-          }, { once: true });
-          var playResult = currentAudio.play();
-          if (playResult && typeof playResult.then === "function") {
-            playResult.catch(function () {
-              stopSong();
-              showMessage("\u6d4f\u89c8\u5668\u62e6\u622a\u4e86\u64ad\u653e\uff0c\u70b9\u4e00\u4e0b Sing \u518d\u8bd5\u3002");
-            });
-          }
-          if (singButton) {
-            singButton.textContent = "Pause";
-          }
-          showMessage("\u6b63\u5728\u64ad\u653e\uff1a" + (song.name || "\u6d1b\u5929\u4f9d"));
-        })
-        .catch(function () {
-          showMessage("\u6b4c\u66f2\u5217\u8868\u52a0\u8f7d\u5931\u8d25\u3002");
-        });
+      var song = songList.length ? randomItem(songList) : null;
+      playLocalMelody((song && song.name) || "\u6d1b\u5929\u4f9d\u7535\u5b50\u5c0f\u8c03");
     }
 
     function startDrag(event) {
@@ -251,6 +319,7 @@
     }
 
     showMessage("\u6d1b\u5929\u4f9d\u5df2\u4e0a\u7ebf\uff0c\u53ef\u4ee5\u62d6\u52a8\u6211\u3002", 4200);
+    loadSongs();
 
     canvas.addEventListener("pointerdown", startDrag);
     window.addEventListener("pointermove", moveDrag);
