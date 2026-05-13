@@ -5,6 +5,16 @@
   --site-surface-rgb: 12, 19, 29;
   --site-bg-image: url("/images/site-background.webp");
   --site-bg-size: min(680px, 82vw);
+  --site-pointer-x: 50vw;
+  --site-pointer-y: 42vh;
+  --site-pointer-shift-x: 0px;
+  --site-pointer-shift-y: 0px;
+  --site-light-drift-x: 0px;
+  --site-light-drift-y: 0px;
+  --site-grid-drift-x: 0px;
+  --site-grid-drift-y: 0px;
+  --site-grid-drift-x-inverse: 0px;
+  --site-grid-drift-y-deep: 0px;
 }
 
 html[data-bs-theme="light"] {
@@ -36,14 +46,101 @@ body::after {
 body::after {
   z-index: -1;
   background:
+    radial-gradient(
+      34rem circle at var(--site-pointer-x) var(--site-pointer-y),
+      rgba(88, 205, 255, 0.24),
+      rgba(88, 205, 255, 0.08) 34%,
+      transparent 69%
+    ),
+    linear-gradient(
+      118deg,
+      transparent 0 39%,
+      rgba(116, 219, 255, 0.12) 44%,
+      rgba(116, 219, 255, 0.05) 49%,
+      transparent 55% 100%
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(128, 218, 255, 0.055) 0 1px,
+      transparent 1px 84px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(128, 218, 255, 0.04) 0 1px,
+      transparent 1px 84px
+    ),
     linear-gradient(180deg, rgba(4, 8, 14, 0.46), rgba(4, 8, 14, 0.58)),
     radial-gradient(circle at center, rgba(12, 19, 29, 0.05), rgba(12, 19, 29, 0.34));
+  background-size:
+    auto,
+    72rem 72rem,
+    84px 84px,
+    84px 84px,
+    auto,
+    auto;
+  background-position:
+    center,
+    calc(50% + var(--site-light-drift-x)) calc(50% + var(--site-light-drift-y)),
+    var(--site-grid-drift-x) var(--site-grid-drift-y),
+    var(--site-grid-drift-x-inverse) var(--site-grid-drift-y-deep),
+    center,
+    center;
 }
 
 html[data-bs-theme="light"] body::after {
   background:
+    radial-gradient(
+      34rem circle at var(--site-pointer-x) var(--site-pointer-y),
+      rgba(52, 131, 214, 0.18),
+      rgba(52, 131, 214, 0.06) 36%,
+      transparent 70%
+    ),
+    linear-gradient(
+      118deg,
+      transparent 0 40%,
+      rgba(58, 141, 224, 0.11) 45%,
+      rgba(58, 141, 224, 0.045) 49%,
+      transparent 55% 100%
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(49, 106, 180, 0.055) 0 1px,
+      transparent 1px 84px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(49, 106, 180, 0.04) 0 1px,
+      transparent 1px 84px
+    ),
     linear-gradient(180deg, rgba(242, 247, 255, 0.32), rgba(235, 243, 255, 0.48)),
     radial-gradient(circle at center, rgba(255, 255, 255, 0.03), rgba(226, 237, 255, 0.24));
+  background-size:
+    auto,
+    72rem 72rem,
+    84px 84px,
+    84px 84px,
+    auto,
+    auto;
+  background-position:
+    center,
+    calc(50% + var(--site-light-drift-x)) calc(50% + var(--site-light-drift-y)),
+    var(--site-grid-drift-x) var(--site-grid-drift-y),
+    var(--site-grid-drift-x-inverse) var(--site-grid-drift-y-deep),
+    center,
+    center;
+}
+
+@media (prefers-reduced-motion: reduce), (hover: none) {
+  body::after,
+  html[data-bs-theme="light"] body::after {
+    background-position:
+      center,
+      center,
+      0 0,
+      0 0,
+      center,
+      center;
+  }
 }
 
 main,

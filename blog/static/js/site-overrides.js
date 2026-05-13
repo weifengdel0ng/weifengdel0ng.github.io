@@ -3,6 +3,7 @@
   var DEFAULT_OPACITY = 0.88;
   var EASTER_EGG_STORAGE_KEY = "hakilong:jump-click-count";
   var EASTER_EGG_INITIAL_COUNT = 10;
+  var POINTER_ACTIVE_CLASS = "has-structure-light";
 
   function clampOpacity(value) {
     var numeric = parseFloat(value);
@@ -136,10 +137,62 @@
     render();
   }
 
+  function bindStructureLight() {
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+    if (window.matchMedia && window.matchMedia("(hover: none)").matches) {
+      return;
+    }
+
+    var root = document.documentElement;
+    var pending = false;
+    var pointerX = window.innerWidth / 2;
+    var pointerY = window.innerHeight * 0.42;
+
+    function applyPointer() {
+      pending = false;
+      var shiftX = pointerX - window.innerWidth / 2;
+      var shiftY = pointerY - window.innerHeight / 2;
+      root.style.setProperty("--site-pointer-x", pointerX.toFixed(1) + "px");
+      root.style.setProperty("--site-pointer-y", pointerY.toFixed(1) + "px");
+      root.style.setProperty("--site-pointer-shift-x", shiftX.toFixed(1) + "px");
+      root.style.setProperty("--site-pointer-shift-y", shiftY.toFixed(1) + "px");
+      root.style.setProperty("--site-light-drift-x", (shiftX * 0.12).toFixed(1) + "px");
+      root.style.setProperty("--site-light-drift-y", (shiftY * 0.08).toFixed(1) + "px");
+      root.style.setProperty("--site-grid-drift-x", (shiftX * 0.18).toFixed(1) + "px");
+      root.style.setProperty("--site-grid-drift-y", (shiftY * 0.12).toFixed(1) + "px");
+      root.style.setProperty("--site-grid-drift-x-inverse", (shiftX * -0.12).toFixed(1) + "px");
+      root.style.setProperty("--site-grid-drift-y-deep", (shiftY * 0.16).toFixed(1) + "px");
+    }
+
+    function schedulePointerUpdate(event) {
+      pointerX = event.clientX;
+      pointerY = event.clientY;
+      if (!pending) {
+        pending = true;
+        window.requestAnimationFrame(applyPointer);
+      }
+    }
+
+    document.body.classList.add(POINTER_ACTIVE_CLASS);
+    applyPointer();
+    window.addEventListener("pointermove", schedulePointerUpdate, { passive: true });
+    window.addEventListener("pointerleave", function () {
+      pointerX = window.innerWidth / 2;
+      pointerY = window.innerHeight * 0.42;
+      if (!pending) {
+        pending = true;
+        window.requestAnimationFrame(applyPointer);
+      }
+    }, { passive: true });
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
     var opacity = applyOpacity(loadOpacity());
     syncControl(opacity);
     bindBottomEasterEgg();
+    bindStructureLight();
 
     var slider = document.querySelector("[data-panel-opacity-slider]");
     if (!slider) {
