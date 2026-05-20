@@ -7,6 +7,8 @@ postDate = false
 reward = false
 +++
 
+![捅死你喵](tongsi.jpg)
+
 我是微风的龙，你也可以叫我哈基龙，这里是我的个人博客。
 
 这个站点主要用来记录：
@@ -17,3 +19,5 @@ reward = false
 - 一些奇奇怪怪神秘的东西
 
 目前还在慢慢学 PWN，爱好不详，年龄看内容猜，平时喜欢游玩的景点是提瓦特。
+
+![whatever](whatever.jpg)
