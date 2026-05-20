@@ -76,11 +76,11 @@ instruction 字段是一个 base64 编码的 ZIP 文件。
 
 对前 3 行分别按对应的 filter 类型进行逆运算：
 
-Row 0: Filter 1 (Sub) — raw\[x\] = filtered\[x\] + raw\[x-1\]
+Row 0: Filter 1 (Sub) — raw[x] = filtered[x] + raw[x-1]
 
-Row 1: Filter 4 (Paeth) — raw\[x\] = filtered\[x\] + PaethPredictor(...)
+Row 1: Filter 4 (Paeth) — raw[x] = filtered[x] + PaethPredictor(...)
 
-Row 2: Filter 4 (Paeth) — raw\[x\] = filtered\[x\] + PaethPredictor(...)
+Row 2: Filter 4 (Paeth) — raw[x] = filtered[x] + PaethPredictor(...)
 
 恢复后得到 300 个原始像素（3 行 × 100 列）。
 
@@ -99,7 +99,7 @@ Row 2: Filter 4 (Paeth) — raw\[x\] = filtered\[x\] + PaethPredictor(...)
 
 ### 8. Flag
 
-ISCC{1d3f1c4t10gn\_1s\_Eth3\_k3yl\_t0\_ivT1ct0ry}
+ISCC{1d3f1c4t10gn_1s_Eth3_k3yl_t0_ivT1ct0ry}
 
 EXP：
 =====
@@ -107,105 +107,105 @@ EXP：
 （1）
 -----
 
-from scapy.all import \*
+from scapy.all import *
 
-PCAP\_PATH = r'C:\\Users\\ericgao\\Desktop\\test\\ISCC区域\\attachment-17.pcapng'
+PCAP_PATH = r'C:\\Users\\ericgao\\Desktop\\test\\ISCC区域\\attachment-17.pcapng'
 
-pkts = rdpcap(PCAP\_PATH)
+pkts = rdpcap(PCAP_PATH)
 
-udp\_pkts = \[p for p in pkts if UDP in p\]
+udp_pkts = [p for p in pkts if UDP in p]
 
-tcp\_pkts = \[p for p in pkts if TCP in p\]
+tcp_pkts = [p for p in pkts if TCP in p]
 
 print(f'总包数: {len(pkts)}')
 
-print(f'UDP 包: {len(udp\_pkts)}')
+print(f'UDP 包: {len(udp_pkts)}')
 
-print(f'TCP 包: {len(tcp\_pkts)}')
+print(f'TCP 包: {len(tcp_pkts)}')
 
-\# UDP: 目标为 239.255.255.250:1900 的 SSDP 包
+# UDP: 目标为 239.255.255.250:1900 的 SSDP 包
 
 print('\\n=== UDP 流量（前 5 包）===')
 
-for pkt in udp\_pkts\[:5\]:
+for pkt in udp_pkts[:5]:
 
-print(f' {pkt\[IP\].src}:{pkt\[UDP\].sport} -&gt; {pkt\[IP\].dst}:{pkt\[UDP\].dport}')
+print(f' {pkt[IP].src}:{pkt[UDP].sport} -&gt; {pkt[IP].dst}:{pkt[UDP].dport}')
 
-\# TCP: 目标为 45.78.1.1:80 的 C2 通信
+# TCP: 目标为 45.78.1.1:80 的 C2 通信
 
 print('\\n=== TCP 流量 ===')
 
-for pkt in tcp\_pkts:
+for pkt in tcp_pkts:
 
-src = f'{pkt\[IP\].src}:{pkt\[TCP\].sport}'
+src = f'{pkt[IP].src}:{pkt[TCP].sport}'
 
-dst = f'{pkt\[IP\].dst}:{pkt\[TCP\].dport}'
+dst = f'{pkt[IP].dst}:{pkt[TCP].dport}'
 
-flags = pkt\[TCP\].flags
+flags = pkt[TCP].flags
 
-flag\_str = \[\]
+flag_str = []
 
-if flags & 0x02: flag\_str.append('SYN')
+if flags & 0x02: flag_str.append('SYN')
 
-if flags & 0x10: flag\_str.append('ACK')
+if flags & 0x10: flag_str.append('ACK')
 
-if flags & 0x08: flag\_str.append('PSH')
+if flags & 0x08: flag_str.append('PSH')
 
-if flags & 0x01: flag\_str.append('FIN')
+if flags & 0x01: flag_str.append('FIN')
 
-print(f' {src} -&gt; {dst} \[{",".join(flag\_str)}\]')
+print(f' {src} -&gt; {dst} [{",".join(flag_str)}]')
 
 （2）
 -----
 
-from scapy.all import \*
+from scapy.all import *
 
-PCAP\_PATH = r'C:\\Users\\ericgao\\Desktop\\test\\ISCC区域\\attachment-17.pcapng'
+PCAP_PATH = r'C:\\Users\\ericgao\\Desktop\\test\\ISCC区域\\attachment-17.pcapng'
 
-pkts = rdpcap(PCAP\_PATH)
+pkts = rdpcap(PCAP_PATH)
 
-udp\_pkts = \[p for p in pkts if UDP in p\]
+udp_pkts = [p for p in pkts if UDP in p]
 
-tcp\_pkts = \[p for p in pkts if TCP in p\]
+tcp_pkts = [p for p in pkts if TCP in p]
 
 print(f'总包数: {len(pkts)}')
 
-print(f'UDP 包: {len(udp\_pkts)}')
+print(f'UDP 包: {len(udp_pkts)}')
 
-print(f'TCP 包: {len(tcp\_pkts)}')
+print(f'TCP 包: {len(tcp_pkts)}')
 
-\# 输出所有 UDP 包内容
+# 输出所有 UDP 包内容
 
 print('\\n=== UDP 流量内容 ===')
 
-for i, pkt in enumerate(udp\_pkts):
+for i, pkt in enumerate(udp_pkts):
 
 if Raw in pkt:
 
-print(f'\[{i}\] {bytes(pkt\[Raw\].load).decode()}')
+print(f'[{i}] {bytes(pkt[Raw].load).decode()}')
 
-\# 输出所有 TCP 包内容
+# 输出所有 TCP 包内容
 
 print('\\n=== TCP 流量内容 ===')
 
-for i, pkt in enumerate(tcp\_pkts):
+for i, pkt in enumerate(tcp_pkts):
 
-src = f'{pkt\[IP\].src}:{pkt\[TCP\].sport}'
+src = f'{pkt[IP].src}:{pkt[TCP].sport}'
 
-dst = f'{pkt\[IP\].dst}:{pkt\[TCP\].dport}'
+dst = f'{pkt[IP].dst}:{pkt[TCP].dport}'
 
-flags = pkt\[TCP\].flags
+flags = pkt[TCP].flags
 
-flag\_str = \[\]
+flag_str = []
 
-if flags & 0x02: flag\_str.append('SYN')
+if flags & 0x02: flag_str.append('SYN')
 
-if flags & 0x10: flag\_str.append('ACK')
+if flags & 0x10: flag_str.append('ACK')
 
-if flags & 0x08: flag\_str.append('PSH')
+if flags & 0x08: flag_str.append('PSH')
 
-if flags & 0x01: flag\_str.append('FIN')
+if flags & 0x01: flag_str.append('FIN')
 
-payload = f' | {bytes(pkt\[Raw\].load).decode(errors="ignore")}' if Raw in pkt else ''
+payload = f' | {bytes(pkt[Raw].load).decode(errors="ignore")}' if Raw in pkt else ''
 
-print(f'\[{i}\] {src} -&gt; {dst} \[{",".join(flag\_str)}\]{payload}')
+print(f'[{i}] {src} -&gt; {dst} [{",".join(flag_str)}]{payload}')

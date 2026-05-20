@@ -21,7 +21,7 @@ LCG 分支中，程序以种子 \`12\` 初始化，随后使用线性同余生�
 
 Exp：
 
-\`\`\`python
+```python
 
 seed = 12
 
@@ -31,32 +31,32 @@ increment = 0x3039
 
 expected = 'qwbD/&gt;X|1F2QI.u-fCMm'
 
-keys = \[\]
+keys = []
 
 state = seed
 
-for \_ in range(20):
+for _ in range(20):
 
-state = (state \* multiplier + increment) & 0xFFFFFFFF
+state = (state * multiplier + increment) & 0xFFFFFFFF
 
-high\_byte = (state &gt;&gt; 24) & 0xFF
+high_byte = (state &gt;&gt; 24) & 0xFF
 
-keys.append(high\_byte % 95)
+keys.append(high_byte % 95)
 
-flag\_inner = ''
+flag_inner = ''
 
 for ch, key in zip(expected, keys):
 
-val\_out = ord(ch) - 0x20
+val_out = ord(ch) - 0x20
 
-val\_in = (val\_out - key) % 95
+val_in = (val_out - key) % 95
 
-flag\_inner += chr(val\_in + 0x20)
+flag_inner += chr(val_in + 0x20)
 
-print(f'ISCC{{{flag\_inner}}}')
+print(f'ISCC{{{flag_inner}}}')
 
-\`\`\`
+```
 
 Flag：
 
-\`ISCC{\\BtcuL2P!O\]CrZxl=g t}\`
+\`ISCC{\\BtcuL2P!O]CrZxl=g t}\`

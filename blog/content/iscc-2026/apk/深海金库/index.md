@@ -22,9 +22,9 @@ draft = false
 
 -   \`classes.dex\` / \`classes2.dex\` — Java 层逻辑
 
--   \`lib/x86\_64/libsecure\_verify.so\` — Native 校验
+-   \`lib/x86_64/libsecure_verify.so\` — Native 校验
 
-字符串搜索可见 \`com/example/mobile02/MainActivity\`、\`nativeVerify\`、\`libsecure\_verify.so\`，可以确认真正的核心校验位于 Native 层。
+字符串搜索可见 \`com/example/mobile02/MainActivity\`、\`nativeVerify\`、\`libsecure_verify.so\`，可以确认真正的核心校验位于 Native 层。
 
 Java 层流程
 ===========
@@ -37,36 +37,36 @@ Java 层流程
 FlagValidator.isFormatValid
 ---------------------------
 
-> if-eqz v1, \$false \# null check
+> if-eqz v1, \$false # null check
 >
 > const-string v0, "ISCC{"
 >
-> invoke-virtual startsWith \# 必须以 ISCC{ 开头
+> invoke-virtual startsWith # 必须以 ISCC{ 开头
 >
 > if-eqz v0, \$false
 >
 > const-string v0, "}"
 >
-> invoke-virtual endsWith \# 必须以 } 结尾
+> invoke-virtual endsWith # 必须以 } 结尾
 >
 > if-eqz v1, \$false
 >
-> const/4 v1, \#1 \# return true
+> const/4 v1, \#1 # return true
 
 FlagValidator.doFinalCheck
 --------------------------
 
-> invoke-virtual length \# 取输入长度
+> invoke-virtual length # 取输入长度
 >
-> add-int/lit8 v0, v0, \#-1 \# length - 1
+> add-int/lit8 v0, v0, \#-1 # length - 1
 >
 > const/4 v1, \#5
 >
-> invoke-virtual substring(5, length-1) \# 去掉 ISCC{ 和 }
+> invoke-virtual substring(5, length-1) # 去掉 ISCC{ 和 }
 >
-> invoke-static CryptoEngine.performTransformation \# 转换
+> invoke-static CryptoEngine.performTransformation # 转换
 >
-> invoke-virtual MainActivity.nativeVerify \# 传入 native
+> invoke-virtual MainActivity.nativeVerify # 传入 native
 >
 > move-result v2
 >
@@ -77,13 +77,13 @@ CryptoEngine.performTransformation
 
 核心变换逻辑如下：
 
-> byte\[\] b = input.getBytes(StandardCharsets.US\_ASCII);
+> byte[] b = input.getBytes(StandardCharsets.US_ASCII);
 >
 > int prev = 0;
 >
 > for (int i = 0; i &lt; b.length; i++) {
 >
-> int x = b\[i\] & 0xff;
+> int x = b[i] & 0xff;
 >
 > if (32 &lt;= x && x &lt;= 126) {
 >
@@ -95,7 +95,7 @@ CryptoEngine.performTransformation
 >
 > x = (x + shift + (prev % 4)) & 0xff;
 >
-> b\[i\] = (byte)x;
+> b[i] = (byte)x;
 >
 > prev = x; // 状态传递
 >
@@ -119,10 +119,10 @@ CryptoEngine.getCheckSum
 Native 层分析
 =============
 
-JNI 桥 (\`verify\_bridge\` @ 0x21160)
+JNI 桥 (\`verify_bridge\` @ 0x21160)
 -------------------------------------
 
--   从 \`jbyteArray\` 获取 \`byte\[\]\` 指针与长度
+-   从 \`jbyteArray\` 获取 \`byte[]\` 指针与长度
 
 -   调用 \`SV::v(data, length)\`
 
@@ -133,13 +133,13 @@ SV::v (@ 0x215f0)
 
 -   拷贝输入数据
 
--   调用 \`process\_fib\_stream(data, length)\`，执行斐波那契 XOR
+-   调用 \`process_fib_stream(data, length)\`，执行斐波那契 XOR
 
--   调用 \`encode\_b64(result)\`，做自定义 base64 编码
+-   调用 \`encode_b64(result)\`，做自定义 base64 编码
 
 -   与目标字符串比较，相等则返回 \`true\`
 
-process\_fib\_stream (@ 0x214f0)
+process_fib_stream (@ 0x214f0)
 --------------------------------
 
 4 字节展开的斐波那契 XOR 逻辑如下：
@@ -148,21 +148,21 @@ process\_fib\_stream (@ 0x214f0)
 >
 > while (length &gt;= 4) {
 >
-> data\[i+0\] \^= a;
+> data[i+0] \^= a;
 >
-> data\[i+1\] \^= b;
+> data[i+1] \^= b;
 >
-> a += b; // new\_a
+> a += b; // new_a
 >
-> data\[i+2\] \^= a;
+> data[i+2] \^= a;
 >
-> b += a; // new\_b
+> b += a; // new_b
 >
-> data\[i+3\] \^= b;
+> data[i+3] \^= b;
 >
-> a += b; // next\_a
+> a += b; // next_a
 >
-> b += a; // next\_b
+> b += a; // next_b
 >
 > i += 4; length -= 4;
 >
@@ -170,7 +170,7 @@ process\_fib\_stream (@ 0x214f0)
 >
 > while (length &gt; 0) {
 >
-> data\[i\] \^= a;
+> data[i] \^= a;
 >
 > c = a + b;
 >
@@ -184,9 +184,9 @@ process\_fib\_stream (@ 0x214f0)
 
 针对 18 字节输入，可以得到对应的 8-bit XOR 序列：
 
-> \[1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 121, 98, 219, 61, 24\]
+> [1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 121, 98, 219, 61, 24]
 
-encode\_b64 (@ 0x21260)
+encode_b64 (@ 0x21260)
 -----------------------
 
 编码流程本质上仍是标准 base64 的 3 字节到 4 字符映射，只是替换了字母表。自定义字母表位于 \`.rodata\` @ \`0x14e96\`：
@@ -222,29 +222,29 @@ encode\_b64 (@ 0x21260)
 >
 > encoded = 'cUdltutGeWWIUm+7OE4ce3wi'
 >
-> std\_encoded = encoded.translate(trans)
+> std_encoded = encoded.translate(trans)
 >
-> decoded = base64.b64decode(std\_encoded)
+> decoded = base64.b64decode(std_encoded)
 >
-> \# -&gt; \[124, 51, 97, 38, 66, 105, 141, 69, 18, 15, 220, 220, 208, 76, 31, 140, 189, 119\]
+> # -&gt; [124, 51, 97, 38, 66, 105, 141, 69, 18, 15, 220, 220, 208, 76, 31, 140, 189, 119]
 
-2. 逆 process\_fib\_stream
+2. 逆 process_fib_stream
 --------------------------
 
 由于 XOR 是自身的逆运算，只需要对解码结果使用同一组斐波那契序列再异或一次：
 
-> fib = \[1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 121, 98, 219, 61, 24\]
+> fib = [1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 121, 98, 219, 61, 24]
 >
 > xored = bytes(d \^ f for d, f in zip(decoded, fib))
 >
-> \# -&gt; \[125, 50, 99, 37, 71, 97, 128, 80, 48, 56, 133, 76, 57, 53, 125, 87, 128, 111\]
+> # -&gt; [125, 50, 99, 37, 71, 97, 128, 80, 48, 56, 133, 76, 57, 53, 125, 87, 128, 111]
 
 3. 逆 performTransformation
 ---------------------------
 
 由于 \`performTransformation\` 存在 \`prev\` 状态依赖，最直接的做法是逐字节枚举 printable ASCII，找到能命中目标输出的原字符：
 
-> def reverse\_transform(expected):
+> def reverse_transform(expected):
 >
 > for c in range(32, 127):
 >
@@ -258,13 +258,13 @@ encode\_b64 (@ 0x21260)
 >
 > x = (x + shift + (prev % 4)) & 0xFF
 >
-> if x == expected\[i\]:
+> if x == expected[i]:
 >
 > return chr(c)
 
 求解得到的内部字符串为：
 
-> n2R\#7\_pQ!9vL\*5mWnp
+> n2R\#7_pQ!9vL*5mWnp
 
 Flag
 
@@ -273,20 +273,20 @@ Exp
 \#!/usr/bin/env python3\
 import base64\
 \
-\# 自定义 Base64 字母表\
-CUSTOM\_ALPHABET = "zKJUExRaVtM3Ydv5TQIsWD1frnHC78Lckl6euPh9AGoj0SgN4Zp+OwXi2F/ybmBq"\
-STD\_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"\
-TARGET\_B64 = "cUdltutGeWWIUm+7OE4ce3wi"\
+# 自定义 Base64 字母表\
+CUSTOM_ALPHABET = "zKJUExRaVtM3Ydv5TQIsWD1frnHC78Lckl6euPh9AGoj0SgN4Zp+OwXi2F/ybmBq"\
+STD_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"\
+TARGET_B64 = "cUdltutGeWWIUm+7OE4ce3wi"\
 \
 \
-def custom\_b64decode(encoded: str) -&gt; bytes:\
+def custom_b64decode(encoded: str) -&gt; bytes:\
 *"""使用自定义字母表将 Base64 字符串还原为字节流。"""\
-*trans = str.maketrans(CUSTOM\_ALPHABET, STD\_ALPHABET)\
+*trans = str.maketrans(CUSTOM_ALPHABET, STD_ALPHABET)\
 std = encoded.translate(trans)\
 return base64.b64decode(std)\
 \
 \
-def process\_fib\_stream(data: bytes) -&gt; bytes:\
+def process_fib_stream(data: bytes) -&gt; bytes:\
 *"""按斐波那契序列低 8 位对数据逐字节 XOR。"""\
 *a, b = 1, 1\
 out = bytearray()\
@@ -296,9 +296,9 @@ a, b = b, (a + b) & 0xFF\
 return bytes(out)\
 \
 \
-def reverse\_transform(expected: bytes) -&gt; str:\
+def reverse_transform(expected: bytes) -&gt; str:\
 *"""逆向还原 performTransformation 后的可打印 ASCII 字符串。"""\
-*result = \[\]\
+*result = []\
 prev = 0\
 \
 for i, target in enumerate(expected):\
@@ -322,9 +322,9 @@ return "".join(result)\
 \
 \
 def solve() -&gt; str:\
-decoded = custom\_b64decode(TARGET\_B64)\
-xored = process\_fib\_stream(decoded)\
-inner = reverse\_transform(xored)\
+decoded = custom_b64decode(TARGET_B64)\
+xored = process_fib_stream(decoded)\
+inner = reverse_transform(xored)\
 return f"ISCC{{{inner}}}"\
 \
 \
@@ -332,5 +332,5 @@ def main() -&gt; None:\
 print(solve())\
 \
 \
-if \_\_name\_\_ == "\_\_main\_\_":\
+if __name__ == "__main__":\
 main()

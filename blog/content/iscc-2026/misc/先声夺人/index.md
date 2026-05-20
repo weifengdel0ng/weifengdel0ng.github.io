@@ -49,21 +49,21 @@ with open('challenge.txt', 'r', encoding='utf-8') as f:
 
 text = f.read()
 
-\# 找到零宽字符块的起始位置（连续 20 个以上零宽字符判定为块起始）
+# 找到零宽字符块的起始位置（连续 20 个以上零宽字符判定为块起始）
 
-zw\_set = {'​', '‌', '‍', '﻿'}
+zw_set = {'​', '‌', '‍', '﻿'}
 
 pos = 0
 
 for i, ch in enumerate(text):
 
-if ch in zw\_set:
+if ch in zw_set:
 
 run = 0
 
 for j in range(i, min(i + 20, len(text))):
 
-if text\[j\] in zw\_set:
+if text[j] in zw_set:
 
 run += 1
 
@@ -77,19 +77,19 @@ pos = i
 
 break
 
-embedded = \[c for c in text\[:pos\] if c in zw\_set\] \# 85 个
+embedded = [c for c in text[:pos] if c in zw_set] # 85 个
 
-payload = \[c for c in text\[pos:\] if c in zw\_set\] \# 2507 个
+payload = [c for c in text[pos:] if c in zw_set] # 2507 个
 
 ### Step 2: 解码嵌入字符获取映射提示
 
 散布在可见文本中的 85 个零宽字符采用 **StegCloak 标准格式**编码。StegCloak 的编码规则是 ZWJ（U+200D）作为字符分隔符、ZWNJ（U+200C）代表 bit 0、ZWSP（U+200B）代表 bit 1，ZWNBS（U+FEFF）为词分隔符。
 
-embedded\_str = ''.join(embedded)
+embedded_str = ''.join(embedded)
 
-\# StegCloak 解码：按 ZWJ 分割得到每个字符，内部分别解析比特
+# StegCloak 解码：按 ZWJ 分割得到每个字符，内部分别解析比特
 
-chars = embedded\_str.split('‍')
+chars = embedded_str.split('‍')
 
 hint = ''
 
@@ -101,9 +101,9 @@ if len(bits) &gt;= 8:
 
 for j in range(0, len(bits) - 7, 8):
 
-hint += chr(int(bits\[j:j+8\], 2))
+hint += chr(int(bits[j:j+8], 2))
 
-print(hint) \# 输出映射提示
+print(hint) # 输出映射提示
 
 解码得到提示字符串，指示尾部数据块的 2-bit 映射排列。85 个嵌入字符对应一个 8\~10 字节的短提示，实质上是一个排列编号或映射描述。
 
@@ -113,28 +113,28 @@ print(hint) \# 输出映射提示
 
 2592 个零宽字符整体作为数据流，每个字符映射为 2 位二进制，每 4 个字符组成 1 个字节（4 × 2 bits = 8 bits = 1 byte），共 648 字节。
 
-payload\_str = ''.join(payload)
+payload_str = ''.join(payload)
 
-\# 根据提示确定映射（此处以 StegCloak 标准映射的变种为例）
+# 根据提示确定映射（此处以 StegCloak 标准映射的变种为例）
 
-\# 提示 "los números no lo son" 表明不是常规 ZWNJ=0,ZWSP=1 的简单映射
+# 提示 "los números no lo son" 表明不是常规 ZWNJ=0,ZWSP=1 的简单映射
 
-\# 实际映射由嵌入段解码结果给出
+# 实际映射由嵌入段解码结果给出
 
 mapping = {
 
-'​': '01', \# ZWSP
+'​': '01', # ZWSP
 
-'‌': '10', \# ZWNJ
+'‌': '10', # ZWNJ
 
-'‍': '00', \# ZWJ
+'‍': '00', # ZWJ
 
-'﻿': '11', \# ZWNBS
+'﻿': '11', # ZWNBS
 
 }
 
-bits = ''.join(mapping\[c\] for c in payload\_str)
+bits = ''.join(mapping[c] for c in payload_str)
 
-data = bytes(int(bits\[i:i+8\], 2) for i in range(0, len(bits) - 7, 8))
+data = bytes(int(bits[i:i+8], 2) for i in range(0, len(bits) - 7, 8))
 
 print(data.decode())

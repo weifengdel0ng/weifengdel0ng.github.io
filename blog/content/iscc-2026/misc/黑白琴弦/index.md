@@ -69,7 +69,7 @@ U -&gt; 1fddc8
 
 将 A..U 按字母排序，每行 6 位十六进制转成 24 位二进制。因为二维码只需要 21 列，所以枚举每行裁掉 3 位的 4 种起点，同时尝试反色、旋转和镜像组合，再用 OpenCV 的 \`QRCodeDetector\` 解码。
 
-最终在 \`crop\_start=3\`、反色、原向的组合上识别出二维码内容：
+最终在 \`crop_start=3\`、反色、原向的组合上识别出二维码内容：
 
 \`TvUiXMI1vohhtVf\`
 
@@ -109,7 +109,7 @@ U -&gt; 1fddc8
 
 Exp（如有，请粘贴完整代码，不允许截图！）
 
-\`\`\`python
+```python
 
 from PIL import Image
 
@@ -163,24 +163,24 @@ rows = {
 
 }
 
-bitrows = \[bin(int(rows\[k\], 16))\[2:\].zfill(24) for k in sorted(rows)\]
+bitrows = [bin(int(rows[k], 16))[2:].zfill(24) for k in sorted(rows)]
 
 qrd = cv2.QRCodeDetector()
 
-for crop\_start in range(4):
+for crop_start in range(4):
 
-mat = \[\[1 if b == '1' else 0 for b in row\[crop\_start:crop\_start+21\]\] for row in bitrows\]
+mat = [[1 if b == '1' else 0 for b in row[crop_start:crop_start+21]] for row in bitrows]
 
-arr = np.array(mat, dtype=np.uint8) \* 255
+arr = np.array(mat, dtype=np.uint8) * 255
 
 img = 255 - arr
 
-data, \_, \_ = qrd.detectAndDecode(img)
+data, _, _ = qrd.detectAndDecode(img)
 
 if data:
 
-print(data) \# TvUiXMI1vohhtVf
+print(data) # TvUiXMI1vohhtVf
 
-\`\`\`
+```
 
 Flag：\`ISCC{TvUiXMI1vohhtVf4151515}\`

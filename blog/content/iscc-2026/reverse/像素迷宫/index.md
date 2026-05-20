@@ -21,11 +21,11 @@ draft = false
 
 Exp：
 
-\`\`\`python
+```python
 
 from collections import deque
 
-encrypted\_part1 = \[
+encrypted_part1 = [
 
 0x7b, 0x7e, 0xce, 0xbc, 0x2d, 0xae, 0xae, 0x8b, 0x5e, 0xcb,
 
@@ -33,9 +33,9 @@ encrypted\_part1 = \[
 
 0xde, 0x07, 0xfb, 0x8d, 0x8e, 0x57, 0x9e, 0xfb, 0xa3, 0xb6,
 
-\]
+]
 
-encrypted\_part2 = \[
+encrypted_part2 = [
 
 0x9a, 0x8b, 0x5b, 0xb7, 0xdd, 0x7d, 0xed, 0x6b, 0x87, 0x17,
 
@@ -45,9 +45,9 @@ encrypted\_part2 = \[
 
 0x0b, 0x09, 0xfe, 0x9b, 0xc7, 0xce, 0x7e, 0xeb, 0x5a, 0xbd,
 
-\]
+]
 
-stack\_values = \[
+stack_values = [
 
 0xbe, 0xbe, 0x37, 0x2e, 0x7e, 0xb7, 0x8b, 0x1d, 0x66, 0x9d,
 
@@ -55,35 +55,35 @@ stack\_values = \[
 
 0x76, 0xee, 0x4d, 0x0c, 0x67, 0x49, 0xad, 0x7c, 0x3d, 0x00,
 
-\]
+]
 
-grid = \[\[0\] \* 10 for \_ in range(10)\]
+grid = [[0] * 10 for _ in range(10)]
 
 for y in range(10):
 
 for x in range(10):
 
-idx = y \* 10 + x
+idx = y * 10 + x
 
 if y &lt;= 2:
 
-enc = encrypted\_part1\[idx\]
+enc = encrypted_part1[idx]
 
 elif y &lt;= 6:
 
-enc = encrypted\_part2\[(y - 3) \* 10 + x\]
+enc = encrypted_part2[(y - 3) * 10 + x]
 
 else:
 
-enc = stack\_values\[(y - 7) \* 10 + x\]
+enc = stack_values[(y - 7) * 10 + x]
 
-grid\[y\]\[x\] = enc \^ 0x7f
+grid[y][x] = enc \^ 0x7f
 
 dirs = {'E': (1, 0, 0), 'W': (-1, 0, 1), 'S': (0, 1, 2), 'N': (0, -1, 3)}
 
 def solve():
 
-q = deque(\[(0, 0, "")\])
+q = deque([(0, 0, "")])
 
 vis = {(0, 0)}
 
@@ -91,7 +91,7 @@ while q:
 
 x, y, path = q.popleft()
 
-val = grid\[y\]\[x\]
+val = grid[y][x]
 
 for d, (dx, dy, bit) in dirs.items():
 
@@ -111,7 +111,7 @@ q.append((nx, ny, path + d))
 
 print(f"ISCC{{{solve()}}}")
 
-\`\`\`
+```
 
 Flag：
 

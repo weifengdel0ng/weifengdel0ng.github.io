@@ -18,31 +18,31 @@ Mobile - 折叠回声
 
 所以咱们分析的时候千万别被表面的字符串骗了。第一眼看到的flag大概率就是个“烟雾弹”，真正的flag还得老老实实从资源文件和程序逻辑里去扒。
 
-整个解题流程大概是这样的： APK静态分析 -&gt; 提取DEX字符串 -&gt; 发现第一层假flag -&gt; 检查assets资源文件 -&gt; 发现sleep\_loop.webp中的ECH0隐藏块 -&gt; 解密得到EFVM结构 -&gt; 分析VM输出和expected数据 -&gt; 异或还原真实flag。
+整个解题流程大概是这样的： APK静态分析 -&gt; 提取DEX字符串 -&gt; 发现第一层假flag -&gt; 检查assets资源文件 -&gt; 发现sleep_loop.webp中的ECH0隐藏块 -&gt; 解密得到EFVM结构 -&gt; 分析VM输出和expected数据 -&gt; 异或还原真实flag。
 
 #### 一、基础静态分析
 
 先把APK解包看看（用apktool d EchoFold.apk -o EchoFold），或者直接用jadx-gui打开APK看Java伪代码。
 
-在classes.dex里能翻到一些很显眼的字符串： ISCC{、ISCC{...}、ISCC{this\_is\_only\_the\_first\_echo}、fold-echo、vm-seed、sleep\_loop.webp、ECH0、EFVM。
+在classes.dex里能翻到一些很显眼的字符串： ISCC{、ISCC{...}、ISCC{this_is_only_the_first_echo}、fold-echo、vm-seed、sleep_loop.webp、ECH0、EFVM。
 
-其中最扎眼的就是ISCC{this\_is\_only\_the\_first\_echo}。一开始很容易上头以为这就是flag，但结合题目里那句“第一声很像答案”，基本可以断定这只是第一层用来迷惑你的。
+其中最扎眼的就是ISCC{this_is_only_the_first_echo}。一开始很容易上头以为这就是flag，但结合题目里那句“第一声很像答案”，基本可以断定这只是第一层用来迷惑你的。
 
 #### 二、第一层假flag分析
 
-反编译代码里能看到类似这样的逻辑： return "ISCC{this\_is\_only\_the\_first\_echo}".equals(input);
+反编译代码里能看到类似这样的逻辑： return "ISCC{this_is_only_the_first_echo}".equals(input);
 
 当你输入这个字符串时，程序并不会给你最终的正确结果，而是会弹个提示，大概意思是“first echo accepted, but not the real one.”（第一声回声被接受了，但不是真正的那个）。
 
-这就实锤了：ISCC{this\_is\_only\_the\_first\_echo} 只是个用来误导选手的假flag，不是最终答案。
+这就实锤了：ISCC{this_is_only_the_first_echo} 只是个用来误导选手的假flag，不是最终答案。
 
-#### 三、分析资源文件sleep\_loop.webp
+#### 三、分析资源文件sleep_loop.webp
 
-继续翻APK的资源文件，发现了 assets/sleep\_loop.webp。
+继续翻APK的资源文件，发现了 assets/sleep_loop.webp。
 
 虽然它表面上是个WebP图片，但程序里出现了 ECH0 这个字符串，说明程序很可能会从这张图片里读取自定义的数据块。
 
-进一步检查 sleep\_loop.webp，果然发现里面藏了个自定义块：ECH0。程序会读取这个块，再结合APK自身的一些信息进行解密。
+进一步检查 sleep_loop.webp，果然发现里面藏了个自定义块：ECH0。程序会读取这个块，再结合APK自身的一些信息进行解密。
 
 参与计算解密key的关键材料包括：fold-echo、resourceKey、dexDigest、certDigest、TRACE。
 
@@ -64,13 +64,13 @@ Mobile - 折叠回声
 
 -   magic = EFVM
 
--   code\_len = 192
+-   code_len = 192
 
--   out\_len = 35
+-   out_len = 35
 
 也就是说，隐藏块里并没有直接保存flag，而是藏了一段VM字节码和一段校验数据。
 
-这里 out\_len=35 非常关键，因为最终flag的主体 f0lded\_echo\_is\_a\_state\_not\_a\_string 长度正好也是35字节。
+这里 out_len=35 非常关键，因为最终flag的主体 f0lded_echo_is_a_state_not_a_string 长度正好也是35字节。
 
 #### 五、分析VM校验逻辑
 
@@ -78,9 +78,9 @@ Mobile - 折叠回声
 
 同时，EFVM 结构里还保存了一个35字节的 expected。还原后得到： expected = acdb243fefe9e4901891c898d05ae9912868ed8a938de6c737c5bba38dc6da3cb08c8c
 
-而VM执行后的输出是： vm\_output = caeb485b8a8dbbf57bf9a7c7b929b6f0771b99ebe7e8b9a958b1e4c2d2b5ae4ed9e2eb
+而VM执行后的输出是： vm_output = caeb485b8a8dbbf57bf9a7c7b929b6f0771b99ebe7e8b9a958b1e4c2d2b5ae4ed9e2eb
 
-题目真正的核心考点就在这儿： **真实内容 = expected \^ vm\_output** 也就是把这两段35字节的数据逐字节进行异或运算。
+题目真正的核心考点就在这儿： **真实内容 = expected \^ vm_output** 也就是把这两段35字节的数据逐字节进行异或运算。
 
 #### 六、还原flag
 
@@ -92,19 +92,19 @@ expected = bytes.fromhex(
 
 )
 
-vm\_output = bytes.fromhex(
+vm_output = bytes.fromhex(
 
 "caeb485b8a8dbbf57bf9a7c7b929b6f0771b99ebe7e8b9a958b1e4c2d2b5ae4ed9e2eb"
 
 )
 
-flag\_body = bytes(a \^ b for a, b in zip(expected, vm\_output)).decode()
+flag_body = bytes(a \^ b for a, b in zip(expected, vm_output)).decode()
 
-print("ISCC{" + flag\_body + "}")
+print("ISCC{" + flag_body + "}")
 
-运行结果： ISCC{f0lded\_echo\_is\_a\_state\_not\_a\_string}
+运行结果： ISCC{f0lded_echo_is_a_state_not_a_string}
 
 七、最终flag
 ============
 
-ISCC{f0lded\_echo\_is\_a\_state\_not\_a\_string}
+ISCC{f0lded_echo_is_a_state_not_a_string}

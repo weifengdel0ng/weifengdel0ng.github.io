@@ -134,7 +134,7 @@ draft = false
 >
 > print(hashlib.md5(mid).hexdigest())
 >
-> \# 输出: 228a53da12c42a65235ca2ebefa826c1
+> # 输出: 228a53da12c42a65235ca2ebefa826c1
 
 -   -   **操作**：使用密码 228a53da12c42a65235ca2ebefa826c1 解压 窥得天机.zip，得到 64 个 txt 文件。
 
@@ -156,29 +156,29 @@ draft = false
 
 > import zipfile, re
 >
-> base64\_table = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+> base64_table = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
 >
-> zip\_pwd = b"228a53da12c42a65235ca2ebefa826c1"
+> zip_pwd = b"228a53da12c42a65235ca2ebefa826c1"
 >
 > with zipfile.ZipFile("窥得天机.zip", "r") as z:
 >
 > comment = z.comment.decode()
 >
-> txt\_files = sorted(\[i for i in z.infolist() if i.filename.endswith(".txt")\],
+> txt_files = sorted([i for i in z.infolist() if i.filename.endswith(".txt")],
 >
 > key=lambda x: int(re.search(r"(\\d+)", x.filename).group(1)))
 >
-> seven\_pwd = ""
+> seven_pwd = ""
 >
-> for info, ch in zip(txt\_files, comment):
+> for info, ch in zip(txt_files, comment):
 >
-> idx = base64\_table.index(ch)
+> idx = base64_table.index(ch)
 >
-> data = z.read(info, pwd=zip\_pwd).decode("utf-8")
+> data = z.read(info, pwd=zip_pwd).decode("utf-8")
 >
-> seven\_pwd += data\[idx\]
+> seven_pwd += data[idx]
 >
-> print(seven\_pwd)
+> print(seven_pwd)
 
 -   -   **得到 7z 密码**：UQC8TBH7FkJn7bmz7ikjttXfwjvsp99CHBWmH7+M9HxppE7W7a68mo/Ua4cfQUq2
 
@@ -206,11 +206,11 @@ draft = false
 >
 > mid = b"qW2O0z5bnImG4yFuUc4Y0nV9"
 >
-> seven\_pwd = b"UQC8TBH7FkJn7bmz7ikjttXfwjvsp99CHBWmH7+M9HxppE7W7a68mo/Ua4cfQUq2"
+> seven_pwd = b"UQC8TBH7FkJn7bmz7ikjttXfwjvsp99CHBWmH7+M9HxppE7W7a68mo/Ua4cfQUq2"
 >
 > ciphertext = b64decode("7jgRTVRxS/HSsI673SWW2yglLJbYZq295x7Eu6qCEvymWnnhkwyDg/8CduA2gQpF")
 >
-> cipher = AES.new(mid\[:16\], AES.MODE\_CBC, seven\_pwd\[:16\])
+> cipher = AES.new(mid[:16], AES.MODE_CBC, seven_pwd[:16])
 >
 > flag = unpad(cipher.decrypt(ciphertext), 16)
 >

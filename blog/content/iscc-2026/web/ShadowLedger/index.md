@@ -33,7 +33,7 @@ The preview service resolves nested references for auditors.
 
 返回结果中可以直接看到环境变量里的 FLAG，最终得到：
 
-ISCC{black\_box\_schema\_ref\_to\_shadow\_vault\_2026}
+ISCC{black_box_schema_ref_to_shadow_vault_2026}
 
 Exp：
 
@@ -61,4 +61,4 @@ Cookie: &lt;session&gt;
 
 返回中可见：你服务器炸了搞不到截图
 
-FLAG=ISCC{black\_box\_schema\_ref\_to\_shadow\_vault\_2026}
+FLAG=ISCC{black_box_schema_ref_to_shadow_vault_2026}

