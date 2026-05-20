@@ -159,6 +159,27 @@
     </main>
 
     <aside class="home-side home-side--right">
+      <div class="home-panel card component home-latest">
+        <div class="home-panel__head">
+          <div>
+            <div class="home-panel__eyebrow">Latest</div>
+            <h3 class="home-panel__title">最新板块</h3>
+          </div>
+          <a class="home-panel__cta" href="/posts/">ALL</a>
+        </div>
+        <div class="home-latest__list">
+          {{- range $recentPosts }}
+          <a class="home-latest__item" href="{{ .RelPermalink }}">
+            <span class="home-latest__badge home-latest__badge--{{ .Section }}">{{ upper .Section }}</span>
+            <div class="home-latest__body">
+              <strong class="home-latest__title">{{ .Title }}</strong>
+              <span class="home-latest__date">{{ .Date.Format "2006-01-02" }}</span>
+            </div>
+          </a>
+          {{- end }}
+        </div>
+      </div>
+
       <a class="home-panel home-panel--link card component" href="/insights/#overview">
         <div class="home-panel__head">
           <div>

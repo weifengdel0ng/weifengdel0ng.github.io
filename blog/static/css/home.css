@@ -1158,3 +1158,66 @@ html[data-bs-theme="light"] .home-meter__track {
     min-height: 180px;
   }
 }
+
+/* ── 最新板块 ── */
+.home-latest {
+  --latest-accent: var(--home-blue);
+}
+
+.home-latest__list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.home-latest__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background .2s;
+}
+.home-latest__item:hover {
+  background: rgba(104, 170, 252, .08);
+}
+
+.home-latest__badge {
+  flex-shrink: 0;
+  font-size: .68rem;
+  font-weight: 600;
+  letter-spacing: .04em;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-top: 2px;
+  color: #fff;
+  background: var(--home-blue);
+}
+.home-latest__badge--posts     { background: #4f9fcf; }
+.home-latest__badge--buu       { background: #e0784b; }
+.home-latest__badge--reverse   { background: #c97ac6; }
+.home-latest__badge--iscc-2026 { background: #5db89a; }
+.home-latest__badge--contest-2026 { background: #a0a870; }
+
+.home-latest__body {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.home-latest__title {
+  font-size: .9rem;
+  font-weight: 600;
+  color: var(--home-text);
+  line-height: 1.35;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.home-latest__date {
+  font-size: .72rem;
+  color: var(--home-muted);
+  margin-top: 2px;
+}
