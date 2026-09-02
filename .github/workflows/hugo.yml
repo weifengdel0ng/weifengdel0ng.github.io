@@ -68,3 +68,23 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  sync-gitee:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: github-pages
+          path: public
+
+      - name: Push to Gitee
+        run: |
+          cd public
+          git init
+          git config user.name "微风的龙"
+          git config user.email "17089397+weifengdel0ng@user.noreply.gitee.com"
+          git add -A
+          git commit -m "Sync from GitHub: ${{ github.sha }}" || true
+          git push -f https://weifengdel0ng:${{ secrets.GITEE_TOKEN }}@gitee.com/weifengdel0ng/blog.git HEAD:master
